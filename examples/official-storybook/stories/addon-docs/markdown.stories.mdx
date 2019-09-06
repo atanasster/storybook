@@ -1,4 +1,6 @@
-import { Meta } from '@storybook/addon-docs/blocks';
+import Markdown from 'markdown-to-jsx';
+import { Meta, Description } from '@storybook/addon-docs/blocks';
+import Readme from '../../README.md';
 
 <Meta title="Addons|Docs/markdown-docs" />
 
@@ -137,3 +139,12 @@ Right aligned columns
 
 ![Minion](https://octodex.github.com/images/minion.png)
 ![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg 'The Stormtroopocat')
+
+## render imported markdown file directly
+<Readme />
+
+## render imported markdown file to jsx
+<Markdown>{Readme}</Markdown>
+
+## render imported markdown file as react
+<Description markdown={Readme} />
