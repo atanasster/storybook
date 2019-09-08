@@ -1,5 +1,6 @@
 export * from './Description';
 export * from './DocsPage';
+export * from './Markdown';
 export * from './Preview';
 export * from './PropsTable/PropsTable';
 export * from './Source';

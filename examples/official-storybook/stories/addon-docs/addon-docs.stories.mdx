@@ -8,6 +8,7 @@ import {
   ColorItem,
   Meta,
 } from '@storybook/addon-docs/blocks';
+import { Markdown } from '@storybook/components';
 import { action } from '@storybook/addon-actions';
 import { Button } from '@storybook/react/demo';
 import FlowTypeButton from '../../components/FlowTypeButton';
@@ -101,6 +102,9 @@ export const nonStory2 = () => <Button>Not a story</Button>; // another one
 <Description markdown="this is _markdown_" />
 
 <Description of={Button} />
+
+## Markdown
+<Markdown>**this** is _markdown_</Markdown>
 
 ## Props
 

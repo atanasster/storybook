@@ -1,7 +1,5 @@
 import React from 'react';
-import Markdown from 'markdown-to-jsx';
-import { ResetWrapper } from '../typography/DocumentFormatting';
-import { components } from '../html';
+import { Markdown } from './Markdown';
 
 export interface DescriptionProps {
   markdown: string;
@@ -12,7 +10,5 @@ export interface DescriptionProps {
  * components docgen docs.
  */
 export const Description: React.FunctionComponent<DescriptionProps> = ({ markdown }) => (
-  <ResetWrapper>
-    <Markdown options={{ forceBlock: true, overrides: components }}>{markdown}</Markdown>
-  </ResetWrapper>
+  <Markdown>{markdown}</Markdown>
 );
