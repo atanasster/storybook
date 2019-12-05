@@ -18,5 +18,12 @@
       "<node_internals>/**"
     ]
   },
+  {
+    "type": "chrome",
+    "request": "launch",
+    "name": "Launch Chrome",
+    "url": "http://localhost:9011",
+    "webRoot": "${workspaceFolder}/examples/dev-kits"
+  }
   ]
 }

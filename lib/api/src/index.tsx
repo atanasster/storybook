@@ -3,16 +3,10 @@ import memoize from 'memoizerific';
 // @ts-ignore shallow-equal is not in DefinitelyTyped
 import shallowEqualObjects from 'shallow-equal/objects';
 
-import {
-  STORY_CHANGED,
-  SET_STORIES,
-  SELECT_STORY,
-  ADDON_STATE_SET,
-  ADDON_STATE_CHANGED,
-} from '@storybook/core-events';
+import { STORY_CHANGED, SET_STORIES, SELECT_STORY } from '@storybook/core-events';
 import { RenderData as RouterData } from '@storybook/router';
 import { Listener } from '@storybook/channels';
-import { useState } from '@storybook/addons/src/hooks';
+import { useAddonState } from '@storybook/addons/src/hooks';
 import initProviderApi, { SubAPI as ProviderAPI, Provider } from './init-provider-api';
 
 import { createContext } from './context';
@@ -44,6 +38,8 @@ import initVersions, {
 export { Options as StoreOptions, Listener as ChannelListener };
 
 const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
+
+export { useAddonState };
 
 export type Module = StoreData &
   RouterData &
@@ -312,31 +308,6 @@ function orDefault<S>(fromStore: S, defaultState: S): S {
     return defaultState;
   }
   return fromStore;
-}
-
-type StateMerger<S> = (input: S) => S;
-
-export function useAddonState<S>(addonId: string, defaultState?: S) {
-  const [state, setState] = useState<S>(defaultState);
-  const updateState = (newState: S) => {
-    if (newState !== state) {
-      setState(newState);
-    }
-  };
-  const emit = useChannel({
-    [`${ADDON_STATE_CHANGED}-${addonId}`]: s => {
-      updateState(s);
-    },
-    [`${ADDON_STATE_SET}-${addonId}`]: s => {
-      updateState(s);
-    },
-  });
-
-  const internalSetState = (s: any) => {
-    emit(`${ADDON_STATE_CHANGED}-${addonId}`, s);
-  };
-  console.log('useAddonState');
-  return [state, internalSetState] as [S, (newState: S) => S];
 }
 
 export const useChannel = (eventMap: EventMap) => {

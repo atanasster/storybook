@@ -1,6 +1,12 @@
 import window from 'global';
 import { logger } from '@storybook/client-logger';
-import { FORCE_RE_RENDER, STORY_RENDERED, DOCS_RENDERED } from '@storybook/core-events';
+import {
+  FORCE_RE_RENDER,
+  STORY_RENDERED,
+  DOCS_RENDERED,
+  ADDON_STATE_CHANGED,
+  ADDON_STATE_SET,
+} from '@storybook/core-events';
 import { addons } from './index';
 import { StoryGetter, StoryContext } from './types';
 
@@ -393,4 +399,37 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S): S | und
     return parameters[parameterKey] || (defaultValue as S);
   }
   return undefined;
+}
+
+// shared state
+export function useAddonState<S>(addonId: string, defaultValue: S): [S, (s: S) => void] {
+  const [state, setState] = useState<S>(defaultValue);
+  const updateState = (newState: S) => {
+    setState(newState);
+  };
+  console.log('@storybook/client-api ', addonId);
+  const emit = useChannel(
+    {
+      [`${ADDON_STATE_CHANGED}-${addonId}`]: s => {
+        console.log('@storybook/client-api - changed ', s);
+        updateState(s);
+      },
+      [`${ADDON_STATE_SET}-${addonId}`]: s => {
+        console.log('@storybook/client-api - set ', s);
+        updateState(s);
+      },
+    },
+    [addonId]
+  );
+  useEffect(() => {
+    // init
+    emit(`${ADDON_STATE_SET}-${addonId}`, state);
+  }, [state]);
+
+  return [
+    state,
+    s => {
+      emit(`${ADDON_STATE_CHANGED}-${addonId}`, s);
+    },
+  ];
 }
