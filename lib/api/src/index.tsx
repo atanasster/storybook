@@ -3,9 +3,16 @@ import memoize from 'memoizerific';
 // @ts-ignore shallow-equal is not in DefinitelyTyped
 import shallowEqualObjects from 'shallow-equal/objects';
 
-import { STORY_CHANGED, SET_STORIES, SELECT_STORY, ADDON_STATE_SET } from '@storybook/core-events';
+import {
+  STORY_CHANGED,
+  SET_STORIES,
+  SELECT_STORY,
+  ADDON_STATE_SET,
+  ADDON_STATE_CHANGED,
+} from '@storybook/core-events';
 import { RenderData as RouterData } from '@storybook/router';
 import { Listener } from '@storybook/channels';
+import { useState } from '@storybook/addons/src/hooks';
 import initProviderApi, { SubAPI as ProviderAPI, Provider } from './init-provider-api';
 
 import { createContext } from './context';
@@ -184,31 +191,6 @@ class ManagerProvider extends Component<Props, State> {
         api.selectStory(kind, story, rest);
       }
     );
-    api.on('*', function allEventsHandler(data: any) {
-      const { type } = this;
-
-      if (type.includes(ADDON_STATE_SET)) {
-        const addonId = type.replace(`${ADDON_STATE_SET}-`, '');
-
-        console.log('manager', addonId, data);
-        if (addonId) {
-          console.log(ADDON_STATE_SET, data);
-
-          api.setAddonState(addonId, data);
-        }
-      }
-
-      // if (type.includes(ADDON_STATE_SET)) {
-      //   const addonId = type.replace(`ADDON_STATE_GET-`, '');
-
-      //   if (addonId) {
-      //     console.log(ADDON_STATE_SET, data);
-
-      //     api.emit(,api.getAddonState(addonId));
-      //   }
-      // }
-    });
-
     this.state = state;
     this.api = api;
   }
@@ -335,27 +317,26 @@ function orDefault<S>(fromStore: S, defaultState: S): S {
 type StateMerger<S> = (input: S) => S;
 
 export function useAddonState<S>(addonId: string, defaultState?: S) {
-  const api = useStorybookApi();
-  const ref = useRef<{ [k: string]: boolean }>({});
-
-  const existingState = api.getAddonState<S>(addonId);
-  const state = orDefault<S>(existingState, defaultState);
-
-  const setState = (newStateOrMerger: S | StateMerger<S>, options?: Options) => {
-    return api.setAddonState<S>(addonId, newStateOrMerger, options);
-  };
-
-  if (typeof existingState === 'undefined' && typeof state !== 'undefined') {
-    if (!ref.current[addonId]) {
-      api.setAddonState<S>(addonId, state);
-      ref.current[addonId] = true;
+  const [state, setState] = useState<S>(defaultState);
+  const updateState = (newState: S) => {
+    if (newState !== state) {
+      setState(newState);
     }
-  }
+  };
+  const emit = useChannel({
+    [`${ADDON_STATE_CHANGED}-${addonId}`]: s => {
+      updateState(s);
+    },
+    [`${ADDON_STATE_SET}-${addonId}`]: s => {
+      updateState(s);
+    },
+  });
 
-  return [state, setState] as [
-    S,
-    (newStateOrMerger: S | StateMerger<S>, options?: Options) => Promise<S>
-  ];
+  const internalSetState = (s: any) => {
+    emit(`${ADDON_STATE_CHANGED}-${addonId}`, s);
+  };
+  console.log('useAddonState');
+  return [state, internalSetState] as [S, (newState: S) => S];
 }
 
 export const useChannel = (eventMap: EventMap) => {

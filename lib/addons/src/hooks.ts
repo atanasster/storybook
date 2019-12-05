@@ -4,20 +4,6 @@ import { FORCE_RE_RENDER, STORY_RENDERED, DOCS_RENDERED } from '@storybook/core-
 import { addons } from './index';
 import { StoryGetter, StoryContext } from './types';
 
-interface StoryStore {
-  fromId: (
-    id: string
-  ) => {
-    parameters: {
-      [parameterKey: string]: any;
-    };
-  };
-  getSelection: () => {
-    storyId: string;
-    viewMode: string;
-  };
-}
-
 interface Hook {
   name: string;
   memoizedState?: any;
