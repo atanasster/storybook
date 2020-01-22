@@ -1,6 +1,7 @@
 import { DOCS_MODE } from 'global';
 import { toId, sanitize, parseKind } from '@storybook/csf';
 import deprecate from 'util-deprecate';
+import { STORY_SET_PROPERTY_VALUE } from '@storybook/core-events';
 
 import { Module } from '../index';
 import merge from '../lib/merge';
@@ -18,6 +19,7 @@ export interface SubState {
   storiesConfigured: boolean;
 }
 
+export type SetPropertyValueFn = (storyId: StoryId, propertyName: string, value: any) => void;
 export interface SubAPI {
   storyId: typeof toId;
   selectStory: (kindOrId: string, story?: string, obj?: any) => void;
@@ -28,6 +30,7 @@ export interface SubAPI {
   getData: (storyId: StoryId) => Story | Group;
   getParameters: (storyId: StoryId, parameterName?: ParameterName) => Story['parameters'] | any;
   getCurrentParameter<S>(parameterName?: ParameterName): S;
+  setPropertyValue: SetPropertyValueFn;
 }
 
 interface Group {
@@ -56,6 +59,8 @@ interface StoryInput {
     };
     [parameterName: string]: any;
   };
+  propertes?: any;
+  values?: any;
   isLeaf: boolean;
 }
 
@@ -88,6 +93,7 @@ Read more about it in the migration guide: https://github.com/storybookjs/storyb
 );
 
 const initStoriesApi = ({
+  provider,
   store,
   navigate,
   storyId: initialStoryId,
@@ -119,6 +125,25 @@ const initStoriesApi = ({
     return null;
   };
 
+  const setPropertyValue = function setPropertyValue<S>(
+    storyId: StoryId,
+    propertyName: string,
+    value: S
+  ) {
+    const state = store.getState();
+    const { storiesHash } = state;
+    const newHash = {
+      ...storiesHash,
+      [storyId]: {
+        ...storiesHash[storyId],
+        values: { ...(storiesHash[storyId] as StoryInput).values, [propertyName]: value },
+      },
+    };
+    store.setState({
+      storiesHash: newHash,
+    });
+    provider.channel.emit(STORY_SET_PROPERTY_VALUE, { id: storyId, propertyName, value });
+  };
   const getCurrentParameter = function getCurrentParameter<S>(parameterName: ParameterName) {
     const { storyId } = store.getState();
     const parameters = getParameters(storyId, parameterName);
@@ -401,6 +426,7 @@ Did you create a path that uses the separator char accidentally, such as 'Vue <d
       getData,
       getParameters,
       getCurrentParameter,
+      setPropertyValue,
     },
     state: {
       storiesHash: {},

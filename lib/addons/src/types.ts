@@ -21,6 +21,9 @@ export interface Parameters {
   [key: string]: any;
 }
 
+export interface StoryProperties {
+  [key: string]: any;
+}
 export interface StoryContext {
   id: string;
   name: string;
@@ -28,6 +31,7 @@ export interface StoryContext {
   [key: string]: any;
   parameters: Parameters;
   hooks?: HooksContext;
+  properties?: StoryProperties;
 }
 
 export interface WrapperSettings {

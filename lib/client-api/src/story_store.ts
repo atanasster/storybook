@@ -19,6 +19,7 @@ import {
   ErrorLike,
 } from './types';
 import { HooksContext } from './hooks';
+
 import storySort from './storySort';
 
 // TODO: these are copies from components/nav/lib
@@ -96,6 +97,19 @@ export default class StoryStore extends EventEmitter {
     this._channel = params.channel;
     this._error = undefined;
     this._kindOrder = {};
+    this._channel.on(
+      Events.STORY_SET_PROPERTY_VALUE,
+      ({ id, propertyName, value }: { id: string; propertyName: string; value: any }) => {
+        const story = this._data[id];
+        if (story) {
+          this._data[id] = {
+            ...story,
+            values: { ...story.values, [propertyName]: value },
+          };
+          params.channel.emit(Events.FORCE_RE_RENDER);
+        }
+      }
+    );
   }
 
   setChannel = (channel: Channel) => {
@@ -202,7 +216,7 @@ export default class StoryStore extends EventEmitter {
   };
 
   addStory(
-    { id, kind, name, storyFn: original, parameters = {} }: AddStoryArgs,
+    { id, kind, name, storyFn: original, parameters = {}, properties = {} }: AddStoryArgs,
     {
       getDecorators,
       applyDecorators,
@@ -239,22 +253,30 @@ export default class StoryStore extends EventEmitter {
 
     const hooks = new HooksContext();
 
-    const storyFn: StoryFn = p =>
-      getDecorated()({
+    const storyFn: StoryFn = p => {
+      const { values } = _data[id];
+      return getDecorated()({
         ...identification,
         ...p,
+        properties,
+        values,
         hooks,
         parameters: { ...parameters, ...(p && p.parameters) },
       });
+    };
+    const values = Object.keys(properties).reduce((v, key) => {
+      const prop = properties[key];
+      return { ...v, [key]: prop.defaultValue };
+    }, {});
 
     _data[id] = {
       ...identification,
-
       hooks,
       getDecorated,
       getOriginal,
       storyFn,
-
+      values,
+      properties,
       parameters,
     };
 
@@ -451,5 +473,11 @@ export default class StoryStore extends EventEmitter {
 
   cleanHooksForKind(kind: string) {
     this.getStoriesForKind(kind).map(story => this.cleanHooks(story.id));
+  }
+
+  setPropertyValue(id: string, propName: string, propValue: any) {
+    if (this._data[id]) {
+      this._data[id].values = { ...this._data[id].values, [propName]: propValue };
+    }
   }
 }

@@ -5,6 +5,7 @@ import {
   Parameters,
   StoryApi,
   DecoratorFunction,
+  StoryProperties,
 } from '@storybook/addons';
 import StoryStore from './story_store';
 import { HooksContext } from './hooks';
@@ -50,6 +51,7 @@ export interface AddStoryArgs {
   name: string;
   storyFn: StoryFn;
   parameters: Parameters;
+  properties: StoryProperties;
 }
 
 export interface LegacyData {

@@ -186,6 +186,7 @@ export default class ClientApi {
       kind: kind.toString(),
       add: () => api,
       addDecorator: () => api,
+      setPropertyValue: () => api,
       addParameters: () => api,
     };
 
@@ -197,7 +198,10 @@ export default class ClientApi {
         return api;
       };
     });
-
+    api.setPropertyValue = (storyId: string, propName: string, propValue: any) => {
+      this._storyStore.setPropertyValue(storyId, propName, propValue);
+      return api;
+    };
     api.add = (storyName, storyFn, parameters = {}) => {
       hasAdded = true;
 
@@ -234,13 +238,14 @@ export default class ClientApi {
         },
         { fileName }
       );
-
+      const { properties } = (storyFn as any).story || {};
       this._storyStore.addStory(
         {
           id,
           kind,
           name: storyName,
           storyFn,
+          properties,
           parameters: allParam,
         },
         {

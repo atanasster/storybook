@@ -30,6 +30,7 @@ import initStories, {
   SubState as StoriesSubState,
   SubAPI as StoriesAPI,
   StoriesRaw,
+  SetPropertyValueFn,
 } from './modules/stories';
 import initLayout, { SubState as LayoutSubState, SubAPI as LayoutAPI } from './modules/layout';
 import initShortcuts, {
@@ -43,6 +44,8 @@ import initVersions, {
 } from './modules/versions';
 
 export { Options as StoreOptions, Listener as ChannelListener };
+
+export { SetPropertyValueFn };
 
 const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
 
