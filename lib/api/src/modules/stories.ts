@@ -2,7 +2,7 @@ import { DOCS_MODE } from 'global';
 import { toId, sanitize, parseKind } from '@storybook/csf';
 import deprecate from 'util-deprecate';
 import { STORY_SET_PROPERTY_VALUE } from '@storybook/core-events';
-
+import { StoryProperties, StoryValues } from '../types';
 import { Module } from '../index';
 import merge from '../lib/merge';
 
@@ -33,7 +33,7 @@ export interface SubAPI {
   setPropertyValue: SetPropertyValueFn;
 }
 
-interface Group {
+export interface Group {
   id: StoryId;
   name: string;
   children: StoryId[];
@@ -44,7 +44,7 @@ interface Group {
   isLeaf: boolean;
 }
 
-interface StoryInput {
+export interface StoryInput {
   id: StoryId;
   name: string;
   kind: string;
@@ -59,8 +59,8 @@ interface StoryInput {
     };
     [parameterName: string]: any;
   };
-  propertes?: any;
-  values?: any;
+  properties?: StoryProperties;
+  values?: StoryValues;
   isLeaf: boolean;
 }
 

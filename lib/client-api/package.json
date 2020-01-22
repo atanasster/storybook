@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@storybook/addons": "6.0.0-alpha.0",
+    "@storybook/api": "^6.0.0-alpha.0",
     "@storybook/channel-postmessage": "6.0.0-alpha.0",
     "@storybook/channels": "6.0.0-alpha.0",
     "@storybook/client-logger": "6.0.0-alpha.0",

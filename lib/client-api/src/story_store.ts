@@ -258,8 +258,8 @@ export default class StoryStore extends EventEmitter {
       return getDecorated()({
         ...identification,
         ...p,
+        ...values,
         properties,
-        values,
         hooks,
         parameters: { ...parameters, ...(p && p.parameters) },
       });

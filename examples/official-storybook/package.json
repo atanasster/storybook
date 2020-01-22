@@ -28,6 +28,7 @@
     "@storybook/addon-jest": "6.0.0-alpha.0",
     "@storybook/addon-knobs": "6.0.0-alpha.0",
     "@storybook/addon-links": "6.0.0-alpha.0",
+    "@storybook/addon-live-props": "6.0.0-alpha.0",
     "@storybook/addon-notes": "6.0.0-alpha.0",
     "@storybook/addon-options": "6.0.0-alpha.0",
     "@storybook/addon-queryparams": "6.0.0-alpha.0",

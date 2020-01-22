@@ -384,11 +384,7 @@ AcceptsStoryParameters.story = {
   },
 };
 
-export const WithDuplicateDecorator = ({ values: { text: value } }) => value;
-
-WithDuplicateDecorator.story = {
-  decorators: [withKnobs],
-  properties: {
-    text: { type: 'string', defaultValue: 'Hello' },
-  },
+export const WithDuplicateDecorator = () => {
+  return text('Text', 'Hello');
 };
+WithDuplicateDecorator.story = { decorators: [withKnobs] };

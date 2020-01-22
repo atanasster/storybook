@@ -1,3 +1,4 @@
+import { StoryProperties } from '@storybook/api';
 import { HooksContext } from './hooks';
 import { Addon } from './index';
 
@@ -21,9 +22,6 @@ export interface Parameters {
   [key: string]: any;
 }
 
-export interface StoryProperties {
-  [key: string]: any;
-}
 export interface StoryContext {
   id: string;
   name: string;

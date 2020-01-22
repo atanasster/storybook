@@ -5,8 +5,8 @@ import {
   Parameters,
   StoryApi,
   DecoratorFunction,
-  StoryProperties,
 } from '@storybook/addons';
+import { StoryProperties } from '@storybook/api';
 import StoryStore from './story_store';
 import { HooksContext } from './hooks';
 
