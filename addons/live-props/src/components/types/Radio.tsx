@@ -1,6 +1,7 @@
 import React, { Component, Validator } from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@storybook/theming';
+import { StoryProperty } from '@storybook/api';
 import { KnobControlConfig, KnobControlProps } from './types';
 
 export type RadiosTypeKnobValue = string | number | null | undefined;
@@ -12,7 +13,7 @@ export interface RadiosTypeKnob extends KnobControlConfig<RadiosTypeKnobValue> {
 }
 
 interface RadiosTypeProps extends KnobControlProps<RadiosTypeKnobValue>, RadiosWrapperProps {
-  knob: RadiosTypeKnob;
+  knob: StoryProperty;
 }
 
 interface RadiosWrapperProps {
@@ -59,7 +60,7 @@ class RadiosType extends Component<RadiosTypeProps> {
 
   static deserialize = (value: RadiosTypeKnobValue) => value;
 
-  renderRadioButtonList({ options }: RadiosTypeKnob) {
+  renderRadioButtonList({ options }: StoryProperty) {
     if (Array.isArray(options)) {
       return options.map(val => this.renderRadioButton(val, val));
     }

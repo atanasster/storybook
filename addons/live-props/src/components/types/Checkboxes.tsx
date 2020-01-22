@@ -1,6 +1,7 @@
 import React, { Component, ChangeEvent, Validator } from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@storybook/theming';
+import { StoryProperty } from '@storybook/api';
 import { KnobControlConfig, KnobControlProps } from './types';
 
 type CheckboxesTypeKnobValue = string[];
@@ -12,7 +13,7 @@ export interface CheckboxesTypeKnob extends KnobControlConfig<CheckboxesTypeKnob
 interface CheckboxesTypeProps
   extends KnobControlProps<CheckboxesTypeKnobValue>,
     CheckboxesWrapperProps {
-  knob: CheckboxesTypeKnob;
+  knob: StoryProperty;
 }
 
 interface CheckboxesTypeState {
@@ -94,7 +95,7 @@ export default class CheckboxesType extends Component<CheckboxesTypeProps, Check
     onChange(values);
   };
 
-  renderCheckboxList = ({ options }: CheckboxesTypeKnob) =>
+  renderCheckboxList = ({ options }: StoryProperty) =>
     Object.keys(options).map(key => this.renderCheckbox(key, options[key]));
 
   renderCheckbox = (label: string, value: string) => {

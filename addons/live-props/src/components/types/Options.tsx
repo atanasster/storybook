@@ -2,6 +2,7 @@ import React, { FunctionComponent, Validator } from 'react';
 import PropTypes from 'prop-types';
 import ReactSelect from 'react-select';
 import { styled } from '@storybook/theming';
+import { StoryProperty } from '@storybook/api';
 import { KnobControlConfig, KnobControlProps } from './types';
 
 import RadiosType from './Radio';
@@ -35,7 +36,7 @@ export interface OptionsKnobOptions {
 }
 
 export interface OptionsTypeKnob<T extends OptionsTypeKnobValue> extends KnobControlConfig<T> {
-  options: OptionsTypeOptionsProp<T>;
+  options: OptionsTypeOptionsProp<T> | T[];
   optionsObj: OptionsKnobOptions;
 }
 
@@ -44,7 +45,7 @@ export interface OptionsTypeOptionsProp<T> {
 }
 
 export interface OptionsTypeProps<T extends OptionsTypeKnobValue> extends KnobControlProps<T> {
-  knob: OptionsTypeKnob<T>;
+  knob: StoryProperty;
   display: OptionsKnobOptionsDisplay;
 }
 
@@ -71,7 +72,7 @@ const OptionsType: FunctionComponent<OptionsTypeProps<any>> & {
   deserialize: typeof deserialize;
 } = props => {
   const { knob, onChange } = props;
-  const { display } = knob.optionsObj;
+  const { display } = knob;
 
   if (display === 'check' || display === 'inline-check') {
     const isInline = display === 'inline-check';
@@ -83,12 +84,16 @@ const OptionsType: FunctionComponent<OptionsTypeProps<any>> & {
     return <RadiosType {...props} isInline={isInline} />;
   }
 
-  if (display === 'select' || display === 'multi-select') {
-    const options: OptionsSelectValueItem[] = Object.keys(knob.options).map(key => ({
-      value: knob.options[key],
-      label: key,
-    }));
-
+  if (display === undefined || display === 'select' || display === 'multi-select') {
+    const options: OptionsSelectValueItem[] = Array.isArray(knob.options)
+      ? knob.options.map(option => ({
+          value: option,
+          label: option,
+        }))
+      : Object.keys(knob.options).map(key => ({
+          value: knob.options[key],
+          label: key,
+        }));
     const isMulti = display === 'multi-select';
     const optionsIndex = options.findIndex(i => i.value === knob.value);
     let defaultValue: typeof options | typeof options[0] = options[optionsIndex];

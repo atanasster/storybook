@@ -1,3 +1,5 @@
+import { StoryProperty } from '@storybook/api';
+
 export interface KnobControlConfig<T = never> {
   name: string;
   value: T;
@@ -5,6 +7,6 @@ export interface KnobControlConfig<T = never> {
 }
 
 export interface KnobControlProps<T> {
-  knob: KnobControlConfig<T>;
+  knob: StoryProperty;
   onChange: (value: T) => T;
 }

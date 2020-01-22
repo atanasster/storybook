@@ -22,9 +22,7 @@ describe('Options', () => {
           Green: '#090',
           Blue: '#0ff',
         },
-        optionsObj: {
-          display: 'check',
-        },
+        display: 'check',
       };
 
       wrapper = mount(<OptionsType knob={knob} onChange={mockOn} />);
@@ -66,9 +64,7 @@ describe('Options', () => {
           Green: '#090',
           Blue: '#0ff',
         },
-        optionsObj: {
-          display: 'radio',
-        },
+        display: 'radio',
       };
 
       wrapper = mount(<OptionsType knob={knob} onChange={mockOn} />);
@@ -107,9 +103,7 @@ describe('Options', () => {
           Green: '#090',
           Blue: '#0ff',
         },
-        optionsObj: {
-          display: 'select',
-        },
+        display: 'select',
       };
 
       wrapper = mount(<OptionsType knob={knob} onChange={mockOn} />);
