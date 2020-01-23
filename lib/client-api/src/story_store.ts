@@ -8,7 +8,7 @@ import stable from 'stable';
 import { Channel } from '@storybook/channels';
 import Events from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import { Comparator, Parameters, StoryFn } from '@storybook/addons';
+import { Comparator, Parameters, StoryFn, StoryContext } from '@storybook/addons';
 import { StoryProperty } from '@storybook/api';
 import {
   DecoratorFunction,
@@ -267,8 +267,15 @@ export default class StoryStore extends EventEmitter {
       story: name, // legacy
     };
 
+    const { legacyContextProp } = parameters.options || {};
     // immutable original storyFn
-    const getOriginal = () => original;
+    const getOriginal = () => (context: StoryContext) => {
+      if (legacyContextProp) {
+        return original({ ...context.values, ...context });
+      }
+      const { values, ...rest } = context;
+      return original({ ...values }, rest);
+    };
 
     // lazily decorate the story when it's loaded
     const getDecorated: () => StoryFn = memoize(1)(() =>
@@ -282,17 +289,25 @@ export default class StoryStore extends EventEmitter {
       return getDecorated()({
         ...identification,
         ...p,
-        ...values,
+        values,
         properties,
         hooks,
         parameters: { ...parameters, ...(p && p.parameters) },
       });
     };
+    const reservedContextKeys = [
+      ...Object.keys(identification),
+      ...['values', 'storyFn', 'properties', 'parameters', 'hooks'],
+    ];
     const values = Object.keys(properties).reduce((v, key) => {
+      if (legacyContextProp && reservedContextKeys.indexOf(key) >= 0) {
+        logger.error(
+          `Story "${identification.name}" in ${identification.kind} uses a reserved property id "${key}"`
+        );
+      }
       const prop = properties[key];
       return { ...v, [key]: prop.defaultValue };
     }, {});
-
     _data[id] = {
       ...identification,
       hooks,

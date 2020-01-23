@@ -60,8 +60,11 @@ export interface OptionsParameter extends Object {
   [key: string]: any;
 }
 
-export type StoryGetter = (context: StoryContext) => any;
-export type StoryFn<ReturnType = unknown> = (p?: StoryContext) => ReturnType;
+export type StoryGetter = (p?: StoryContext | StoryProperties, c?: StoryContext) => any;
+export type StoryFn<ReturnType = unknown> = (
+  p?: StoryContext | StoryProperties,
+  c?: StoryContext
+) => ReturnType;
 
 export type StoryWrapper = (
   getStory: StoryGetter,

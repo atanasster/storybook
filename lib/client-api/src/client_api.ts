@@ -1,7 +1,7 @@
 /* eslint no-underscore-dangle: 0 */
 import isPlainObject from 'is-plain-object';
 import { logger } from '@storybook/client-logger';
-import { StoryContext, StoryFn, Parameters } from '@storybook/addons';
+import { StoryContext, StoryFn, Parameters, StoryGetter } from '@storybook/addons';
 import { toId } from '@storybook/csf';
 
 import mergeWith from 'lodash/mergeWith';
@@ -85,7 +85,7 @@ export default class ClientApi {
 
   private _addons: ClientApiAddons<unknown>;
 
-  private _decorateStory: (storyFn: StoryFn, decorators: DecoratorFunction[]) => any;
+  private _decorateStory: (storyFn: StoryGetter, decorators: DecoratorFunction[]) => any;
 
   constructor({ storyStore, decorateStory = defaultDecorateStory }: ClientApiParams) {
     this._storyStore = storyStore;

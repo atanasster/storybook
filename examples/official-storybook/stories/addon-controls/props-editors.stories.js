@@ -30,7 +30,7 @@ selectProp.story = {
 };
 
 export const tweaksStaticValues = ({
-  name,
+  userName,
   age,
   fruit,
   otherFruit,
@@ -45,7 +45,7 @@ export const tweaksStaticValues = ({
   dog,
   birthday,
 }) => {
-  const intro = `My name is ${name}, I'm ${age} years old, and my favorite fruit is ${fruit}. I also enjoy ${otherFruit}, and hanging out with my dog ${dog.label}`;
+  const intro = `My name is ${userName}, I'm ${age} years old, and my favorite fruit is ${fruit}. I also enjoy ${otherFruit}, and hanging out with my dog ${dog.label}`;
   const style = { backgroundColor, color, ...otherStyles };
   const salutation = nice ? 'Nice to meet you!' : 'Leave me alone!';
   const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
@@ -67,7 +67,7 @@ export const tweaksStaticValues = ({
 };
 
 tweaksStaticValues.propTypes = {
-  name: PropTypes.string.isRequired,
+  userName: PropTypes.string.isRequired,
   age: PropTypes.number.isRequired,
   fruit: PropTypes.string.isRequired,
   otherFruit: PropTypes.string.isRequired,
@@ -106,7 +106,12 @@ const GROUP_IDS = {
 
 tweaksStaticValues.story = {
   properties: {
-    name: { type: 'text', label: 'Name', defaultValue: 'Storyteller', groupId: GROUP_IDS.GENERAL },
+    userName: {
+      type: 'text',
+      label: 'Name',
+      defaultValue: 'Storyteller',
+      groupId: GROUP_IDS.GENERAL,
+    },
     age: {
       type: 'number',
       label: 'Age',
@@ -456,5 +461,13 @@ export const textProp = ({ text }) => text;
 textProp.story = {
   properties: {
     text: { type: 'text', label: 'Text', defaultValue: 'Hello' },
+  },
+};
+
+export const reservedKeyword = ({ values }) => values;
+
+reservedKeyword.story = {
+  properties: {
+    values: { type: 'text', label: 'Text', defaultValue: 'Hello' },
   },
 };

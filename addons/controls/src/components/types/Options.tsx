@@ -127,7 +127,7 @@ OptionsType.propTypes = {
   knob: PropTypes.shape({
     name: PropTypes.string,
     value: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
-    options: PropTypes.object,
+    options: PropTypes.oneOfType([PropTypes.object, PropTypes.arrayOf(PropTypes.string)]),
   }) as Validator<OptionsTypeProps<any>['knob']>,
   display: PropTypes.oneOf<OptionsKnobOptionsDisplay>([
     'radio',
