@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { FunctionComponent, Validator } from 'react';
 
 import { styled } from '@storybook/theming';
+import { StoryProperty } from '@storybook/api';
 import { KnobControlConfig, KnobControlProps } from './types';
 
 type BooleanTypeKnobValue = boolean;
@@ -9,7 +10,7 @@ type BooleanTypeKnobValue = boolean;
 export type BooleanTypeKnob = KnobControlConfig<BooleanTypeKnobValue>;
 
 export interface BooleanTypeProps extends KnobControlProps<BooleanTypeKnobValue> {
-  knob: BooleanTypeKnob;
+  knob: StoryProperty;
 }
 
 const Input = styled.input({

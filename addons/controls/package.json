@@ -1,19 +1,19 @@
 {
-  "name": "@storybook/addon-live-props",
+  "name": "@storybook/addon-controls",
   "version": "6.0.0-alpha.0",
   "description": "Storybook Addon Prop Editor Component",
   "keywords": [
     "addon",
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/live-props",
+  "homepage": "https://github.com/storybookjs/storybook/tree/master/addons/controls",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/live-props"
+    "directory": "addons/controls"
   },
   "license": "MIT",
   "files": [

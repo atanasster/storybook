@@ -3,6 +3,7 @@ import React, { Component, ChangeEvent, Validator } from 'react';
 
 import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';
+import { StoryProperty } from '@storybook/api';
 import { KnobControlConfig, KnobControlProps } from './types';
 
 type NumberTypeKnobValue = number;
@@ -21,7 +22,7 @@ export interface NumberTypeKnob
 }
 
 interface NumberTypeProps extends KnobControlProps<NumberTypeKnobValue | null> {
-  knob: NumberTypeKnob;
+  knob: StoryProperty;
 }
 
 const RangeInput = styled.input(

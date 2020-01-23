@@ -14,8 +14,7 @@ import {
   Link,
   ScrollArea,
 } from '@storybook/components';
-import { Combo, Consumer, API, SetPropertyValueFn } from '@storybook/api';
-
+import { API } from '@storybook/api';
 import { RESET, SET, CHANGE, SET_OPTIONS, CLICK } from '../shared';
 
 import { getKnobControl } from './types';
@@ -43,7 +42,7 @@ interface PanelKnobGroups {
 interface KnobPanelProps {
   active: boolean;
   onReset?: object;
-  api: Pick<API, 'on' | 'off' | 'emit' | 'getQueryParam' | 'setQueryParams' | 'setPropertyValue'>;
+  api: Pick<API, 'on' | 'off' | 'emit' | 'getQueryParam' | 'setQueryParams'>;
 }
 
 interface KnobPanelState {
@@ -53,24 +52,6 @@ interface KnobPanelState {
 interface KnobPanelOptions {
   timestamps?: boolean;
 }
-
-const mapper = ({
-  api,
-  state,
-}: Combo): {
-  storyId: string;
-  properties?: any;
-  values?: any;
-  setPropertyValue?: SetPropertyValueFn;
-} => {
-  const { storyId } = state;
-  if (!state.storiesHash[storyId]) {
-    return { storyId };
-  }
-  const { setPropertyValue } = api;
-  const { properties, values } = state.storiesHash[state.storyId];
-  return { storyId, properties, values, setPropertyValue };
-};
 
 export default class KnobPanel extends PureComponent<KnobPanelProps> {
   static propTypes = {
@@ -114,7 +95,7 @@ export default class KnobPanel extends PureComponent<KnobPanelProps> {
     api.on(SET, this.setKnobs);
     api.on(SET_OPTIONS, this.setOptions);
 
-    this.stopListeningOnStory = api.on(STORY_CHANGED, story => {
+    this.stopListeningOnStory = api.on(STORY_CHANGED, () => {
       if (this.mounted) {
         this.setKnobs({ knobs: {} });
       }
@@ -263,30 +244,20 @@ export default class KnobPanel extends PureComponent<KnobPanelProps> {
 
     if (knobsArray.length === 0) {
       return (
-        <Consumer filter={mapper}>
-          {({ properties, values, storyId, setPropertyValue }: any) => (
-            <Placeholder>
-              <Fragment>No knobs found</Fragment>
-              <button
-                type="button"
-                onClick={() => setPropertyValue && setPropertyValue(storyId, 'text', 'mamma')}
-              >
-                click me
-              </button>
-              <Fragment>
-                Learn how to&nbsp;
-                <Link
-                  href="https://github.com/storybookjs/storybook/tree/master/addons/knobs"
-                  target="_blank"
-                  withArrow
-                  cancel={false}
-                >
-                  dynamically interact with components
-                </Link>
-              </Fragment>
-            </Placeholder>
-          )}
-        </Consumer>
+        <Placeholder>
+          <Fragment>No knobs found</Fragment>
+          <Fragment>
+            Learn how to&nbsp;
+            <Link
+              href="https://github.com/storybookjs/storybook/tree/master/addons/knobs"
+              target="_blank"
+              withArrow
+              cancel={false}
+            >
+              dynamically interact with components
+            </Link>
+          </Fragment>
+        </Placeholder>
       );
     }
 
@@ -304,35 +275,31 @@ export default class KnobPanel extends PureComponent<KnobPanelProps> {
     const entries = sortEntries(groups);
 
     return (
-      <Consumer filter={mapper}>
-        {({ properties, values }: any) => (
-          <Fragment>
-            <PanelWrapper>
-              {entries.length > 1 ? (
-                <TabsState>
-                  {entries.map(([k, v]) => (
-                    <div id={k} key={k} title={v.title}>
-                      {v.render}
-                    </div>
-                  ))}
-                </TabsState>
-              ) : (
-                <PropForm
-                  knobs={knobsArray}
-                  onFieldChange={this.handleChange}
-                  onFieldClick={this.handleClick}
-                />
-              )}
-            </PanelWrapper>
-            <ActionBar
-              actionItems={[
-                { title: 'Copy', onClick: this.copy },
-                { title: 'Reset', onClick: this.reset },
-              ]}
+      <Fragment>
+        <PanelWrapper>
+          {entries.length > 1 ? (
+            <TabsState>
+              {entries.map(([k, v]) => (
+                <div id={k} key={k} title={v.title}>
+                  {v.render}
+                </div>
+              ))}
+            </TabsState>
+          ) : (
+            <PropForm
+              knobs={knobsArray}
+              onFieldChange={this.handleChange}
+              onFieldClick={this.handleClick}
             />
-          </Fragment>
-        )}
-      </Consumer>
+          )}
+        </PanelWrapper>
+        <ActionBar
+          actionItems={[
+            { title: 'Copy', onClick: this.copy },
+            { title: 'Reset', onClick: this.reset },
+          ]}
+        />
+      </Fragment>
     );
   }
 }

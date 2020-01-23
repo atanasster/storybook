@@ -2,6 +2,7 @@ import React, { FunctionComponent, ChangeEvent, Validator } from 'react';
 import PropTypes from 'prop-types';
 
 import { Form } from '@storybook/components';
+import { StoryProperty } from '@storybook/api';
 import { KnobControlConfig, KnobControlProps } from './types';
 
 export type SelectTypeKnobValue = string | number | null | undefined | PropertyKey[];
@@ -19,7 +20,7 @@ export interface SelectTypeKnob<T extends SelectTypeKnobValue = SelectTypeKnobVa
 
 export interface SelectTypeProps<T extends SelectTypeKnobValue = SelectTypeKnobValue>
   extends KnobControlProps<T> {
-  knob: SelectTypeKnob<T>;
+  knob: StoryProperty;
 }
 
 const serialize = (value: SelectTypeKnobValue) => value;

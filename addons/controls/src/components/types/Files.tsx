@@ -4,6 +4,7 @@ import React, { ChangeEvent, FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 
 import { Form } from '@storybook/components';
+import { StoryProperty } from '@storybook/api';
 import { KnobControlConfig, KnobControlProps } from './types';
 
 type DateTypeKnobValue = string[];
@@ -13,7 +14,7 @@ export interface FileTypeKnob extends KnobControlConfig<DateTypeKnobValue> {
 }
 
 export interface FilesTypeProps extends KnobControlProps<DateTypeKnobValue> {
-  knob: FileTypeKnob;
+  knob: StoryProperty;
 }
 
 const FileInput = styled(Form.Input)({

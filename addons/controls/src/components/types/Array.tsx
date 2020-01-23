@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { ChangeEvent, Component, Validator } from 'react';
-
+import { StoryProperty } from '@storybook/api';
 import { Form } from '@storybook/components';
 import { KnobControlConfig, KnobControlProps } from './types';
 
@@ -11,7 +11,7 @@ export interface ArrayTypeKnob extends KnobControlConfig<ArrayTypeKnobValue> {
 }
 
 interface ArrayTypeProps extends KnobControlProps<ArrayTypeKnobValue> {
-  knob: ArrayTypeKnob;
+  knob: StoryProperty;
 }
 
 function formatArray(value: string, separator: string) {

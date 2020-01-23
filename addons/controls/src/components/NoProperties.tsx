@@ -7,7 +7,7 @@ export const NoProperties = () => (
     <>
       Learn how to&nbsp;
       <Link
-        href="https://github.com/storybookjs/storybook/tree/master/addons/live-props"
+        href="https://github.com/storybookjs/storybook/tree/master/addons/controls"
         target="_blank"
         withArrow
         cancel={false}
