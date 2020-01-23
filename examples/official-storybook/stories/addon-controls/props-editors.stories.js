@@ -4,6 +4,15 @@ import PropTypes from 'prop-types';
 export default {
   title: 'Addons/Controls/examples',
 };
+// using prop shortcut:
+// propname: 'xxxxx' will generate 'text' field type
+
+export const textDefaultProp = ({ text }) => text;
+textDefaultProp.story = {
+  properties: {
+    text: 'Hello',
+  },
+};
 
 export const selectProp = ({ value }) => (
   <div>{JSON.stringify({ value: String(value) }, null, 2)}</div>
@@ -453,14 +462,6 @@ radioEnum.story = {
         Wednesday: 'Wednesday',
       },
     },
-  },
-};
-
-export const textProp = ({ text }) => text;
-
-textProp.story = {
-  properties: {
-    text: { type: 'text', label: 'Text', defaultValue: 'Hello' },
   },
 };
 
