@@ -48,7 +48,7 @@ export default class DateType extends Component<DateTypeProps, DateTypeState> {
   static propTypes = {
     knob: PropTypes.shape({
       name: PropTypes.string,
-      value: PropTypes.number,
+      value: PropTypes.instanceOf(Date),
     }) as Validator<DateTypeProps['knob']>,
     onChange: PropTypes.func as Validator<DateTypeProps['onChange']>,
   };

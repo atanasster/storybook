@@ -12,6 +12,7 @@ export interface ArrayTypeKnob extends KnobControlConfig<ArrayTypeKnobValue> {
 
 interface ArrayTypeProps extends KnobControlProps<ArrayTypeKnobValue> {
   knob: StoryProperty;
+  separator: string;
 }
 
 function formatArray(value: string, separator: string) {
@@ -55,8 +56,7 @@ export default class ArrayType extends Component<ArrayTypeProps> {
   handleChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     const { knob, onChange } = this.props;
     const { value } = e.target as HTMLTextAreaElement;
-    const newVal = formatArray(value, knob.separator);
-
+    const newVal = formatArray(value, knob.separator || ',');
     onChange(newVal);
   };
 

@@ -1,7 +1,7 @@
 export interface StoryProperty {
   name: string;
   label?: string;
-  used?: boolean;
+  hidden?: boolean;
   placeholder?: string;
   defaultValue?: any;
   hideLabel?: boolean;

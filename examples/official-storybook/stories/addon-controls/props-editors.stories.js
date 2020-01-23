@@ -29,7 +29,7 @@ selectProp.story = {
   },
 };
 
-export const TweaksStaticValues = ({
+export const tweaksStaticValues = ({
   name,
   age,
   fruit,
@@ -37,6 +37,7 @@ export const TweaksStaticValues = ({
   dollars,
   years,
   backgroundColor,
+  color,
   items,
   otherStyles,
   nice,
@@ -45,7 +46,7 @@ export const TweaksStaticValues = ({
   birthday,
 }) => {
   const intro = `My name is ${name}, I'm ${age} years old, and my favorite fruit is ${fruit}. I also enjoy ${otherFruit}, and hanging out with my dog ${dog.label}`;
-  const style = { backgroundColor, ...otherStyles };
+  const style = { backgroundColor, color, ...otherStyles };
   const salutation = nice ? 'Nice to meet you!' : 'Leave me alone!';
   const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
 
@@ -65,7 +66,7 @@ export const TweaksStaticValues = ({
   );
 };
 
-TweaksStaticValues.propTypes = {
+tweaksStaticValues.propTypes = {
   name: PropTypes.string.isRequired,
   age: PropTypes.number.isRequired,
   fruit: PropTypes.string.isRequired,
@@ -73,6 +74,7 @@ TweaksStaticValues.propTypes = {
   dollars: PropTypes.number.isRequired,
   years: PropTypes.number.isRequired,
   backgroundColor: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
   items: PropTypes.arrayOf(PropTypes.string).isRequired,
   otherStyles: PropTypes.arrayOf(PropTypes.string).isRequired,
   nice: PropTypes.bool.isRequired,
@@ -102,11 +104,43 @@ const GROUP_IDS = {
   FAVORITES: 'Favorites',
 };
 
-TweaksStaticValues.story = {
-  name: 'tweaks static values',
+tweaksStaticValues.story = {
   properties: {
-    name: { type: 'text', label: 'Name', defaultValue: 'Storyteller', groupId: GROUP_IDS.DISPLAY },
-    age: { type: 'number', label: 'Age', defaultValue: 78, range: true, min: 0, max: 90, step: 5 },
+    name: { type: 'text', label: 'Name', defaultValue: 'Storyteller', groupId: GROUP_IDS.GENERAL },
+    age: {
+      type: 'number',
+      label: 'Age',
+      defaultValue: 78,
+      range: true,
+      min: 0,
+      max: 90,
+      step: 5,
+      groupId: GROUP_IDS.GENERAL,
+    },
+    birthday: {
+      type: 'date',
+      label: 'Birthday',
+      defaultValue: new Date(),
+      groupId: GROUP_IDS.GENERAL,
+    },
+    dollars: {
+      type: 'number',
+      label: 'Dollars',
+      defaultValue: 12.5,
+      min: 0,
+      max: 100,
+      step: 0.01,
+      groupId: GROUP_IDS.GENERAL,
+    },
+    years: { type: 'number', label: 'Years in NY', defaultValue: 9, groupId: GROUP_IDS.GENERAL },
+    nice: { type: 'boolean', label: 'Nice', defaultValue: true, groupId: GROUP_IDS.FAVORITES },
+    items: {
+      type: 'array',
+      label: 'Items',
+      defaultValue: ['Laptop', 'Book', 'Whiskey'],
+      groupId: GROUP_IDS.FAVORITES,
+    },
+
     fruit: {
       type: 'options',
       label: 'Fruit',
@@ -116,7 +150,7 @@ TweaksStaticValues.story = {
         Banana: 'banana',
         Cherry: 'cherry',
       },
-      display: 'select',
+      groupId: GROUP_IDS.FAVORITES,
     },
     otherFruit: {
       type: 'options',
@@ -128,12 +162,26 @@ TweaksStaticValues.story = {
         Watermelon: 'watermelon',
       },
       display: 'radio',
+      groupId: GROUP_IDS.FAVORITES,
     },
-    dollars: { type: 'number', label: 'Dollars', defaultValue: 12.5, min: 0, max: 100, step: 0.01 },
-    years: { type: 'number', label: 'Years in NY', defaultValue: 9 },
+    dog: {
+      type: 'select',
+      options: arrayOfObjects,
+      defaultValue: arrayOfObjects[0],
+      groupId: GROUP_IDS.FAVORITES,
+    },
+    backgroundColor: {
+      type: 'color',
+      defaultValue: '#dedede',
+      groupId: GROUP_IDS.DISPLAY,
+    },
 
-    backgroundColor: { type: 'color', label: 'background', defaultValue: '#dedede' },
-    items: { type: 'array', label: 'Items', options: ['Laptop', 'Book', 'Whiskey'] },
+    color: {
+      type: 'color',
+      defaultValue: '#000000',
+      groupId: GROUP_IDS.DISPLAY,
+    },
+
     otherStyles: {
       type: 'object',
       label: 'Styles',
@@ -142,9 +190,8 @@ TweaksStaticValues.story = {
         borderRadius: 10,
         padding: 10,
       },
+      groupId: GROUP_IDS.DISPLAY,
     },
-    nice: { type: 'boolean', label: 'Nice', defaultValue: true },
-
     images: {
       type: 'files',
       label: 'Happy Picture',
@@ -152,12 +199,10 @@ TweaksStaticValues.story = {
       defaultValue: [
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfiARwMCyEWcOFPAAAAP0lEQVQoz8WQMQoAIAwDL/7/z3GwghSp4KDZyiUpBMCYUgd8rehtH16/l3XewgU2KAzapjXBbNFaPS6lDMlKB6OiDv3iAH1OAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTAxLTI4VDEyOjExOjMzLTA3OjAwlAHQBgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0wMS0yOFQxMjoxMTozMy0wNzowMOVcaLoAAAAASUVORK5CYII=',
       ],
+      groupId: GROUP_IDS.DISPLAY,
     },
-    // array of objects
 
-    dog: { type: 'select', options: arrayOfObjects, defaultValue: arrayOfObjects[0] },
-
-    birthday: { type: 'date', label: 'Birthday', defaultValue: new Date() },
+    hidden: { type: 'text', hidden: true },
   },
 };
 
@@ -182,6 +227,209 @@ dynamicProps.story = {
       defaultValue: 'yes',
       options: ['yes', 'no'],
       display: 'select',
+    },
+  },
+};
+
+export const complexSelect = ({ m }) => {
+  const value = m.toString();
+  const type = Array.isArray(m) ? 'array' : typeof m;
+  return (
+    <pre>
+      the type of {JSON.stringify(value, null, 2)} = {type}
+    </pre>
+  );
+};
+
+complexSelect.propTypes = {
+  m: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.arrayOf(PropTypes.number)])
+    .isRequired,
+};
+
+complexSelect.story = {
+  properties: {
+    m: {
+      type: 'select',
+      label: 'complex',
+      options: {
+        number: 1,
+        string: 'string',
+        object: {},
+        array: [1, 2, 3],
+        function: () => {},
+      },
+      defaultValue: 'string',
+    },
+  },
+};
+
+export const optionsProperties = ({
+  optionRadio,
+  optionInlineRadio,
+  optionSelect,
+  optionsMultiSelect,
+  optionsCheck,
+  optionsInlineCheck,
+}) => {
+  return (
+    <div>
+      <p>Weekday: {optionRadio}</p>
+      <p>Weekend: {optionInlineRadio}</p>
+      <p>Month: {optionSelect}</p>
+      <p>Fruit:</p>
+      <ul>
+        {optionsMultiSelect.map(item => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+      <p>Vegetables:</p>
+      <ul>
+        {optionsCheck.map(item => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+      <p>Dairy:</p>
+      <ul>
+        {optionsInlineCheck.map(item => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+optionsProperties.propTypes = {
+  optionRadio: PropTypes.string.isRequired,
+  optionInlineRadio: PropTypes.string.isRequired,
+  optionSelect: PropTypes.string.isRequired,
+  optionsMultiSelect: PropTypes.arrayOf(PropTypes.string).isRequired,
+  optionsCheck: PropTypes.arrayOf(PropTypes.string).isRequired,
+  optionsInlineCheck: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+optionsProperties.story = {
+  properties: {
+    optionRadio: {
+      type: 'options',
+      label: 'Radio',
+      options: {
+        Monday: 'Monday',
+        Tuesday: 'Tuesday',
+        Wednesday: 'Wednesday',
+      },
+      defaultValue: 'Tuesday',
+      display: 'radio',
+    },
+    optionInlineRadio: {
+      type: 'options',
+      label: 'Inline Radio',
+      options: {
+        Saturday: 'Saturday',
+        Sunday: 'Sunday',
+      },
+      defaultValue: 'Saturday',
+      display: 'inline-radio',
+    },
+    optionSelect: {
+      type: 'options',
+      label: 'Select',
+      options: {
+        January: 'January',
+        February: 'February',
+        March: 'March',
+      },
+      defaultValue: 'January',
+      display: 'select',
+    },
+    optionsMultiSelect: {
+      type: 'options',
+      label: 'Multi Select',
+      options: {
+        Apple: 'apple',
+        Banana: 'banana',
+        Cherry: 'cherry',
+      },
+      defaultValue: ['apple'],
+      display: 'multi-select',
+    },
+    optionsCheck: {
+      type: 'options',
+      label: 'Check',
+      options: {
+        Corn: 'corn',
+        Carrot: 'carrot',
+        Cucumber: 'cucumber',
+      },
+      defaultValue: ['carrot'],
+      display: 'check',
+    },
+    optionsInlineCheck: {
+      type: 'options',
+      label: 'Inline Check',
+      options: {
+        Milk: 'milk',
+        Cheese: 'cheese',
+        Butter: 'butter',
+      },
+      defaultValue: ['milk'],
+      display: 'inline-check',
+    },
+  },
+};
+
+let injectedItems = [];
+let injectedIsLoading = false;
+
+const ItemLoader = ({ isLoading, items }) => {
+  if (isLoading) {
+    return <p>Loading data</p>;
+  }
+  if (!items.length) {
+    return <p>No items loaded</p>;
+  }
+  return (
+    <ul>
+      {items.map(i => (
+        <li key={i}>{i}</li>
+      ))}
+    </ul>
+  );
+};
+
+ItemLoader.propTypes = {
+  isLoading: PropTypes.bool.isRequired,
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
+};
+
+export const triggersActionsViaButton = () => {
+  // Needed to enforce @babel/transform-react-constant-elements deoptimization
+  // See https://github.com/babel/babel/issues/10522
+  const loaderProps = {
+    isLoading: injectedIsLoading,
+    items: injectedItems,
+  };
+  return (
+    <>
+      <p>Hit the knob button and it will toggle the items list into multiple states.</p>
+      <ItemLoader {...loaderProps} />
+    </>
+  );
+};
+
+triggersActionsViaButton.story = {
+  properties: {
+    button: {
+      type: 'button',
+      onClick: () => {
+        if (!injectedIsLoading && injectedItems.length === 0) {
+          injectedIsLoading = true;
+        } else if (injectedIsLoading && injectedItems.length === 0) {
+          injectedIsLoading = false;
+          injectedItems = ['pencil', 'pen', 'eraser'];
+        } else if (injectedItems.length > 0) {
+          injectedItems = [];
+        }
+      },
     },
   },
 };

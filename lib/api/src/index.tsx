@@ -31,6 +31,7 @@ import initStories, {
   SubAPI as StoriesAPI,
   StoriesRaw,
   SetPropertyValueFn,
+  ClickPropertyFn,
   StoryInput,
   Group,
 } from './modules/stories';
@@ -49,7 +50,7 @@ export { StoryProperties, StoryValues, StoryProperty } from './types';
 
 export { Options as StoreOptions, Listener as ChannelListener };
 
-export { SetPropertyValueFn, StoryInput, Group };
+export { SetPropertyValueFn, ClickPropertyFn, StoryInput, Group };
 
 const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
 

@@ -1,8 +1,8 @@
 import { DOCS_MODE } from 'global';
 import { toId, sanitize, parseKind } from '@storybook/csf';
 import deprecate from 'util-deprecate';
-import { STORY_SET_PROPERTY_VALUE } from '@storybook/core-events';
-import { StoryProperties, StoryValues } from '../types';
+import { STORY_SET_PROPERTY_VALUE, STORY_CLICK_PROPERTY } from '@storybook/core-events';
+import { StoryProperties, StoryValues, StoryProperty } from '../types';
 import { Module } from '../index';
 import merge from '../lib/merge';
 
@@ -20,6 +20,8 @@ export interface SubState {
 }
 
 export type SetPropertyValueFn = (storyId: StoryId, propertyName: string, value: any) => void;
+export type ClickPropertyFn = (storyId: StoryId, propertyName: string, prop: StoryProperty) => void;
+
 export interface SubAPI {
   storyId: typeof toId;
   selectStory: (kindOrId: string, story?: string, obj?: any) => void;
@@ -31,6 +33,7 @@ export interface SubAPI {
   getParameters: (storyId: StoryId, parameterName?: ParameterName) => Story['parameters'] | any;
   getCurrentParameter<S>(parameterName?: ParameterName): S;
   setPropertyValue: SetPropertyValueFn;
+  clickProperty: ClickPropertyFn;
 }
 
 export interface Group {
@@ -144,6 +147,10 @@ const initStoriesApi = ({
     });
     provider.channel.emit(STORY_SET_PROPERTY_VALUE, { id: storyId, propertyName, value });
   };
+  const clickProperty = (storyId: StoryId, propertyName: string, prop: StoryProperty) => {
+    provider.channel.emit(STORY_CLICK_PROPERTY, { id: storyId, propertyName, property: prop });
+  };
+
   const getCurrentParameter = function getCurrentParameter<S>(parameterName: ParameterName) {
     const { storyId } = store.getState();
     const parameters = getParameters(storyId, parameterName);
@@ -427,6 +434,7 @@ Did you create a path that uses the separator char accidentally, such as 'Vue <d
       getParameters,
       getCurrentParameter,
       setPropertyValue,
+      clickProperty,
     },
     state: {
       storiesHash: {},

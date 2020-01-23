@@ -7,6 +7,7 @@ import { toId } from '@storybook/csf';
 import mergeWith from 'lodash/mergeWith';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
+import { StoryProperty } from '@storybook/api';
 import { ClientApiParams, DecoratorFunction, ClientApiAddons, StoryApi } from './types';
 import { applyHooks } from './hooks';
 import StoryStore from './story_store';
@@ -187,6 +188,7 @@ export default class ClientApi {
       add: () => api,
       addDecorator: () => api,
       setPropertyValue: () => api,
+      clickProperty: () => api,
       addParameters: () => api,
     };
 
@@ -202,6 +204,12 @@ export default class ClientApi {
       this._storyStore.setPropertyValue(storyId, propName, propValue);
       return api;
     };
+
+    api.clickProperty = (storyId: string, propName: string, property: StoryProperty) => {
+      this._storyStore.clickProperty(storyId, propName, property);
+      return api;
+    };
+
     api.add = (storyName, storyFn, parameters = {}) => {
       hasAdded = true;
 

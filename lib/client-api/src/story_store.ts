@@ -9,6 +9,7 @@ import { Channel } from '@storybook/channels';
 import Events from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { Comparator, Parameters, StoryFn } from '@storybook/addons';
+import { StoryProperty } from '@storybook/api';
 import {
   DecoratorFunction,
   LegacyData,
@@ -94,26 +95,49 @@ export default class StoryStore extends EventEmitter {
     this._data = {} as any;
     this._revision = 0;
     this._selection = {} as any;
-    this._channel = params.channel;
+    this.setChannel(params.channel);
     this._error = undefined;
     this._kindOrder = {};
-    this._channel.on(
-      Events.STORY_SET_PROPERTY_VALUE,
-      ({ id, propertyName, value }: { id: string; propertyName: string; value: any }) => {
-        const story = this._data[id];
-        if (story) {
-          this._data[id] = {
-            ...story,
-            values: { ...story.values, [propertyName]: value },
-          };
-          params.channel.emit(Events.FORCE_RE_RENDER);
-        }
-      }
-    );
   }
 
   setChannel = (channel: Channel) => {
     this._channel = channel;
+    const onSetPropertyValue = ({
+      id,
+      propertyName,
+      value,
+    }: {
+      id: string;
+      propertyName: string;
+      value: any;
+    }) => {
+      const story = this._data[id];
+      if (story) {
+        this._data[id] = {
+          ...story,
+          values: { ...story.values, [propertyName]: value },
+        };
+        this._channel.emit(Events.FORCE_RE_RENDER);
+      }
+    };
+
+    const onClickProperty = ({
+      id,
+      propertyName,
+      property,
+    }: {
+      id: string;
+      propertyName: string;
+      property: StoryProperty;
+    }) => {
+      const story = this._data[id];
+      if (story) {
+        this.clickProperty(id, propertyName, property);
+        this._channel.emit(Events.FORCE_RE_RENDER);
+      }
+    };
+    this._channel.on(Events.STORY_SET_PROPERTY_VALUE, onSetPropertyValue);
+    this._channel.on(Events.STORY_CLICK_PROPERTY, onClickProperty);
   };
 
   // NEW apis
@@ -478,6 +502,17 @@ export default class StoryStore extends EventEmitter {
   setPropertyValue(id: string, propName: string, propValue: any) {
     if (this._data[id]) {
       this._data[id].values = { ...this._data[id].values, [propName]: propValue };
+    }
+  }
+
+  clickProperty(id: string, propName: string, property: StoryProperty) {
+    if (this._data[id]) {
+      if (this._data[id].properties && this._data[id].properties[propName]) {
+        const prop = this._data[id].properties[propName];
+        if (typeof prop.onClick === 'function') {
+          prop.onClick(property);
+        }
+      }
     }
   }
 }

@@ -69,6 +69,7 @@ export default class KnobManager {
   }
 
   getKnobValue({ value }: Knob) {
+    console.log('getKnobValue');
     return this.options.escapeHTML ? escapeStrings(value) : value;
   }
 
