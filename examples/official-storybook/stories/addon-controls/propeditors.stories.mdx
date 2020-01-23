@@ -1,0 +1,33 @@
+import {
+  Story,
+  Preview,
+  Props,
+  Source,
+  Meta,
+} from '@storybook/addon-docs/blocks';
+import { Button } from '@storybook/react/demo';
+
+<Meta
+  title="Addons/Controls/mdx"
+  component={Button}
+/>
+
+# Selected
+
+<Story id="." />
+
+<Source id="." />
+
+<Props of="." />
+
+
+<Preview>
+  <Story name="hello story" properties={{
+    text: { type: 'text', label: 'Text', defaultValue: 'Hello' },
+  }}>
+    {({ text}) => (
+      <Button>{text}</Button>
+    )}  
+  </Story>
+</Preview>
+

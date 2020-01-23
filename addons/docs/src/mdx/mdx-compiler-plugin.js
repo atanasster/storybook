@@ -109,6 +109,13 @@ function genStoryExport(ast, context) {
     statements.push(`${storyKey}.story.decorators = ${decos};`);
   }
 
+  let properties = getAttr(ast.openingElement, 'properties');
+  properties = properties && properties.expression;
+  if (properties) {
+    const { code: props } = generate(properties, {});
+    statements.push(`${storyKey}.story.properties = ${props};`);
+  }
+
   // eslint-disable-next-line no-param-reassign
   context.storyNameToKey[storyName] = storyKey;
 
