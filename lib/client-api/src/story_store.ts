@@ -9,7 +9,7 @@ import { Channel } from '@storybook/channels';
 import Events from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { Comparator, Parameters, StoryFn, StoryContext } from '@storybook/addons';
-import { StoryProperty } from '@storybook/api';
+import { StoryProperty, StoryProperties } from '@storybook/api';
 import {
   DecoratorFunction,
   LegacyData,
@@ -240,7 +240,7 @@ export default class StoryStore extends EventEmitter {
   };
 
   addStory(
-    { id, kind, name, storyFn: original, parameters = {}, properties = {} }: AddStoryArgs,
+    { id, kind, name, storyFn: original, parameters = {}, properties: props = {} }: AddStoryArgs,
     {
       getDecorators,
       applyDecorators,
@@ -251,6 +251,25 @@ export default class StoryStore extends EventEmitter {
   ) {
     const { _data } = this;
 
+    // handle properties such as
+    // properties: { text: 'Hello' }}
+    // will transform it into a 'text' propertye
+    const properties = Object.keys(props)
+      .map(key =>
+        typeof props[key] === 'string'
+          ? {
+              key,
+              p: {
+                type: 'text',
+                defaultValue: props[key],
+              },
+            }
+          : { key, p: props[key] }
+      )
+      .reduce(
+        (a: StoryProperties, { key, p }: { key: string; p: any }) => ({ ...a, [key]: p }),
+        {}
+      );
     if (_data[id]) {
       logger.warn(dedent`
         Story with id ${id} already exists in the store!
@@ -270,10 +289,11 @@ export default class StoryStore extends EventEmitter {
     const { legacyContextProp } = parameters.options || {};
     // immutable original storyFn
     const getOriginal = () => (context: StoryContext) => {
-      if (legacyContextProp) {
-        return original({ ...context.values, ...context });
-      }
       const { values, ...rest } = context;
+      if (legacyContextProp) {
+        return original({ ...values, ...rest });
+      }
+
       return original({ ...values }, rest);
     };
 
