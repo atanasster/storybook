@@ -19,8 +19,13 @@ export interface StoreItem extends StoryContext {
   getDecorated: () => StoryFn;
   getOriginal: () => StoryFn;
   story: string;
+  id: string;
+  kind: string;
+  name: string;
   storyFn: StoryFn;
   hooks: HooksContext;
+  parameters: Parameters;
+  properties?: StoryProperties;
 }
 
 export interface StoreData {

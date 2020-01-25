@@ -9,7 +9,7 @@ import { Channel } from '@storybook/channels';
 import Events from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { Comparator, Parameters, StoryFn, StoryContext } from '@storybook/addons';
-import { StoryProperty, StoryProperties } from '@storybook/api';
+import { StoryProperty, StoryPropertyButton } from '@storybook/api';
 import {
   DecoratorFunction,
   LegacyData,
@@ -101,7 +101,6 @@ export default class StoryStore extends EventEmitter {
   }
 
   setChannel = (channel: Channel) => {
-    this._channel = channel;
     const onSetPropertyValue = ({
       id,
       propertyName,
@@ -115,9 +114,12 @@ export default class StoryStore extends EventEmitter {
       if (story) {
         this._data[id] = {
           ...story,
-          values: { ...story.values, [propertyName]: value },
+          properties: {
+            ...story.properties,
+            [propertyName]: { ...story.properties[propertyName], value },
+          },
         };
-        this._channel.emit(Events.FORCE_RE_RENDER);
+        channel.emit(Events.FORCE_RE_RENDER);
       }
     };
 
@@ -136,6 +138,11 @@ export default class StoryStore extends EventEmitter {
         this._channel.emit(Events.FORCE_RE_RENDER);
       }
     };
+    if (this._channel) {
+      this._channel.off(Events.STORY_SET_PROPERTY_VALUE, onSetPropertyValue);
+      this._channel.off(Events.STORY_CLICK_PROPERTY, onClickProperty);
+    }
+    this._channel = channel;
     this._channel.on(Events.STORY_SET_PROPERTY_VALUE, onSetPropertyValue);
     this._channel.on(Events.STORY_CLICK_PROPERTY, onClickProperty);
   };
@@ -240,7 +247,7 @@ export default class StoryStore extends EventEmitter {
   };
 
   addStory(
-    { id, kind, name, storyFn: original, parameters = {}, properties: props = {} }: AddStoryArgs,
+    { id, kind, name, storyFn: original, parameters = {}, properties = {} }: AddStoryArgs,
     {
       getDecorators,
       applyDecorators,
@@ -251,25 +258,6 @@ export default class StoryStore extends EventEmitter {
   ) {
     const { _data } = this;
 
-    // handle properties such as
-    // properties: { text: 'Hello' }}
-    // will transform it into a 'text' propertye
-    const properties = Object.keys(props)
-      .map(key =>
-        typeof props[key] === 'string'
-          ? {
-              key,
-              p: {
-                type: 'text',
-                defaultValue: props[key],
-              },
-            }
-          : { key, p: props[key] }
-      )
-      .reduce(
-        (a: StoryProperties, { key, p }: { key: string; p: any }) => ({ ...a, [key]: p }),
-        {}
-      );
     if (_data[id]) {
       logger.warn(dedent`
         Story with id ${id} already exists in the store!
@@ -289,12 +277,15 @@ export default class StoryStore extends EventEmitter {
     const { legacyContextProp } = parameters.options || {};
     // immutable original storyFn
     const getOriginal = () => (context: StoryContext) => {
-      const { values, ...rest } = context;
+      const values = Object.keys(this._data[id].properties).reduce(
+        (acc, key) => ({ ...acc, [key]: this._data[id].properties[key].value }),
+        {}
+      );
       if (legacyContextProp) {
-        return original({ ...values, ...rest });
+        return original({ ...values, ...context });
       }
 
-      return original({ ...values }, rest);
+      return original(values, context);
     };
 
     // lazily decorate the story when it's loaded
@@ -304,12 +295,10 @@ export default class StoryStore extends EventEmitter {
 
     const hooks = new HooksContext();
 
-    const storyFn: StoryFn = p => {
-      const { values } = _data[id];
+    const storyFn: StoryFn = (p: any) => {
       return getDecorated()({
         ...identification,
         ...p,
-        values,
         properties,
         hooks,
         parameters: { ...parameters, ...(p && p.parameters) },
@@ -317,16 +306,17 @@ export default class StoryStore extends EventEmitter {
     };
     const reservedContextKeys = [
       ...Object.keys(identification),
-      ...['values', 'storyFn', 'properties', 'parameters', 'hooks'],
+      ...['storyFn', 'properties', 'parameters', 'hooks'],
     ];
-    const values = Object.keys(properties).reduce((v, key) => {
+    // save default value for 'reset'
+    const props = Object.keys(properties).reduce((v, key) => {
       if (legacyContextProp && reservedContextKeys.indexOf(key) >= 0) {
         logger.error(
           `Story "${identification.name}" in ${identification.kind} uses a reserved property id "${key}"`
         );
       }
       const prop = properties[key];
-      return { ...v, [key]: prop.defaultValue };
+      return { ...v, [key]: { ...prop, defaultVvalue: prop.value } };
     }, {});
     _data[id] = {
       ...identification,
@@ -334,8 +324,7 @@ export default class StoryStore extends EventEmitter {
       getDecorated,
       getOriginal,
       storyFn,
-      values,
-      properties,
+      properties: props,
       parameters,
     };
 
@@ -536,7 +525,10 @@ export default class StoryStore extends EventEmitter {
 
   setPropertyValue(id: string, propName: string, propValue: any) {
     if (this._data[id]) {
-      this._data[id].values = { ...this._data[id].values, [propName]: propValue };
+      this._data[id].properties = {
+        ...this._data[id].properties,
+        [propName]: { ...this._data[id].properties[propName], value: propValue },
+      };
     }
   }
 
@@ -544,8 +536,8 @@ export default class StoryStore extends EventEmitter {
     if (this._data[id]) {
       if (this._data[id].properties && this._data[id].properties[propName]) {
         const prop = this._data[id].properties[propName];
-        if (typeof prop.onClick === 'function') {
-          prop.onClick(property);
+        if (typeof (prop as StoryPropertyButton).onClick === 'function') {
+          (prop as StoryPropertyButton).onClick(property as StoryPropertyButton);
         }
       }
     }

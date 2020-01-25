@@ -2,7 +2,7 @@ import { DOCS_MODE } from 'global';
 import { toId, sanitize, parseKind } from '@storybook/csf';
 import deprecate from 'util-deprecate';
 import { STORY_SET_PROPERTY_VALUE, STORY_CLICK_PROPERTY } from '@storybook/core-events';
-import { StoryProperties, StoryValues, StoryProperty } from '../types';
+import { StoryProperties, StoryProperty } from '../properties';
 import { Module } from '../index';
 import merge from '../lib/merge';
 
@@ -63,7 +63,6 @@ export interface StoryInput {
     [parameterName: string]: any;
   };
   properties?: StoryProperties;
-  values?: StoryValues;
   isLeaf: boolean;
 }
 
@@ -135,13 +134,21 @@ const initStoriesApi = ({
   ) {
     const state = store.getState();
     const { storiesHash } = state;
-    const newHash = {
-      ...storiesHash,
-      [storyId]: {
-        ...storiesHash[storyId],
-        values: { ...(storiesHash[storyId] as StoryInput).values, [propertyName]: value },
+    const newStoryHash = {
+      ...storiesHash[storyId],
+      properties: {
+        ...(storiesHash[storyId] as StoryInput).properties,
+        [propertyName]: {
+          ...(storiesHash[storyId] as StoryInput).properties[propertyName],
+          value,
+        },
       },
     };
+    const newHash = {
+      ...storiesHash,
+      [storyId]: newStoryHash,
+    };
+
     store.setState({
       storiesHash: newHash,
     });

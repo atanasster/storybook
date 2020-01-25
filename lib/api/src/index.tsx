@@ -46,7 +46,7 @@ import initVersions, {
   SubAPI as VersionsAPI,
 } from './modules/versions';
 
-export { StoryProperties, StoryValues, StoryProperty } from './types';
+export * from './properties';
 
 export { Options as StoreOptions, Listener as ChannelListener };
 

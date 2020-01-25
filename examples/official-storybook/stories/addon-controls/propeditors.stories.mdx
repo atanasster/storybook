@@ -23,7 +23,7 @@ import { Button } from '@storybook/react/demo';
 
 <Preview>
   <Story name="hello story" properties={{
-    text: 'Hello',
+    text: {type: 'text', value: 'Hello'},
   }}>
     {({ text}) => (
       <Button>{text}</Button>

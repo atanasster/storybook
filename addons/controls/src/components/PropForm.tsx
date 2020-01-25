@@ -1,51 +1,27 @@
-import React, { Component, ComponentType } from 'react';
-import { StoryProperty } from '@storybook/api';
+import React, { ComponentType } from 'react';
 import { Form } from '@storybook/components';
-import { getKnobControl } from './types';
-import { StoryPropertiesArray } from '../KnobStore';
+import { StoryProperties, StoryProperty } from '@storybook/api';
+import { getPropertyEditor } from '@storybook/prop-editors';
 
 interface PropFormProps {
-  props: StoryPropertiesArray;
-  onFieldChange: (changedKnob: StoryProperty) => void;
-  onFieldClick: (knob: StoryProperty) => void;
+  props: StoryProperties;
+  onFieldChange: (name: string, newValue: any) => void;
+  onFieldClick: (name: string, prop: StoryProperty) => void;
 }
 
 const InvalidType = () => <span>Invalid Type</span>;
 
-export default class PropForm extends Component<PropFormProps> {
-  static displayName = 'PropForm';
+export const PropForm: React.FC<PropFormProps> = ({ props, onFieldChange, onFieldClick }) => (
+  <Form>
+    {Object.keys(props).map(name => {
+      const prop: StoryProperty = props[name];
+      const InputType: ComponentType<any> = getPropertyEditor(prop.type) || InvalidType;
 
-  static defaultProps = {
-    props: [] as StoryPropertiesArray,
-    onFieldChange: () => {},
-    onFieldClick: () => {},
-  };
-
-  makeChangeHandler(name: string, type: string) {
-    const { onFieldChange } = this.props;
-    return (value = '') => {
-      const change: StoryProperty = { name, type, value } as any;
-
-      onFieldChange(change);
-    };
-  }
-
-  render() {
-    const { props, onFieldClick } = this.props;
-
-    return (
-      <Form>
-        {props.map(prop => {
-          const changeHandler = this.makeChangeHandler(prop.name, prop.type);
-          const InputType: ComponentType<any> = getKnobControl(prop.type) || InvalidType;
-
-          return (
-            <Form.Field key={prop.name} label={!prop.hideLabel && `${prop.label || prop.name}`}>
-              <InputType knob={prop} onChange={changeHandler} onClick={onFieldClick} />
-            </Form.Field>
-          );
-        })}
-      </Form>
-    );
-  }
-}
+      return (
+        <Form.Field key={name} label={!prop.hideLabel && `${prop.label || name}`}>
+          <InputType prop={prop} name={name} onChange={onFieldChange} onClick={onFieldClick} />
+        </Form.Field>
+      );
+    })}
+  </Form>
+);

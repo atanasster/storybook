@@ -1,0 +1,54 @@
+{
+  "name": "@storybook/prop-editors",
+  "version": "6.0.0-alpha.1",
+  "description": "Core Storybook Property Editor Components",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/prop-editors",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "lib/prop-editors"
+  },
+  "license": "MIT",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepare": "node ../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@storybook/api": "6.0.0-alpha.1",
+    "@storybook/components": "6.0.0-alpha.1",
+    "@storybook/theming": "6.0.0-alpha.1",
+    "fast-deep-equal": "^3.1.1",
+    "global": "^4.3.2",
+    "react": "^16.8.3",
+    "react-color": "^2.17.0",
+    "react-dom": "^16.8.3",
+    "react-select": "^3.0.8"
+  },
+  "devDependencies": {
+    "@types/react-color": "^3.0.1",
+    "@types/react-select": "^2.0.19",
+    "enzyme": "^3.9.0",
+    "jest": "^24.7.1",
+    "jest-enzyme": "^7.0.2"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

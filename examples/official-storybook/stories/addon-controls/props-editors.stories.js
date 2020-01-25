@@ -10,13 +10,11 @@ export default {
 export const textDefaultProp = ({ text }) => text;
 textDefaultProp.story = {
   properties: {
-    text: 'Hello',
+    text: { type: 'text', value: 'Hello' },
   },
 };
 
-export const selectProp = ({ value }) => (
-  <div>{JSON.stringify({ value: String(value) }, null, 2)}</div>
-);
+export const selectProp = ({ value }) => <div>{JSON.stringify({ value }, null, 2)}</div>;
 
 selectProp.propTypes = {
   value: PropTypes.string,
@@ -31,7 +29,7 @@ selectProp.story = {
     value: {
       type: 'options',
       label: 'Select',
-      defaultValue: 1,
+      value: 1,
       options: [1, 2, 3, undefined, null],
       display: 'select',
     },
@@ -62,7 +60,10 @@ export const tweaksStaticValues = ({
   return (
     <div style={style}>
       <p>{intro}</p>
-      <p>My birthday is: {new Date(birthday).toLocaleDateString('en-US', dateOptions)}</p>
+      <p>
+        My birthday is: {new Date(birthday).toLocaleDateString('en-US', dateOptions)} at:
+        {new Date(birthday).toLocaleTimeString()}
+      </p>
       <p>I live in NY for {years} years.</p>
       <p>My wallet contains: ${dollars.toFixed(2)}</p>
       <p>In my backpack, I have:</p>
@@ -118,13 +119,13 @@ tweaksStaticValues.story = {
     userName: {
       type: 'text',
       label: 'Name',
-      defaultValue: 'Storyteller',
+      value: 'Storyteller',
       groupId: GROUP_IDS.GENERAL,
     },
     age: {
       type: 'number',
       label: 'Age',
-      defaultValue: 78,
+      value: 78,
       range: true,
       min: 0,
       max: 90,
@@ -134,31 +135,31 @@ tweaksStaticValues.story = {
     birthday: {
       type: 'date',
       label: 'Birthday',
-      defaultValue: new Date(),
+      value: new Date(),
       groupId: GROUP_IDS.GENERAL,
     },
     dollars: {
       type: 'number',
       label: 'Dollars',
-      defaultValue: 12.5,
+      value: 12.5,
       min: 0,
       max: 100,
       step: 0.01,
       groupId: GROUP_IDS.GENERAL,
     },
-    years: { type: 'number', label: 'Years in NY', defaultValue: 9, groupId: GROUP_IDS.GENERAL },
-    nice: { type: 'boolean', label: 'Nice', defaultValue: true, groupId: GROUP_IDS.FAVORITES },
+    years: { type: 'number', label: 'Years in NY', value: 9, groupId: GROUP_IDS.GENERAL },
+    nice: { type: 'boolean', label: 'Nice', value: true, groupId: GROUP_IDS.FAVORITES },
     items: {
       type: 'array',
       label: 'Items',
-      defaultValue: ['Laptop', 'Book', 'Whiskey'],
+      value: ['Laptop', 'Book', 'Whiskey'],
       groupId: GROUP_IDS.FAVORITES,
     },
 
     fruit: {
       type: 'options',
       label: 'Fruit',
-      defaultValue: 'apple',
+      value: 'apple',
       options: {
         Apple: 'apple',
         Banana: 'banana',
@@ -169,7 +170,7 @@ tweaksStaticValues.story = {
     otherFruit: {
       type: 'options',
       label: 'Other Fruit',
-      defaultValue: 'watermelon',
+      value: 'watermelon',
       options: {
         Kiwi: 'kiwi',
         Guava: 'guava',
@@ -179,27 +180,27 @@ tweaksStaticValues.story = {
       groupId: GROUP_IDS.FAVORITES,
     },
     dog: {
-      type: 'select',
+      type: 'options',
       options: arrayOfObjects,
-      defaultValue: arrayOfObjects[0],
+      value: arrayOfObjects[0],
       groupId: GROUP_IDS.FAVORITES,
     },
     backgroundColor: {
       type: 'color',
-      defaultValue: '#dedede',
+      value: '#dedede',
       groupId: GROUP_IDS.DISPLAY,
     },
 
     color: {
       type: 'color',
-      defaultValue: '#000000',
+      value: '#000000',
       groupId: GROUP_IDS.DISPLAY,
     },
 
     otherStyles: {
       type: 'object',
       label: 'Styles',
-      defaultValue: {
+      value: {
         border: '2px dashed silver',
         borderRadius: 10,
         padding: 10,
@@ -210,7 +211,7 @@ tweaksStaticValues.story = {
       type: 'files',
       label: 'Happy Picture',
       accept: 'image/*',
-      defaultValue: [
+      value: [
         'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfiARwMCyEWcOFPAAAAP0lEQVQoz8WQMQoAIAwDL/7/z3GwghSp4KDZyiUpBMCYUgd8rehtH16/l3XewgU2KAzapjXBbNFaPS6lDMlKB6OiDv3iAH1OAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTAxLTI4VDEyOjExOjMzLTA3OjAwlAHQBgAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0wMS0yOFQxMjoxMTozMy0wNzowMOVcaLoAAAAASUVORK5CYII=',
       ],
       groupId: GROUP_IDS.DISPLAY,
@@ -238,7 +239,7 @@ dynamicProps.story = {
     showOptional: {
       type: 'options',
       label: 'Show optional',
-      defaultValue: 'yes',
+      value: 'yes',
       options: ['yes', 'no'],
       display: 'select',
     },
@@ -263,7 +264,7 @@ complexSelect.propTypes = {
 complexSelect.story = {
   properties: {
     m: {
-      type: 'select',
+      type: 'options',
       label: 'complex',
       options: {
         number: 1,
@@ -272,7 +273,7 @@ complexSelect.story = {
         array: [1, 2, 3],
         function: () => {},
       },
-      defaultValue: 'string',
+      value: 'string',
     },
   },
 };
@@ -331,7 +332,7 @@ optionsProperties.story = {
         Tuesday: 'Tuesday',
         Wednesday: 'Wednesday',
       },
-      defaultValue: 'Tuesday',
+      value: 'Tuesday',
       display: 'radio',
     },
     optionInlineRadio: {
@@ -341,7 +342,7 @@ optionsProperties.story = {
         Saturday: 'Saturday',
         Sunday: 'Sunday',
       },
-      defaultValue: 'Saturday',
+      value: 'Saturday',
       display: 'inline-radio',
     },
     optionSelect: {
@@ -352,7 +353,7 @@ optionsProperties.story = {
         February: 'February',
         March: 'March',
       },
-      defaultValue: 'January',
+      value: 'January',
       display: 'select',
     },
     optionsMultiSelect: {
@@ -363,7 +364,7 @@ optionsProperties.story = {
         Banana: 'banana',
         Cherry: 'cherry',
       },
-      defaultValue: ['apple'],
+      value: ['apple'],
       display: 'multi-select',
     },
     optionsCheck: {
@@ -374,7 +375,7 @@ optionsProperties.story = {
         Carrot: 'carrot',
         Cucumber: 'cucumber',
       },
-      defaultValue: ['carrot'],
+      value: ['carrot'],
       display: 'check',
     },
     optionsInlineCheck: {
@@ -385,7 +386,7 @@ optionsProperties.story = {
         Cheese: 'cheese',
         Butter: 'butter',
       },
-      defaultValue: ['milk'],
+      value: ['milk'],
       display: 'inline-check',
     },
   },
@@ -453,9 +454,10 @@ export const radioEnum = ({ radio }) => radio;
 radioEnum.story = {
   properties: {
     radio: {
-      type: 'radios',
+      type: 'options',
       label: 'Radio',
-      defaultValue: 'Monday',
+      value: 'Monday',
+      display: 'radio',
       options: {
         Monday: 'Monday',
         Tuesday: 'Tuesday',
@@ -469,6 +471,6 @@ export const reservedKeyword = ({ values }) => values;
 
 reservedKeyword.story = {
   properties: {
-    values: { type: 'text', label: 'Text', defaultValue: 'Hello' },
+    values: { type: 'text', label: 'Text', value: 'Hello' },
   },
 };

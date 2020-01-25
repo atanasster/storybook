@@ -1,28 +1,14 @@
 import React, { PureComponent } from 'react';
 import qs from 'qs';
 import { document } from 'global';
-import {
-  StoryProperty,
-  StoryProperties,
-  StoryValues,
-  Combo,
-  Consumer,
-  API,
-  StoryInput,
-} from '@storybook/api';
+import { StoryProperties, StoryProperty, Combo, Consumer, API, StoryInput } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import copy from 'copy-to-clipboard';
 
-import { STORY_CHANGED } from '@storybook/core-events';
 import { TabWrapper, TabsState, ActionBar, ScrollArea } from '@storybook/components';
-
 import { NoProperties } from './NoProperties';
 
-import { SET, CHANGE } from '../shared';
-
-import { getKnobControl } from './types';
-import PropForm from './PropForm';
-import { KnobStoreKnob, StoryPropertiesArray } from '../KnobStore';
+import { PropForm } from './PropForm';
 
 const getTimestamp = () => +new Date();
 
@@ -48,10 +34,6 @@ interface KnobPanelProps {
   api: API;
 }
 
-interface KnobPanelState {
-  knobs: Record<string, KnobStoreKnob>;
-}
-
 interface KnobPanelOptions {
   timestamps?: boolean;
 }
@@ -59,69 +41,55 @@ interface KnobPanelOptions {
 interface MapperReturnProps {
   story?: StoryInput;
   properties?: StoryProperties;
-  values?: StoryValues;
 }
 const mapper = ({ state }: Combo): MapperReturnProps => {
   const { storyId } = state;
   if (!state.storiesHash[storyId]) {
     return {};
   }
-  const { properties, values } = state.storiesHash[state.storyId] as StoryInput;
-  return { story: state.storiesHash[storyId] as StoryInput, properties, values };
+  const { properties } = state.storiesHash[state.storyId] as StoryInput;
+  return { story: state.storiesHash[storyId] as StoryInput, properties };
 };
 
-const copyProps = (props: StoryPropertiesArray) => {
+const copyProps = (props: StoryProperties) => {
   const { location } = document;
   const query = qs.parse(location.search, { ignoreQueryPrefix: true });
-
-  props.forEach(prop => {
-    query[`knob-${prop.name}`] = getKnobControl(prop.type).serialize(prop.value);
-  });
 
   copy(`${location.origin + location.pathname}?${qs.stringify(query, { encode: false })}`);
 };
 
-const handlePropChange = (
-  api: API,
-  story: StoryInput,
-  props: StoryPropertiesArray,
-  changedKnob: StoryProperty
-) => {
+const handlePropChange = (api: API, story: StoryInput, name: string, newValue: any) => {
   const { setPropertyValue } = api;
-  const { value } = changedKnob;
-  setPropertyValue(story.id, changedKnob.name, value);
-  const queryParams: { [key: string]: any } = {};
-
-  props.forEach(p => {
-    const prop = p.name === changedKnob.name ? changedKnob : p;
-    queryParams[`knob-${prop.name}`] = getKnobControl(p.type).serialize(prop.value);
-  });
-
-  // api.setQueryParams(queryParams);
+  setPropertyValue(story.id, name, newValue);
 };
 
-const handlePropClick = (api: API, storyId: string, knob: StoryProperty) => {
+const handlePropClick = (api: API, storyId: string, name: string, prop: StoryProperty) => {
   const { clickProperty } = api;
-  clickProperty(storyId, knob.name, knob);
+  clickProperty(storyId, name, prop);
 };
 
-const propEntries = (api: API, story: StoryInput, props: StoryPropertiesArray) => {
+const propEntries = (api: API, story: StoryInput, props: StoryProperties) => {
   const groups: Record<string, PanelKnobGroups> = {};
   const groupIds: string[] = [];
 
-  const handleClick = (prop: StoryProperty) => {
-    handlePropClick(api, story.id, prop);
+  const handleClick = (name: string, prop: StoryProperty) => {
+    handlePropClick(api, story.id, name, prop);
   };
-  props.forEach(prop => {
+  Object.keys(props).forEach(key => {
+    const prop: StoryProperty = props[key];
     const knobKeyGroupId = prop.groupId || DEFAULT_GROUP_ID;
     groupIds.push(knobKeyGroupId);
     groups[knobKeyGroupId] = {
       render: ({ active }) => (
         <TabWrapper key={knobKeyGroupId} active={active}>
           <PropForm
-            // eslint-disable-next-line react/destructuring-assignment
-            props={props.filter(p => (p.groupId || DEFAULT_GROUP_ID) === knobKeyGroupId)}
-            onFieldChange={changedKnob => handlePropChange(api, story, props, changedKnob)}
+            props={Object.keys(props)
+              .filter(k => {
+                const p = props[k];
+                return (p.groupId || DEFAULT_GROUP_ID) === knobKeyGroupId;
+              })
+              .reduce((acc: StoryProperties, k: string) => ({ ...acc, [k]: props[k] }), {})}
+            onFieldChange={(name, newValue) => handlePropChange(api, story, name, newValue)}
             onFieldClick={handleClick}
           />
         </TabWrapper>
@@ -148,10 +116,6 @@ export default class KnobPanel extends PureComponent<KnobPanelProps> {
     active: true,
   };
 
-  state: KnobPanelState = {
-    knobs: {},
-  };
-
   options: KnobPanelOptions = {};
 
   lastEdit: number = getTimestamp();
@@ -159,93 +123,6 @@ export default class KnobPanel extends PureComponent<KnobPanelProps> {
   loadedFromUrl = false;
 
   mounted = false;
-
-  componentDidMount() {
-    this.mounted = true;
-    const { api } = this.props;
-    api.on(SET, this.setKnobs);
-
-    this.stopListeningOnStory = api.on(STORY_CHANGED, () => {
-      if (this.mounted) {
-        this.setKnobs({ knobs: {} });
-      }
-      this.setKnobs({ knobs: {} });
-    });
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-    const { api } = this.props;
-
-    api.off(SET, this.setKnobs);
-    this.stopListeningOnStory();
-  }
-
-  setKnobs = ({
-    knobs,
-    timestamp,
-  }: {
-    knobs: Record<string, KnobStoreKnob>;
-    timestamp?: number;
-  }) => {
-    const queryParams: Record<string, any> = {};
-    const { api } = this.props;
-
-    if (!this.options.timestamps || !timestamp || this.lastEdit <= timestamp) {
-      Object.keys(knobs).forEach(name => {
-        const knob = knobs[name];
-        // For the first time, get values from the URL and set them.
-        if (!this.loadedFromUrl) {
-          const urlValue = api.getQueryParam(`knob-${name}`);
-
-          // If the knob value present in url
-          if (urlValue !== undefined) {
-            const value = getKnobControl(knob.type).deserialize(urlValue);
-            knob.value = value;
-            queryParams[`knob-${name}`] = getKnobControl(knob.type).serialize(value);
-
-            api.emit(CHANGE, knob);
-          }
-        }
-      });
-
-      api.setQueryParams(queryParams);
-      this.setState({ knobs });
-
-      this.loadedFromUrl = true;
-    }
-  };
-
-  emitChange = (changedKnob: KnobStoreKnob) => {
-    const { api } = this.props;
-
-    api.emit(CHANGE, changedKnob);
-  };
-
-  handleChange = (changedKnob: KnobStoreKnob) => {
-    this.lastEdit = getTimestamp();
-    const { api } = this.props;
-    const { knobs } = this.state;
-    const { name } = changedKnob;
-    const newKnobs = { ...knobs };
-    newKnobs[name] = {
-      ...newKnobs[name],
-      ...changedKnob,
-    };
-
-    this.setState({ knobs: newKnobs }, () => {
-      this.emitChange(changedKnob);
-
-      const queryParams: { [key: string]: any } = {};
-
-      Object.keys(newKnobs).forEach(n => {
-        const knob = newKnobs[n];
-        queryParams[`knob-${n}`] = getKnobControl(knob.type).serialize(knob.value);
-      });
-
-      api.setQueryParams(queryParams);
-    });
-  };
 
   stopListeningOnStory!: Function;
 
@@ -256,20 +133,20 @@ export default class KnobPanel extends PureComponent<KnobPanelProps> {
     }
     return (
       <Consumer filter={mapper}>
-        {props => {
-          const { properties, values, story } = props as MapperReturnProps;
-          const propsArray: StoryPropertiesArray = properties
+        {p => {
+          const { properties, story } = p as MapperReturnProps;
+          const props: StoryProperties = properties
             ? Object.keys(properties)
                 .filter(key => !properties[key].hidden)
-                .reduce((a: StoryPropertiesArray, key: string) => {
+                .reduce((a, key: string) => {
                   const prop = properties[key];
-                  return [...a, { ...prop, name: key, value: values ? values[key] : undefined }];
-                }, [])
-            : [];
-          if (!story || !propsArray.length) {
+                  return { ...a, [key]: prop };
+                }, {})
+            : {};
+          if (!story || !Object.keys(props).length) {
             return <NoProperties />;
           }
-          const entries = propEntries(api, story, propsArray);
+          const entries = propEntries(api, story, props);
           // console.log(entries);
           return (
             <>
@@ -284,19 +161,17 @@ export default class KnobPanel extends PureComponent<KnobPanelProps> {
                   </TabsState>
                 ) : (
                   <PropForm
-                    props={propsArray}
-                    onFieldChange={changedKnob =>
-                      handlePropChange(api, story, propsArray, changedKnob)
-                    }
-                    onFieldClick={prop => {
-                      handlePropClick(api, story.id, prop);
+                    props={props}
+                    onFieldChange={(name, newValue) => handlePropChange(api, story, name, newValue)}
+                    onFieldClick={(name, prop) => {
+                      handlePropClick(api, story.id, name, prop);
                     }}
                   />
                 )}
               </PanelWrapper>
               <ActionBar
                 actionItems={[
-                  { title: 'Copy', onClick: () => copyProps(propsArray) },
+                  { title: 'Copy', onClick: () => copyProps(props) },
                   { title: 'Reset', onClick: () => {} },
                 ]}
               />

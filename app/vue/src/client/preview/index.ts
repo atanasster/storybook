@@ -75,7 +75,7 @@ function decorateStory(
   decorators: DecoratorFunction<VueConstructor>[]
 ): StoryFn<VueConstructor> {
   return decorators.reduce(
-    (decorated: StoryFn<VueConstructor>, decorator) => (context: StoryContext = defaultContext) => {
+    (decorated: StoryFn<VueConstructor>, decorator) => (context: any = defaultContext) => {
       let story;
 
       const decoratedStory = decorator(p => {
