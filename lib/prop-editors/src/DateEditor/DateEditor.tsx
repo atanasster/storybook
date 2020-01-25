@@ -85,23 +85,28 @@ export const DateEditor: PropertyEditor<DateEditorProps> = ({ prop, name, onChan
       setValid(isValid);
     }
   };
+  const { datePicker = true, timePicker = true } = prop;
   return name ? (
     <FlexSpaced style={{ display: 'flex' }}>
-      <FlexInput
-        type="date"
-        max="9999-12-31" // I do this because of a rendering bug in chrome
-        ref={dateInputRef}
-        id={`${name}date`}
-        name={`${name}date`}
-        onChange={onDateChange}
-      />
-      <FlexInput
-        type="time"
-        id={`${name}time`}
-        name={`${name}time`}
-        ref={timeInputRef}
-        onChange={onTimeChange}
-      />
+      {datePicker && (
+        <FlexInput
+          type="date"
+          max="9999-12-31" // I do this because of a rendering bug in chrome
+          ref={dateInputRef}
+          id={`${name}date`}
+          name={`${name}date`}
+          onChange={onDateChange}
+        />
+      )}
+      {timePicker && (
+        <FlexInput
+          type="time"
+          id={`${name}time`}
+          name={`${name}time`}
+          ref={timeInputRef}
+          onChange={onTimeChange}
+        />
+      )}
       {!valid ? <div>invalid</div> : null}
     </FlexSpaced>
   ) : null;

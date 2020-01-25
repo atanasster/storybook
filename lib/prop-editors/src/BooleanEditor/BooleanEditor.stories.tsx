@@ -3,7 +3,7 @@ import { PropertyTypes } from '@storybook/api';
 import { BooleanEditor } from './BooleanEditor';
 
 export default {
-  title: 'Other/BooleanEditor',
+  title: 'Other/PropEditors/BooleanEditor',
   component: BooleanEditor,
 };
 

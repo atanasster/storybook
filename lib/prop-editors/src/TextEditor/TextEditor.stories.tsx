@@ -3,7 +3,7 @@ import { PropertyTypes } from '@storybook/api';
 import { TextEditor } from './TextEditor';
 
 export default {
-  title: 'Other/TextEditor',
+  title: 'Other/PropEditors/TextEditor',
   component: TextEditor,
 };
 

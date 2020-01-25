@@ -165,6 +165,18 @@ export interface StoryPropertyColor extends StoryPropertyBase<string> {
 
 export interface StoryPropertyDate extends StoryPropertyBase<Date> {
   type: PropertyTypes.DATE;
+  /**
+   * whether to display a date picker (calendar).
+   * default: true
+   */
+  datePicker?: boolean;
+
+  /**
+   * whether to display a time picker (calendar).
+   * default: true
+   */
+
+  timePicker?: boolean;
 }
 
 export interface StoryPropertyFiles extends StoryPropertyBase<string[]> {
@@ -179,7 +191,7 @@ export interface StoryPropertyFiles extends StoryPropertyBase<string[]> {
 export interface StoryPropertyArray extends StoryPropertyBase<string[]> {
   type: PropertyTypes.ARRAY;
   /**
-   * the array items separator, by dfault comma
+   * the array items separator, by default comma
    */
   separator?: string;
 }
@@ -197,8 +209,17 @@ export interface StoryPropertyButton extends StoryPropertyBase<void> {
   onClick?: (prop: StoryPropertyButton) => void;
 }
 
-export type OptionsValueType = string | string[] | { [key: string]: string };
-export type OptionsListType = { [key: string]: OptionsValueType } | OptionsValueType[];
+export type OptionsValueType =
+  | string
+  | number
+  | string[]
+  | number[]
+  | { label: string; value: any };
+
+/**
+ * value/label pairs or array of OptionsValueType
+ */
+export type OptionsListType = { [key: string]: string } | OptionsValueType[];
 
 /**
  * list of options can be

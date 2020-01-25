@@ -3,7 +3,7 @@ import { PropertyTypes } from '@storybook/api';
 import { ButtonEditor } from './ButtonEditor';
 
 export default {
-  title: 'Other/ButtonEditor',
+  title: 'Other/PropEditors/ButtonEditor',
   component: ButtonEditor,
 };
 

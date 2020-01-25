@@ -1,14 +1,14 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { StoryPropertyOptions, OptionsValueType } from '@storybook/api';
+import { StoryPropertyOptions } from '@storybook/api';
+import { normalizeOptions, NormalizedOption } from './utils';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 interface RadiosEditorProps extends PropertyControlProps {
   prop: StoryPropertyOptions;
-  isInline: boolean;
 }
 
-const RadiosWrapper = styled.div<Pick<RadiosEditorProps, 'isInline'>>(({ isInline }) =>
+const RadiosWrapper = styled.div<{ isInline: boolean }>(({ isInline }) =>
   isInline
     ? {
         display: 'flex',
@@ -27,37 +27,31 @@ const RadioLabel = styled.label({
   display: 'inline-block',
 });
 
-export const RadiosEditor: PropertyEditor<RadiosEditorProps> = ({
-  prop,
-  name,
-  onChange,
-  isInline = false,
-}) => {
-  const renderRadioButton = (label: string, value: OptionsValueType) => {
-    const opts = { label, value };
-    const id = `${name}-${opts.value}`;
-
+export const RadiosEditor: PropertyEditor<RadiosEditorProps> = ({ prop, name, onChange }) => {
+  const renderRadioButton = (entry: NormalizedOption) => {
+    const id = `${entry.label}-${entry.value}`;
     return (
       <div key={id}>
         <input
           type="radio"
           id={id}
-          name={name}
-          value={(opts.value as string | string[] | number) || undefined}
+          name={entry.label}
+          value={entry.value}
           onChange={e => onChange(name, e.target.value)}
-          checked={value === prop.value}
+          checked={
+            entry.value === prop.value ||
+            (typeof entry.value.toString === 'function' && entry.value.toString() === prop.value)
+          }
         />
-        <RadioLabel htmlFor={id}>{label}</RadioLabel>
+        <RadioLabel htmlFor={id}>{entry.label}</RadioLabel>
       </div>
     );
   };
   const renderRadioButtonList = () => {
-    const { options } = prop;
-    if (Array.isArray(options)) {
-      return (options as OptionsValueType[]).map(val => renderRadioButton(val as string, val));
-    }
-    return Object.keys(options).map(key => renderRadioButton(key, options[key]));
+    const { options, value } = prop;
+    const { entries, selected } = normalizeOptions(options, value);
+    return entries.map(entry => renderRadioButton(entry));
   };
-
+  const isInline = prop.display === 'inline-radio';
   return <RadiosWrapper isInline={isInline}>{renderRadioButtonList()}</RadiosWrapper>;
 };

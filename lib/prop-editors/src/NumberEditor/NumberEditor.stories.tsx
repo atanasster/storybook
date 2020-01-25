@@ -3,7 +3,7 @@ import { PropertyTypes } from '@storybook/api';
 import { NumberEditor } from './NumberEditor';
 
 export default {
-  title: 'Other/NumberEditor',
+  title: 'Other/PropEditors/NumberEditor',
   component: NumberEditor,
 };
 
