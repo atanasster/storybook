@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import qs from 'qs';
 import { document } from 'global';
 import { StoryProperties, StoryProperty, Combo, Consumer, API, StoryInput } from '@storybook/api';
@@ -9,8 +9,6 @@ import { TabWrapper, TabsState, ActionBar, ScrollArea } from '@storybook/compone
 import { NoProperties } from './NoProperties';
 
 import { PropForm } from './PropForm';
-
-const getTimestamp = () => +new Date();
 
 export const DEFAULT_GROUP_ID = 'Other';
 
@@ -23,19 +21,14 @@ const PanelWrapper = styled(({ children, className }) => (
   width: '100%',
 });
 
-interface PanelKnobGroups {
+interface PanelPropsGroups {
   title: string;
-  render: (knob: any) => any;
+  render: (props: any) => any;
 }
 
-interface KnobPanelProps {
+interface PropsPanelProps {
   active: boolean;
-  onReset?: object;
   api: API;
-}
-
-interface KnobPanelOptions {
-  timestamps?: boolean;
 }
 
 interface MapperReturnProps {
@@ -69,7 +62,7 @@ const handlePropClick = (api: API, storyId: string, name: string, prop: StoryPro
 };
 
 const propEntries = (api: API, story: StoryInput, props: StoryProperties) => {
-  const groups: Record<string, PanelKnobGroups> = {};
+  const groups: Record<string, PanelPropsGroups> = {};
   const groupIds: string[] = [];
 
   const handleClick = (name: string, prop: StoryProperty) => {
@@ -77,108 +70,95 @@ const propEntries = (api: API, story: StoryInput, props: StoryProperties) => {
   };
   Object.keys(props).forEach(key => {
     const prop: StoryProperty = props[key];
-    const knobKeyGroupId = prop.groupId || DEFAULT_GROUP_ID;
-    groupIds.push(knobKeyGroupId);
-    groups[knobKeyGroupId] = {
+    const propKeyGroupId = prop.groupId || DEFAULT_GROUP_ID;
+    groupIds.push(propKeyGroupId);
+    groups[propKeyGroupId] = {
       render: ({ active }) => (
-        <TabWrapper key={knobKeyGroupId} active={active}>
+        <TabWrapper key={propKeyGroupId} active={active}>
           <PropForm
             props={Object.keys(props)
               .filter(k => {
                 const p = props[k];
-                return (p.groupId || DEFAULT_GROUP_ID) === knobKeyGroupId;
+                return (p.groupId || DEFAULT_GROUP_ID) === propKeyGroupId;
               })
               .reduce((acc: StoryProperties, k: string) => ({ ...acc, [k]: props[k] }), {})}
-            onFieldChange={(name, newValue) => handlePropChange(api, story, name, newValue)}
+            onFieldChange={(name: string, newValue: any) =>
+              handlePropChange(api, story, name, newValue)
+            }
             onFieldClick={handleClick}
           />
         </TabWrapper>
       ),
-      title: knobKeyGroupId,
+      title: propKeyGroupId,
     };
   });
 
   // Always sort DEFAULT_GROUP_ID (ungrouped) tab last without changing the remaining tabs
-  const sortEntries = (g: Record<string, PanelKnobGroups>): [string, PanelKnobGroups][] => {
+  const sortEntries = (g: Record<string, PanelPropsGroups>): [string, PanelPropsGroups][] => {
     const unsortedKeys = Object.keys(g);
     if (unsortedKeys.includes(DEFAULT_GROUP_ID)) {
       const sortedKeys = unsortedKeys.filter(key => key !== DEFAULT_GROUP_ID);
       sortedKeys.push(DEFAULT_GROUP_ID);
-      return sortedKeys.map<[string, PanelKnobGroups]>(key => [key, g[key]]);
+      return sortedKeys.map<[string, PanelPropsGroups]>(key => [key, g[key]]);
     }
     return Object.entries(g);
   };
 
   return sortEntries(groups);
 };
-export default class KnobPanel extends PureComponent<KnobPanelProps> {
-  static defaultProps = {
-    active: true,
-  };
-
-  options: KnobPanelOptions = {};
-
-  lastEdit: number = getTimestamp();
-
-  loadedFromUrl = false;
-
-  mounted = false;
-
-  stopListeningOnStory!: Function;
-
-  render() {
-    const { api, active: panelActive } = this.props;
-    if (!panelActive) {
-      return null;
-    }
-    return (
-      <Consumer filter={mapper}>
-        {p => {
-          const { properties, story } = p as MapperReturnProps;
-          const props: StoryProperties = properties
-            ? Object.keys(properties)
-                .filter(key => !properties[key].hidden)
-                .reduce((a, key: string) => {
-                  const prop = properties[key];
-                  return { ...a, [key]: prop };
-                }, {})
-            : {};
-          if (!story || !Object.keys(props).length) {
-            return <NoProperties />;
-          }
-          const entries = propEntries(api, story, props);
-          // console.log(entries);
-          return (
-            <>
-              <PanelWrapper>
-                {entries.length > 1 ? (
-                  <TabsState>
-                    {entries.map(([k, v]) => (
-                      <div id={k} key={k} title={v.title}>
-                        {v.render}
-                      </div>
-                    ))}
-                  </TabsState>
-                ) : (
-                  <PropForm
-                    props={props}
-                    onFieldChange={(name, newValue) => handlePropChange(api, story, name, newValue)}
-                    onFieldClick={(name, prop) => {
-                      handlePropClick(api, story.id, name, prop);
-                    }}
-                  />
-                )}
-              </PanelWrapper>
-              <ActionBar
-                actionItems={[
-                  { title: 'Copy', onClick: () => copyProps(props) },
-                  { title: 'Reset', onClick: () => {} },
-                ]}
-              />
-            </>
-          );
-        }}
-      </Consumer>
-    );
+export const PropsPanel: React.FC<PropsPanelProps> = ({ api, active: panelActive }) => {
+  if (!panelActive) {
+    return null;
   }
-}
+  return (
+    <Consumer filter={mapper}>
+      {p => {
+        const { properties, story } = p as MapperReturnProps;
+        const props: StoryProperties = properties
+          ? Object.keys(properties)
+              .filter(key => !properties[key].hidden)
+              .reduce((a, key: string) => {
+                const prop = properties[key];
+                return { ...a, [key]: prop };
+              }, {})
+          : {};
+        if (!story || !Object.keys(props).length) {
+          return <NoProperties />;
+        }
+        const entries = propEntries(api, story, props);
+        // console.log(entries);
+        return (
+          <>
+            <PanelWrapper>
+              {entries.length > 1 ? (
+                <TabsState>
+                  {entries.map(([k, v]) => (
+                    <div id={k} key={k} title={v.title}>
+                      {v.render}
+                    </div>
+                  ))}
+                </TabsState>
+              ) : (
+                <PropForm
+                  props={props}
+                  onFieldChange={(name: string, newValue: any) =>
+                    handlePropChange(api, story, name, newValue)
+                  }
+                  onFieldClick={(name: string, prop: StoryProperty) => {
+                    handlePropClick(api, story.id, name, prop);
+                  }}
+                />
+              )}
+            </PanelWrapper>
+            <ActionBar
+              actionItems={[
+                { title: 'Copy', onClick: () => copyProps(props) },
+                { title: 'Reset', onClick: () => {} },
+              ]}
+            />
+          </>
+        );
+      }}
+    </Consumer>
+  );
+};
