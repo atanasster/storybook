@@ -143,8 +143,10 @@ export default class StoryStore extends EventEmitter {
       this._channel.off(Events.STORY_CLICK_PROPERTY, onClickProperty);
     }
     this._channel = channel;
-    this._channel.on(Events.STORY_SET_PROPERTY_VALUE, onSetPropertyValue);
-    this._channel.on(Events.STORY_CLICK_PROPERTY, onClickProperty);
+    if (this._channel) {
+      this._channel.on(Events.STORY_SET_PROPERTY_VALUE, onSetPropertyValue);
+      this._channel.on(Events.STORY_CLICK_PROPERTY, onClickProperty);
+    }
   };
 
   // NEW apis
@@ -281,11 +283,7 @@ export default class StoryStore extends EventEmitter {
         (acc, key) => ({ ...acc, [key]: this._data[id].properties[key].value }),
         {}
       );
-      if (legacyContextProp) {
-        return original({ ...values, ...context });
-      }
-
-      return original(values, context);
+      return legacyContextProp ? original({ ...values, ...context }) : original(values, context);
     };
 
     // lazily decorate the story when it's loaded

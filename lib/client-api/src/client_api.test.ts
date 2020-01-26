@@ -125,7 +125,7 @@ describe('preview.client_api', () => {
       const { storiesOf } = clientApi;
 
       clientApi.addParameters({ a: 1 });
-      storiesOf('kind', module).add('name', ({ parameters }) => parameters);
+      storiesOf('kind', module).add('name', (p, { parameters }) => parameters);
 
       const result = storyStore.fromId('kind--name').storyFn();
       // @ts-ignore
@@ -140,7 +140,7 @@ describe('preview.client_api', () => {
 
       clientApi.addParameters({ options: { a: '1' } });
       clientApi.addParameters({ options: { b: '2' } });
-      storiesOf('kind', module).add('name', ({ parameters }) => parameters);
+      storiesOf('kind', module).add('name', (props, { parameters }) => parameters);
 
       // @ts-ignore
       const {
@@ -156,7 +156,7 @@ describe('preview.client_api', () => {
 
       clientApi.addParameters({ backgrounds: ['value'], options: { a: '1', b: '3' } });
       clientApi.addParameters({ options: { a: '2' } });
-      storiesOf('kind', module).add('name', ({ parameters }) => parameters);
+      storiesOf('kind', module).add('name', (props, { parameters }) => parameters);
 
       // @ts-ignore
       const {
@@ -174,7 +174,7 @@ describe('preview.client_api', () => {
 
       clientApi.addParameters({ backgrounds: ['value'], options: { a: '1', b: '3' } });
       clientApi.addParameters({ backgrounds: [], options: { a: '2' } });
-      storiesOf('kind', module).add('name', ({ parameters }) => parameters);
+      storiesOf('kind', module).add('name', (props, { parameters }) => parameters);
 
       // @ts-ignore
       const {
@@ -192,7 +192,7 @@ describe('preview.client_api', () => {
 
       clientApi.addParameters({ options: { a: '1', b: '2', theming: { c: '3' } } });
       clientApi.addParameters({ options: { theming: { c: '4', d: '5' } } });
-      storiesOf('kind', module).add('name', ({ parameters }) => parameters);
+      storiesOf('kind', module).add('name', (props, { parameters }) => parameters);
 
       // @ts-ignore
       const {
@@ -254,7 +254,7 @@ describe('preview.client_api', () => {
 
       storiesOf('kind', module)
         .addDecorator(fn => `aa-${fn()}`)
-        .add('name', c => `${c.kind}-${c.name}`);
+        .add('name', (props, context) => `${context.kind}-${context.name}`);
 
       const result = storyStore.fromId('kind--name').storyFn();
       expect(result).toBe(`aa-kind-name`);

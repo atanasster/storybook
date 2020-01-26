@@ -43,22 +43,7 @@ exports[`Storyshots Custom/Decorator for Vue With Data 1`] = `
   >
     <pre>
       {
-  "id": "custom-decorator-for-vue--with-data",
-  "kind": "Custom/Decorator for Vue",
-  "name": "With Data",
-  "story": "With Data",
-  "parameters": {
-    "docs": {
-      "inlineStories": true,
-      "iframeHeight": "60px"
-    },
-    "options": {},
-    "globalParameter": "globalParameter",
-    "framework": "vue",
-    "__id": "custom-decorator-for-vue--with-data",
-    "customParameter": 42
-  },
-  "customContext": 52
+  "parameters": {}
 }
     </pre>
   </div>
