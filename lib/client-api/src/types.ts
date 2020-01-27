@@ -2,12 +2,11 @@ import {
   Addon,
   StoryFn,
   StoryContext,
-  ContextStoryProperties,
   Parameters,
   StoryApi,
   DecoratorFunction,
 } from '@storybook/addons';
-import { StoryProperties } from '@storybook/core-events';
+import { StoryProperties, ContextStoryProperties } from '@storybook/core-events';
 import StoryStore from './story_store';
 import { HooksContext } from './hooks';
 
