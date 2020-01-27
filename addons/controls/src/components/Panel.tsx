@@ -1,7 +1,8 @@
 import React from 'react';
 import qs from 'qs';
 import { document } from 'global';
-import { StoryProperties, StoryProperty, Combo, Consumer, API, StoryInput } from '@storybook/api';
+import { StoryProperties, StoryProperty } from '@storybook/core-events';
+import { Combo, Consumer, API, StoryInput } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import copy from 'copy-to-clipboard';
 
@@ -153,7 +154,7 @@ export const PropsPanel: React.FC<PropsPanelProps> = ({ api, active: panelActive
             <ActionBar
               actionItems={[
                 { title: 'Copy', onClick: () => copyProps(props) },
-                { title: 'Reset', onClick: () => {} },
+                { title: 'Reset', onClick: () => api.resetPropertyValue(story.id) },
               ]}
             />
           </>

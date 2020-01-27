@@ -1,4 +1,4 @@
-import { StoryProperty, StoryProperties } from '@storybook/api';
+import { StoryProperty, StoryProperties, ContextStoryProperties } from '@storybook/core-events';
 import { HooksContext } from './hooks';
 import { Addon } from './index';
 
@@ -20,11 +20,6 @@ export interface Parameters {
   fileName?: string;
   options?: OptionsParameter;
   [key: string]: any;
-}
-
-export type ContextStoryProperty = StoryProperty & { defaultValue: any };
-export interface ContextStoryProperties {
-  [name: string]: ContextStoryProperty;
 }
 
 export interface StoryContext {

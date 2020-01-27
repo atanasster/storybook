@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropertyTypes } from '@storybook/api';
+import { PropertyTypes } from '@storybook/core-events';
 import { ColorEditor } from './ColorEditor';
 
 export default {

@@ -46,8 +46,6 @@ import initVersions, {
   SubAPI as VersionsAPI,
 } from './modules/versions';
 
-export * from './properties';
-
 export { Options as StoreOptions, Listener as ChannelListener };
 
 export { SetPropertyValueFn, ClickPropertyFn, StoryInput, Group };

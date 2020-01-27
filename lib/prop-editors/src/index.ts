@@ -1,4 +1,4 @@
-import { StoryProperty, PropertyTypes } from '@storybook/api';
+import { StoryProperty, PropertyTypes } from '@storybook/core-events';
 import { PropertyEditor } from './types';
 import { TextEditor } from './TextEditor';
 import { NumberEditor } from './NumberEditor';

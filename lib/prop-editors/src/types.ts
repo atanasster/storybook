@@ -1,5 +1,5 @@
 import React from 'react';
-import { StoryProperty } from '@storybook/api';
+import { StoryProperty } from '@storybook/core-events';
 
 export interface PropertyControlProps {
   prop: StoryProperty;

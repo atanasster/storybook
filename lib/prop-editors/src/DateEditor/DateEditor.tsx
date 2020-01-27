@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';
-import { StoryPropertyDate } from '@storybook/api';
+import { StoryPropertyDate } from '@storybook/core-events';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 const FlexSpaced = styled.div({

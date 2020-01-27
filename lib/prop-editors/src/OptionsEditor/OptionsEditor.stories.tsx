@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropertyTypes } from '@storybook/api';
+import { PropertyTypes } from '@storybook/core-events';
 import { OptionsEditor } from './OptionsEditor';
 
 export default {
@@ -27,7 +27,7 @@ export const objects = () => {
       prop={{
         type: PropertyTypes.OPTIONS,
         value: state,
-        options: { one: 'One', two: 'Two', three: 'Three' },
+        options: { One: 'one', Two: 'two', Three: 'three' },
       }}
     />
   );
@@ -77,7 +77,7 @@ export const multiSelectObjects = () => {
       prop={{
         type: PropertyTypes.OPTIONS,
         value: state,
-        options: { one: 'One', two: 'Two', three: 'Three' },
+        options: { One: 'one', Two: 'two', Three: 'three' },
         display: 'multi-select',
       }}
     />
@@ -129,7 +129,7 @@ export const objectsRadios = () => {
       prop={{
         type: PropertyTypes.OPTIONS,
         value: state,
-        options: { one: 'One', two: 'Two', three: 'Three' },
+        options: { One: 'one', Two: 'two', Three: 'three' },
         display: 'radio',
       }}
     />
@@ -181,7 +181,7 @@ export const objectsRadiosInline = () => {
       prop={{
         type: PropertyTypes.OPTIONS,
         value: state,
-        options: { one: 'One', two: 'Two', three: 'Three' },
+        options: { One: 'one', Two: 'two', Three: 'three' },
         display: 'inline-radio',
       }}
     />
@@ -233,7 +233,7 @@ export const objectsCheck = () => {
       prop={{
         type: PropertyTypes.OPTIONS,
         value: state,
-        options: { one: 'One', two: 'Two', three: 'Three' },
+        options: { One: 'one', Two: 'two', Three: 'three' },
         display: 'check',
       }}
     />
@@ -285,7 +285,7 @@ export const objectsCheckInline = () => {
       prop={{
         type: PropertyTypes.OPTIONS,
         value: state,
-        options: { one: 'One', two: 'Two', three: 'Three' },
+        options: { One: 'one', Two: 'two', Three: 'three' },
         display: 'inline-check',
       }}
     />

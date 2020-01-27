@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from '@storybook/components';
-import { StoryPropertyButton } from '@storybook/api';
+import { StoryPropertyButton } from '@storybook/core-events';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 type ButtonEditorOnClickProp = (prop: StoryPropertyButton) => any;

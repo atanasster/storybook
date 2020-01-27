@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactSelect from 'react-select';
 import { styled } from '@storybook/theming';
-import { StoryPropertyOptions } from '@storybook/api';
+import { StoryPropertyOptions } from '@storybook/core-events';
 import { normalizeOptions } from './utils';
 import { PropertyControlProps, PropertyEditor } from '../types';
 

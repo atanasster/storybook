@@ -28,7 +28,8 @@ enum events {
   SHARED_STATE_SET = 'sharedStateSet',
   NAVIGATE_URL = 'navigateUrl',
 }
-
+export * from './properties';
+export * from './utils';
 // Enables: `import Events from ...`
 export default events;
 

@@ -1,7 +1,7 @@
 import { document } from 'global';
 import React from 'react';
 import { SketchPicker, ColorResult } from 'react-color';
-import { StoryPropertyColor } from '@storybook/api';
+import { StoryPropertyColor } from '@storybook/core-events';
 
 import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';

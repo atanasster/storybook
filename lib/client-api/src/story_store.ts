@@ -6,16 +6,17 @@ import dedent from 'ts-dedent';
 import stable from 'stable';
 
 import { Channel } from '@storybook/channels';
-import Events from '@storybook/core-events';
-import { logger } from '@storybook/client-logger';
-import {
-  Comparator,
-  Parameters,
-  StoryFn,
-  StoryContext,
+import Events, {
+  StoryProperty,
+  StoryProperties,
+  StoryPropertyButton,
+  mergePropertyValues,
+  resetPropertyValues,
   ContextStoryProperties,
-} from '@storybook/addons';
-import { StoryProperty, StoryProperties, StoryPropertyButton } from '@storybook/api';
+} from '@storybook/core-events';
+import { logger } from '@storybook/client-logger';
+import { Comparator, Parameters, StoryFn, StoryContext } from '@storybook/addons';
+
 import {
   DecoratorFunction,
   LegacyData,
@@ -112,22 +113,6 @@ const createStoreProperties = (
   }, {});
 };
 
-const mergePropertyValues = (
-  properties: ContextStoryProperties,
-  propertyName: string | undefined,
-  value: any
-): ContextStoryProperties => {
-  return propertyName
-    ? {
-        ...properties,
-        [propertyName]: { ...properties[propertyName], value },
-      }
-    : Object.keys(properties).reduce(
-        (acc, key) => ({ ...acc, [key]: { ...properties[key], value: value[key] } }),
-        {}
-      );
-};
-
 export default class StoryStore extends EventEmitter {
   _error?: ErrorLike;
 
@@ -181,21 +166,7 @@ export default class StoryStore extends EventEmitter {
     const onResetPropertyValue = ({ id, propertyName }: { id: string; propertyName: string }) => {
       const story = this._data[id];
       if (story) {
-        const properties = propertyName
-          ? {
-              ...story.properties,
-              [propertyName]: {
-                ...story.properties[propertyName],
-                value: story.properties[propertyName].defaultValue,
-              },
-            }
-          : Object.keys(story.properties).reduce(
-              (acc, key) => ({
-                ...acc,
-                [key]: { ...story.properties[key], value: story.properties[key].defaultValue },
-              }),
-              {}
-            );
+        const properties = resetPropertyValues(story.properties, propertyName);
         this._data[id] = {
           ...story,
           properties,
@@ -352,7 +323,7 @@ export default class StoryStore extends EventEmitter {
       `);
     }
 
-    const identification: IdentificationType = {
+    const identification = {
       id,
       kind,
       name,

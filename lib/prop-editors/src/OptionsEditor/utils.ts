@@ -1,4 +1,4 @@
-import { OptionsListType, OptionsValueType } from '@storybook/api';
+import { OptionsListType, OptionsValueType } from '@storybook/core-events';
 
 export interface NormalizedOption {
   label: string;
@@ -14,6 +14,13 @@ export const normalizeOptions = (
   selected: any[];
 } => {
   const findLabelOption = (label: string, value: any): NormalizedOption => {
+    if (!value) {
+      return {
+        label: label || value,
+        value,
+      };
+    }
+
     const val = value.value || value;
     if (typeof value !== 'object' || value === null) return { label: label || val, value: val };
     const vLabel: string = value.label || val || label;
@@ -30,7 +37,7 @@ export const normalizeOptions = (
     }, []);
   } else {
     entries = Object.keys(options).reduce((acc, key) => {
-      return [...acc, findLabelOption(options[key], key)];
+      return [...acc, findLabelOption(key, options[key])];
     }, []);
   }
   const selected = entries

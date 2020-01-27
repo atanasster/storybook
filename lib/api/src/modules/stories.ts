@@ -1,8 +1,16 @@
 import { DOCS_MODE } from 'global';
 import { toId, sanitize, parseKind } from '@storybook/csf';
 import deprecate from 'util-deprecate';
-import { STORY_SET_PROPERTY_VALUE, STORY_CLICK_PROPERTY } from '@storybook/core-events';
-import { StoryProperties, StoryProperty } from '../properties';
+import {
+  STORY_SET_PROPERTY_VALUE,
+  STORY_RESET_PROPERTY_VALUE,
+  STORY_CLICK_PROPERTY,
+  StoryProperty,
+  ContextStoryProperties,
+  ContextStoryProperty,
+  mergePropertyValues,
+  resetPropertyValues,
+} from '@storybook/core-events';
 import { Module } from '../index';
 import merge from '../lib/merge';
 
@@ -22,6 +30,7 @@ export interface SubState {
 export type SetPropertyValueFn = (storyId: StoryId, propertyName: string, value: any) => void;
 export type ClickPropertyFn = (storyId: StoryId, propertyName: string, prop: StoryProperty) => void;
 
+export type ResetPropertyValueFn = (storyId: StoryId, propertyName: string) => void;
 export interface SubAPI {
   storyId: typeof toId;
   selectStory: (kindOrId: string, story?: string, obj?: any) => void;
@@ -34,6 +43,7 @@ export interface SubAPI {
   getCurrentParameter<S>(parameterName?: ParameterName): S;
   setPropertyValue: SetPropertyValueFn;
   clickProperty: ClickPropertyFn;
+  resetPropertyValue: ResetPropertyValueFn;
 }
 
 export interface Group {
@@ -62,7 +72,7 @@ export interface StoryInput {
     };
     [parameterName: string]: any;
   };
-  properties?: StoryProperties;
+  properties?: ContextStoryProperties;
   isLeaf: boolean;
 }
 
@@ -132,30 +142,40 @@ const initStoriesApi = ({
     propertyName: string,
     value: S
   ) {
-    const state = store.getState();
-    const { storiesHash } = state;
-    const newStoryHash = {
-      ...storiesHash[storyId],
-      properties: {
-        ...(storiesHash[storyId] as StoryInput).properties,
-        [propertyName]: {
-          ...(storiesHash[storyId] as StoryInput).properties[propertyName],
-          value,
+    const { storiesHash } = store.getState();
+    const story = storiesHash[storyId] as StoryInput;
+    const properties = mergePropertyValues(story.properties, propertyName, value);
+    store.setState({
+      storiesHash: {
+        ...storiesHash,
+        [storyId]: {
+          ...storiesHash[storyId],
+          properties,
         },
       },
-    };
-    const newHash = {
-      ...storiesHash,
-      [storyId]: newStoryHash,
-    };
-
-    store.setState({
-      storiesHash: newHash,
     });
     provider.channel.emit(STORY_SET_PROPERTY_VALUE, { id: storyId, propertyName, value });
   };
   const clickProperty = (storyId: StoryId, propertyName: string, prop: StoryProperty) => {
     provider.channel.emit(STORY_CLICK_PROPERTY, { id: storyId, propertyName, property: prop });
+  };
+
+  const resetPropertyValue = (storyId: StoryId, propertyName: string) => {
+    const { storiesHash } = store.getState();
+    const story = storiesHash[storyId] as StoryInput;
+    if (story) {
+      const properties = resetPropertyValues(story.properties, propertyName);
+      store.setState({
+        storiesHash: {
+          ...storiesHash,
+          [storyId]: {
+            ...storiesHash[storyId],
+            properties,
+          },
+        },
+      });
+      provider.channel.emit(STORY_RESET_PROPERTY_VALUE, { id: storyId, propertyName });
+    }
   };
 
   const getCurrentParameter = function getCurrentParameter<S>(parameterName: ParameterName) {
@@ -441,6 +461,7 @@ Did you create a path that uses the separator char accidentally, such as 'Vue <d
       getParameters,
       getCurrentParameter,
       setPropertyValue,
+      resetPropertyValue,
       clickProperty,
     },
     state: {
