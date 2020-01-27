@@ -11,6 +11,8 @@ import {
   SHARED_STATE_CHANGED,
   SHARED_STATE_SET,
   NAVIGATE_URL,
+  STORY_SET_PROPERTY_VALUE,
+  STORY_RESET_PROPERTY_VALUE,
 } from '@storybook/core-events';
 import { RenderData as RouterData } from '@storybook/router';
 import { Listener } from '@storybook/channels';
@@ -201,7 +203,12 @@ class ManagerProvider extends Component<Props, State> {
     api.on(NAVIGATE_URL, (url: string, options: { [k: string]: any }) => {
       api.navigateUrl(url, options);
     });
-
+    api.on(STORY_SET_PROPERTY_VALUE, ({ id, propertyName, value }) => {
+      api.setPropertyValue(id, propertyName, value);
+    });
+    api.on(STORY_RESET_PROPERTY_VALUE, ({ id, propertyName }) => {
+      api.resetPropertyValue(id, propertyName);
+    });
     this.state = state;
     this.api = api;
   }
