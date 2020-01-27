@@ -498,4 +498,23 @@ describe('preview.story_store', () => {
       }
     );
   });
+  it('should onClick event', () => {
+    const store = new StoryStore({ channel });
+    const storyFn = jest.fn();
+    const parameters = {};
+    const onClick = jest.fn();
+    const property = { type: 'button', onClick };
+    const properties = {
+      button: property,
+    };
+    store.addStory(...make('kind', 'name', storyFn, parameters, properties));
+    channel.emit(Events.STORY_CLICK_PROPERTY, {
+      id: toId('kind', 'name'),
+      propertyName: 'button',
+      property,
+    });
+    const storyWithContext = store.getStoryWithContext('kind', 'name');
+    storyWithContext();
+    expect(onClick).toHaveBeenCalledWith(property);
+  });
 });
