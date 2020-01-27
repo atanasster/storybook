@@ -7,7 +7,7 @@ import { toId } from '@storybook/csf';
 import mergeWith from 'lodash/mergeWith';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
-import { StoryProperty } from '@storybook/api';
+import { StoryProperties } from '@storybook/api';
 import { ClientApiParams, DecoratorFunction, ClientApiAddons, StoryApi } from './types';
 import { applyHooks } from './hooks';
 import StoryStore from './story_store';
@@ -147,6 +147,10 @@ export default class ClientApi {
     _globalParameters = {};
   };
 
+  addProperties = (storyId: string, properties: StoryProperties) => {
+    this._storyStore.addProperties(storyId, properties);
+  };
+
   // what are the occasions that "m" is a boolean vs an obj
   storiesOf = <StoryFnReturnType = unknown>(
     kind: string,
@@ -200,17 +204,17 @@ export default class ClientApi {
         return api;
       };
     });
-    api.setPropertyValue = (storyId: string, propName: string, propValue: any) => {
-      this._storyStore.setPropertyValue(storyId, propName, propValue);
+    api.setPropertyValue = ({ id, propertyName, value }) => {
+      this._storyStore.setPropertyValue(id, propertyName, value);
       return api;
     };
 
-    api.clickProperty = (storyId: string, propName: string, property: StoryProperty) => {
-      this._storyStore.clickProperty(storyId, propName, property);
+    api.clickProperty = ({ id, propertyName, property }) => {
+      this._storyStore.clickProperty(id, propertyName, property);
       return api;
     };
 
-    api.add = (storyName, storyFn, parameters = {}) => {
+    api.add = (storyName, storyFn, parameters = {}, properties = {}) => {
       hasAdded = true;
 
       const id = parameters.__id || toId(kind, storyName);
@@ -246,14 +250,15 @@ export default class ClientApi {
         },
         { fileName }
       );
-      const { properties } = (storyFn as any).story || {};
+      const { properties: storyProperties } = (storyFn as any).story || {};
+      const allProperties = { ...storyProperties, ...properties };
       this._storyStore.addStory(
         {
           id,
           kind,
           name: storyName,
           storyFn,
-          properties,
+          properties: allProperties,
           parameters: allParam,
         },
         {

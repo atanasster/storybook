@@ -8,8 +8,14 @@ import stable from 'stable';
 import { Channel } from '@storybook/channels';
 import Events from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import { Comparator, Parameters, StoryFn, StoryContext } from '@storybook/addons';
-import { StoryProperty, StoryPropertyButton } from '@storybook/api';
+import {
+  Comparator,
+  Parameters,
+  StoryFn,
+  StoryContext,
+  ContextStoryProperties,
+} from '@storybook/addons';
+import { StoryProperty, StoryProperties, StoryPropertyButton } from '@storybook/api';
 import {
   DecoratorFunction,
   LegacyData,
@@ -71,6 +77,57 @@ const includeStory = (story: StoreItem, options: StoryOptions = { includeDocsOnl
   return !isStoryDocsOnly(story.parameters);
 };
 
+interface IdentificationType {
+  id: string;
+  kind: string;
+  name: string;
+  story: string;
+}
+
+const createStoreProperties = (
+  properties: StoryProperties,
+  identification: IdentificationType,
+  legacyContextProp: boolean
+): ContextStoryProperties => {
+  const reservedContextKeys = [
+    'id',
+    'kind',
+    'name',
+    'story',
+    'storyFn',
+    'properties',
+    'parameters',
+    'hooks',
+  ];
+
+  // save default value for 'reset'
+  return Object.keys(properties).reduce((v, key) => {
+    if (legacyContextProp && reservedContextKeys.indexOf(key) >= 0) {
+      logger.error(
+        `Story "${identification.name}" in ${identification.kind} uses a reserved property id "${key}"`
+      );
+    }
+    const prop = properties[key];
+    return { ...v, [key]: { ...prop, defaultValue: prop.value } };
+  }, {});
+};
+
+const mergePropertyValues = (
+  properties: ContextStoryProperties,
+  propertyName: string | undefined,
+  value: any
+): ContextStoryProperties => {
+  return propertyName
+    ? {
+        ...properties,
+        [propertyName]: { ...properties[propertyName], value },
+      }
+    : Object.keys(properties).reduce(
+        (acc, key) => ({ ...acc, [key]: { ...properties[key], value: value[key] } }),
+        {}
+      );
+};
+
 export default class StoryStore extends EventEmitter {
   _error?: ErrorLike;
 
@@ -107,17 +164,41 @@ export default class StoryStore extends EventEmitter {
       value,
     }: {
       id: string;
-      propertyName: string;
+      propertyName: string | undefined;
       value: any;
     }) => {
       const story = this._data[id];
       if (story) {
+        const properties = mergePropertyValues(story.properties, propertyName, value);
         this._data[id] = {
           ...story,
-          properties: {
-            ...story.properties,
-            [propertyName]: { ...story.properties[propertyName], value },
-          },
+          properties,
+        };
+        channel.emit(Events.FORCE_RE_RENDER);
+      }
+    };
+
+    const onResetPropertyValue = ({ id, propertyName }: { id: string; propertyName: string }) => {
+      const story = this._data[id];
+      if (story) {
+        const properties = propertyName
+          ? {
+              ...story.properties,
+              [propertyName]: {
+                ...story.properties[propertyName],
+                value: story.properties[propertyName].defaultValue,
+              },
+            }
+          : Object.keys(story.properties).reduce(
+              (acc, key) => ({
+                ...acc,
+                [key]: { ...story.properties[key], value: story.properties[key].defaultValue },
+              }),
+              {}
+            );
+        this._data[id] = {
+          ...story,
+          properties,
         };
         channel.emit(Events.FORCE_RE_RENDER);
       }
@@ -140,11 +221,13 @@ export default class StoryStore extends EventEmitter {
     };
     if (this._channel) {
       this._channel.off(Events.STORY_SET_PROPERTY_VALUE, onSetPropertyValue);
+      this._channel.off(Events.STORY_RESET_PROPERTY_VALUE, onResetPropertyValue);
       this._channel.off(Events.STORY_CLICK_PROPERTY, onClickProperty);
     }
     this._channel = channel;
     if (this._channel) {
       this._channel.on(Events.STORY_SET_PROPERTY_VALUE, onSetPropertyValue);
+      this._channel.on(Events.STORY_RESET_PROPERTY_VALUE, onResetPropertyValue);
       this._channel.on(Events.STORY_CLICK_PROPERTY, onClickProperty);
     }
   };
@@ -269,7 +352,7 @@ export default class StoryStore extends EventEmitter {
       `);
     }
 
-    const identification = {
+    const identification: IdentificationType = {
       id,
       kind,
       name,
@@ -302,20 +385,7 @@ export default class StoryStore extends EventEmitter {
         parameters: { ...parameters, ...(p && p.parameters) },
       });
     };
-    const reservedContextKeys = [
-      ...Object.keys(identification),
-      ...['storyFn', 'properties', 'parameters', 'hooks'],
-    ];
-    // save default value for 'reset'
-    const props = Object.keys(properties).reduce((v, key) => {
-      if (legacyContextProp && reservedContextKeys.indexOf(key) >= 0) {
-        logger.error(
-          `Story "${identification.name}" in ${identification.kind} uses a reserved property id "${key}"`
-        );
-      }
-      const prop = properties[key];
-      return { ...v, [key]: { ...prop, defaultVvalue: prop.value } };
-    }, {});
+    const props = createStoreProperties(properties, identification, legacyContextProp);
     _data[id] = {
       ...identification,
       hooks,
@@ -521,12 +591,10 @@ export default class StoryStore extends EventEmitter {
     this.getStoriesForKind(kind).map(story => this.cleanHooks(story.id));
   }
 
-  setPropertyValue(id: string, propName: string, propValue: any) {
+  setPropertyValue(id: string, propertyName: string, value: any) {
     if (this._data[id]) {
-      this._data[id].properties = {
-        ...this._data[id].properties,
-        [propName]: { ...this._data[id].properties[propName], value: propValue },
-      };
+      const story = this._data[id];
+      story.properties = mergePropertyValues(story.properties, propertyName, value);
     }
   }
 
@@ -538,6 +606,20 @@ export default class StoryStore extends EventEmitter {
           (prop as StoryPropertyButton).onClick(property as StoryPropertyButton);
         }
       }
+    }
+  }
+
+  addProperties(id: string, properties: StoryProperties) {
+    if (this._data[id]) {
+      const story = this._data[id];
+      this._data[id].properties = {
+        ...this._data[id].properties,
+        ...createStoreProperties(
+          properties,
+          story,
+          this._data[id].parameters.options.legacyContextProp
+        ),
+      };
     }
   }
 }

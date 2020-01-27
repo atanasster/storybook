@@ -1,4 +1,4 @@
-import { StoryProperties } from '@storybook/api';
+import { StoryProperty, StoryProperties } from '@storybook/api';
 import { HooksContext } from './hooks';
 import { Addon } from './index';
 
@@ -22,6 +22,11 @@ export interface Parameters {
   [key: string]: any;
 }
 
+export type ContextStoryProperty = StoryProperty & { defaultValue: any };
+export interface ContextStoryProperties {
+  [name: string]: ContextStoryProperty;
+}
+
 export interface StoryContext {
   id: string;
   name: string;
@@ -29,7 +34,7 @@ export interface StoryContext {
   [key: string]: any;
   parameters: Parameters;
   hooks?: HooksContext;
-  properties?: StoryProperties;
+  properties?: ContextStoryProperties;
 }
 
 export interface WrapperSettings {
@@ -53,6 +58,7 @@ export interface OptionsParameter extends Object {
   hierarchyRootSeparator?: string;
   hierarchySeparator?: RegExp;
   showRoots?: boolean;
+  legacyContextProp?: boolean;
   theme?: {
     base: string;
     brandTitle?: string;
@@ -60,9 +66,9 @@ export interface OptionsParameter extends Object {
   [key: string]: any;
 }
 
-export type StoryGetter = (p?: StoryContext | StoryProperties, c?: StoryContext) => any;
+export type StoryGetter = (p?: StoryContext | ContextStoryProperties, c?: StoryContext) => any;
 export type StoryFn<ReturnType = unknown> = (
-  p?: StoryContext | StoryProperties,
+  p?: StoryContext | ContextStoryProperties,
   c?: StoryContext
 ) => ReturnType;
 
@@ -96,10 +102,30 @@ export interface StoryApi<StoryFnReturnType = unknown> {
   add: (
     storyName: string,
     storyFn: StoryFn<StoryFnReturnType>,
-    parameters?: Parameters
+    parameters?: Parameters,
+    properties?: StoryProperties
   ) => StoryApi<StoryFnReturnType>;
   addDecorator: (decorator: DecoratorFunction<StoryFnReturnType>) => StoryApi<StoryFnReturnType>;
   addParameters: (parameters: Parameters) => StoryApi<StoryFnReturnType>;
+  setPropertyValue: ({
+    id,
+    propertyName,
+    value,
+  }: {
+    id: string;
+    propertyName: string;
+    value: any;
+  }) => StoryApi<StoryFnReturnType>;
+  clickProperty: ({
+    id,
+    propertyName,
+    property,
+  }: {
+    id: string;
+    propertyName: string;
+    property: StoryProperty;
+  }) => StoryApi<StoryFnReturnType>;
+
   [k: string]: string | ClientApiReturnFn<StoryFnReturnType>;
 }
 

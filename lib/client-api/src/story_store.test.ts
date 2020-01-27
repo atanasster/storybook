@@ -1,4 +1,5 @@
 import createChannel from '@storybook/channel-postmessage';
+import { logger } from '@storybook/client-logger';
 import { toId } from '@storybook/csf';
 import addons from '@storybook/addons';
 import Events from '@storybook/core-events';
@@ -6,22 +7,19 @@ import Events from '@storybook/core-events';
 import StoryStore from './story_store';
 import { defaultDecorateStory } from './client_api';
 
-jest.mock('@storybook/node-logger', () => ({
-  logger: {
-    info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
-  },
+jest.mock('@storybook/client-logger', () => ({
+  logger: { warn: jest.fn(), log: jest.fn(), error: jest.fn() },
 }));
 
 const channel = createChannel({ page: 'preview' });
 
-const make = (kind, name, storyFn, parameters = {}) => [
+const make = (kind, name, storyFn, parameters = {}, properties = {}) => [
   {
     kind,
     name,
     storyFn,
     parameters,
+    properties,
     id: toId(kind, name),
   },
   {
@@ -379,5 +377,125 @@ describe('preview.story_store', () => {
       expect(stories[2].id).toBe('kind-2--a-story-2-1');
       expect(stories[3].id).toBe('kind-2--story-2-1');
     });
+  });
+  describe('story properties', () => {
+    it('should return a function that is called with the propety values and context', () => {
+      const store = new StoryStore({ channel });
+      const storyFn = jest.fn();
+      const name = 'Tom Sawyer';
+      const parameters = {};
+      const properties = {
+        firstName: { type: 'text', value: name },
+      };
+      store.addStory(...make('kind', 'name', storyFn, parameters, properties));
+      const storyWithContext = store.getStoryWithContext('kind', 'name');
+      storyWithContext();
+      const { hooks } = store.fromId(toId('kind', 'name'));
+      expect(storyFn).toHaveBeenCalledWith(
+        { firstName: name },
+        {
+          id: 'kind--name',
+          name: 'name',
+          kind: 'kind',
+          story: 'name',
+          properties,
+          parameters,
+          hooks,
+        }
+      );
+    });
+
+    it('should modify property value on channel message', () => {
+      const store = new StoryStore({ channel });
+      const storyFn = jest.fn();
+      const parameters = {};
+      const properties = {
+        name: { type: 'text', value: 'Tom Sawyer' },
+      };
+      store.addStory(...make('kind', 'name', storyFn, parameters, properties));
+
+      channel.emit(Events.STORY_SET_PROPERTY_VALUE, {
+        id: toId('kind', 'name'),
+        propertyName: 'name',
+        value: 'Huckleberry Finn',
+      });
+      const storyWithContext = store.getStoryWithContext('kind', 'name');
+      storyWithContext();
+      const { hooks } = store.fromId(toId('kind', 'name'));
+      expect(logger.error).not.toHaveBeenCalled();
+      expect(storyFn).toHaveBeenCalledWith(
+        { name: 'Huckleberry Finn' },
+        {
+          id: 'kind--name',
+          name: 'name',
+          kind: 'kind',
+          story: 'name',
+          properties,
+          parameters,
+          hooks,
+        }
+      );
+    });
+  });
+  it('should modify properties on channel message with empty propertyName parameter', () => {
+    const store = new StoryStore({ channel });
+    const storyFn = jest.fn();
+    const parameters = {};
+    const properties = {
+      firstName: { type: 'text', value: 'Tom' },
+      lastName: { type: 'text', value: 'Sawyer' },
+    };
+    store.addStory(...make('kind', 'name', storyFn, parameters, properties));
+    const newProps = { firstName: 'Huckleberry', lastName: 'Finn' };
+    channel.emit(Events.STORY_SET_PROPERTY_VALUE, {
+      id: toId('kind', 'name'),
+      value: newProps,
+    });
+    const storyWithContext = store.getStoryWithContext('kind', 'name');
+    storyWithContext();
+    const { hooks } = store.fromId(toId('kind', 'name'));
+    expect(storyFn).toHaveBeenCalledWith(newProps, {
+      id: 'kind--name',
+      name: 'name',
+      kind: 'kind',
+      story: 'name',
+      properties,
+      parameters,
+      hooks,
+    });
+  });
+  it('should modify properties on channel and then reset to default values', () => {
+    const store = new StoryStore({ channel });
+    const storyFn = jest.fn();
+    const parameters = {};
+    const properties = {
+      firstName: { type: 'text', value: 'Tom' },
+      lastName: { type: 'text', value: 'Sawyer' },
+    };
+    store.addStory(...make('kind', 'name', storyFn, parameters, properties));
+    const newProps = { firstName: 'Huckleberry', lastName: 'Finn' };
+    channel.emit(Events.STORY_SET_PROPERTY_VALUE, {
+      id: toId('kind', 'name'),
+      value: newProps,
+    });
+    channel.emit(Events.STORY_RESET_PROPERTY_VALUE, {
+      id: toId('kind', 'name'),
+    });
+
+    const storyWithContext = store.getStoryWithContext('kind', 'name');
+    storyWithContext();
+    const { hooks } = store.fromId(toId('kind', 'name'));
+    expect(storyFn).toHaveBeenCalledWith(
+      { firstName: 'Tom', lastName: 'Sawyer' },
+      {
+        id: 'kind--name',
+        name: 'name',
+        kind: 'kind',
+        story: 'name',
+        properties,
+        parameters,
+        hooks,
+      }
+    );
   });
 });

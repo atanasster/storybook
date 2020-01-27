@@ -22,7 +22,7 @@ const getContext = (() => decorateStory => {
 })();
 
 jest.mock('@storybook/client-logger', () => ({
-  logger: { warn: jest.fn(), log: jest.fn() },
+  logger: { warn: jest.fn(), log: jest.fn(), error: jest.fn() },
 }));
 
 describe('preview.client_api', () => {
@@ -681,6 +681,59 @@ describe('preview.client_api', () => {
             expect(entry.stories[0].render()).toBe('story2');
           }
         }
+      });
+    });
+  });
+
+  describe('properties', () => {
+    it('verifies properties are set', () => {
+      const {
+        storyStore,
+        clientApi: { storiesOf },
+      } = getContext(undefined);
+      const value = 'Tom Sawyer';
+      const kind = storiesOf('kind', module);
+      kind.add('name', jest.fn(), {}, { name: { type: 'text', value } });
+      expect(logger.error).not.toHaveBeenCalled();
+
+      expect(storyStore.fromId('kind--name').properties).toEqual({
+        name: { type: 'text', value, defaultValue: value },
+      });
+    });
+    it('verifies properties options.legacyContextProp', () => {
+      const {
+        storyStore,
+        clientApi: { storiesOf },
+      } = getContext(undefined);
+      const kind = storiesOf('error', module);
+      kind.add(
+        'name',
+        jest.fn(),
+        { options: { legacyContextProp: true } },
+        { name: { type: 'text', value: 'Tom Sawyer' } }
+      );
+      const story = storyStore.fromId('error--name');
+      expect(story.properties).toEqual({
+        name: { type: 'text', value: 'Tom Sawyer', defaultValue: 'Tom Sawyer' },
+      });
+      expect(logger.error).toHaveBeenCalledWith(
+        `Story "${story.name}" in ${story.kind} uses a reserved property id "name"`
+      );
+    });
+    it('change property value in story store', () => {
+      const {
+        storyStore,
+        clientApi: { storiesOf },
+      } = getContext(undefined);
+      const value = 'Tom Sawyer';
+      const newValue = 'Huckleberry Finn';
+      const kind = storiesOf('kind', module);
+      kind.add('name', jest.fn(), {}, { name: { type: 'text', value } });
+      expect(logger.error).not.toHaveBeenCalled();
+      storyStore.setPropertyValue('kind--name', 'name', newValue);
+
+      expect(storyStore.fromId('kind--name').properties).toEqual({
+        name: { type: 'text', value: newValue, defaultValue: value },
       });
     });
   });

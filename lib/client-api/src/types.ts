@@ -2,6 +2,7 @@ import {
   Addon,
   StoryFn,
   StoryContext,
+  ContextStoryProperties,
   Parameters,
   StoryApi,
   DecoratorFunction,
@@ -25,7 +26,7 @@ export interface StoreItem extends StoryContext {
   storyFn: StoryFn;
   hooks: HooksContext;
   parameters: Parameters;
-  properties?: StoryProperties;
+  properties?: ContextStoryProperties;
 }
 
 export interface StoreData {
