@@ -7,7 +7,7 @@ import { toId } from '@storybook/csf';
 import mergeWith from 'lodash/mergeWith';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
-import { StoryProperties } from '@storybook/core-events';
+import { StoryProperties, ContextStoryProperty } from '@storybook/core-events';
 import { ClientApiParams, DecoratorFunction, ClientApiAddons, StoryApi } from './types';
 import { applyHooks } from './hooks';
 import StoryStore from './story_store';
@@ -149,6 +149,18 @@ export default class ClientApi {
 
   addProperties = (storyId: string, properties: StoryProperties) => {
     this._storyStore.addProperties(storyId, properties);
+  };
+
+  setPropertyValue = (storyId: string, propertyName: string, value: any) => {
+    this._storyStore.setPropertyValue(storyId, propertyName, value);
+  };
+
+  ressetPropertyValue = (storyId: string, propertyName: string) => {
+    this._storyStore.resetPropertyValue(storyId, propertyName);
+  };
+
+  clickProperty = (storyId: string, propertyName: string, property: ContextStoryProperty) => {
+    this._storyStore.clickProperty(storyId, propertyName, property);
   };
 
   // what are the occasions that "m" is a boolean vs an obj

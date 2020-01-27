@@ -1,11 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {
+  Title,
+  Subtitle,
+  Description,
+  Primary,
+  Props,
+  Stories,
+} from '@storybook/addon-docs/blocks';
+import { PropEditorsTable } from '@storybook/prop-editors/blocks';
 
 export default {
   title: 'Addons/Controls/examples',
+  parameters: {
+    docs: {
+      page: () => (
+        <>
+          <Title />
+          <Subtitle />
+          <Description />
+          <Primary />
+          <PropEditorsTable />
+          <Props />
+          <Stories />
+        </>
+      ),
+    },
+  },
 };
-// using prop shortcut:
-// propname: 'xxxxx' will generate 'text' field type
 
 export const textDefaultProp = ({ text }) => text;
 textDefaultProp.story = {
