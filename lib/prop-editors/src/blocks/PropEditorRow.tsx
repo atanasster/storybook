@@ -28,7 +28,7 @@ export const PropertyEditorRow: React.FunctionComponent<PropertyEditorRowProps> 
   };
   return (
     <tr>
-      <td>{prop.label}</td>
+      <td>{!prop.hideLabel ? prop.label || name : null}</td>
       <td>
         <InputType prop={prop} name={name} onChange={onChange} onClick={onClick} />
       </td>
