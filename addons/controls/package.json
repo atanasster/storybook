@@ -34,7 +34,6 @@
     "@storybook/client-api": "6.0.0-alpha.1",
     "@storybook/common": "6.0.0-alpha.1",
     "@storybook/components": "6.0.0-alpha.1",
-    "@storybook/prop-editors": "6.0.0-alpha.1",
     "@storybook/theming": "6.0.0-alpha.1",
     "@types/react-color": "^3.0.1",
     "copy-to-clipboard": "^3.0.8",

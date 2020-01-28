@@ -1,7 +1,6 @@
 import React, { ComponentType } from 'react';
-import { Form } from '@storybook/components';
+import { Form, getPropertyEditor } from '@storybook/components';
 import { StoryProperties, StoryProperty } from '@storybook/common';
-import { getPropertyEditor } from '@storybook/prop-editors';
 
 interface PropFormProps {
   props: StoryProperties;

@@ -3,7 +3,7 @@ import { styled } from '@storybook/theming';
 
 import { ContextStoryProperty } from '@storybook/common';
 import { ClientApi } from '@storybook/client-api';
-import { getPropertyEditor, PropertyEditor } from '@storybook/prop-editors';
+import { getPropertyEditor, PropertyEditor } from '@storybook/components';
 
 const EditorContainer = styled.div<{}>(({ theme }) => ({
   display: 'flex',

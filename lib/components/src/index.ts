@@ -44,5 +44,8 @@ export * from './blocks';
 // typography blocks
 export * from './typography';
 
+// property editors
+export * from './prop-editors';
+
 // Loader
 export { Loader } from './Loader/Loader';

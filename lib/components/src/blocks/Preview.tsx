@@ -2,6 +2,7 @@ import React, { Children, FunctionComponent, ReactElement, ReactNode, useState }
 import { styled } from '@storybook/theming';
 import { darken } from 'polished';
 import { logger } from '@storybook/client-logger';
+import { ContextStoryProperties } from '@storybook/common';
 
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 import { Source, SourceProps } from './Source';
@@ -15,6 +16,7 @@ export interface PreviewProps {
   isExpanded?: boolean;
   withToolbar?: boolean;
   className?: string;
+  properties?: ContextStoryProperties;
 }
 
 const ChildrenContainer = styled.div<PreviewProps>(({ isColumn, columns }) => ({
