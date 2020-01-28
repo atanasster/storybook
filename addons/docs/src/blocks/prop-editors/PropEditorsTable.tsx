@@ -2,31 +2,46 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import { ClientApi } from '@storybook/client-api';
 import { ContextStoryProperties, ContextStoryProperty } from '@storybook/common';
-import { Table, SectionRow, TabsState } from '@storybook/components';
-import { ResetWrapper } from '@storybook/components/dist/typography/DocumentFormatting';
+import {
+  Table,
+  TabsState,
+  ResetWrapper,
+  getSectionTitleStyle,
+  getBlockBackgroundStyle,
+} from '@storybook/components';
+
 import { DocsContext } from '../DocsContext';
 import { PropertyEditorRow } from './PropEditorRow';
 
-export const StylePropTable = styled(Table)<{}>(() => ({
+const StyleTable = styled(Table)<{}>(() => ({
   '&&': {
+    marginTop: 0,
+    tbody: {
+      boxShadow: 'none',
+    },
     'th:last-of-type, td:last-of-type': {
       width: '70%',
     },
   },
 }));
 
+const PropEditorsContainer = styled.div<{}>(({ theme }) => ({
+  position: 'relative',
+  overflow: 'hidden',
+  margin: '25px 0 40px',
+  ...getBlockBackgroundStyle(theme),
+}));
+
+const PropEditorsTitle = styled.div<{}>(({ theme }) => ({
+  ...getSectionTitleStyle(theme),
+  padding: '16px',
+}));
+
 const DEFAULT_GROUP_ID = 'Other';
-export const TableWrapper: React.FC = ({ children }) => (
+
+export const BlockWrapper: React.FC = ({ children }) => (
   <ResetWrapper>
-    <StylePropTable className="docblock-propeditorstable">
-      <thead>
-        <tr>
-          <th>property</th>
-          <th>value</th>
-        </tr>
-      </thead>
-      <tbody>{children}</tbody>
-    </StylePropTable>
+    <PropEditorsContainer className="docblock-propeditorsblock"> {children}</PropEditorsContainer>
   </ResetWrapper>
 );
 
@@ -40,18 +55,20 @@ interface PropGroupTableProps {
   api: ClientApi;
 }
 const PropGroupTable: React.FC<PropGroupTableProps> = ({ properties, storyId, api }) => (
-  <>
-    {Object.keys(properties).map(key => (
-      <PropertyEditorRow
-        storyId={storyId}
-        key={key}
-        prop={properties[key]}
-        name={key}
-        // @ts-ignore
-        api={api}
-      />
-    ))}
-  </>
+  <StyleTable className="docblock-propeditorstable">
+    <tbody>
+      {Object.keys(properties).map(key => (
+        <PropertyEditorRow
+          storyId={storyId}
+          key={key}
+          prop={properties[key]}
+          name={key}
+          // @ts-ignore
+          api={api}
+        />
+      ))}
+    </tbody>
+  </StyleTable>
 );
 
 interface GroupedPropertiesType {
@@ -80,8 +97,8 @@ export const PropEditorsTable: React.FC<PropEditorsTableProps> = ({
             return { ...acc, [groupId]: { ...acc[groupId], [k]: properties[k] } };
           }, {});
         return (
-          <TableWrapper>
-            <SectionRow section={title} />
+          <BlockWrapper>
+            <PropEditorsTitle>{title}</PropEditorsTitle>
             {Object.keys(groupped).length < 2 ? (
               <PropGroupTable
                 properties={properties}
@@ -113,7 +130,7 @@ export const PropEditorsTable: React.FC<PropEditorsTableProps> = ({
                   })}
               </TabsState>
             )}
-          </TableWrapper>
+          </BlockWrapper>
         );
       }
       return null;

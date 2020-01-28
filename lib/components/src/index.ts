@@ -41,5 +41,8 @@ export { StorybookIcon } from './brand/StorybookIcon';
 // Doc blocks
 export * from './blocks';
 
+// typography blocks
+export * from './typography';
+
 // Loader
 export { Loader } from './Loader/Loader';

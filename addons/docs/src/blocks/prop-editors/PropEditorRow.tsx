@@ -1,8 +1,13 @@
 import React from 'react';
+import { styled } from '@storybook/theming';
+
 import { ContextStoryProperty } from '@storybook/common';
 import { ClientApi } from '@storybook/client-api';
 import { getPropertyEditor, PropertyEditor } from '@storybook/prop-editors';
 
+const EditorContainer = styled.div<{}>(({ theme }) => ({
+  display: 'flex',
+}));
 const InvalidType = () => <span>Invalid Type</span>;
 
 interface PropertyEditorRowProps {
@@ -29,7 +34,9 @@ export const PropertyEditorRow: React.FunctionComponent<PropertyEditorRowProps> 
     <tr>
       <td>{!prop.hideLabel ? prop.label || name : null}</td>
       <td>
-        <InputType prop={prop} name={name} onChange={onChange} onClick={onClick} />
+        <EditorContainer>
+          <InputType prop={prop} name={name} onChange={onChange} onClick={onClick} />
+        </EditorContainer>
       </td>
     </tr>
   );

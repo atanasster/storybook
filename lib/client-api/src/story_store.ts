@@ -568,6 +568,7 @@ export default class StoryStore extends EventEmitter {
     if (this._data[id]) {
       const story = this._data[id];
       story.properties = mergePropertyValues(story.properties, propertyName, value);
+      this._channel.emit(Events.STORY_SET_PROPERTY_VALUE, { id, propertyName, value });
       this._channel.emit(Events.FORCE_RE_RENDER);
     }
   }
@@ -575,6 +576,7 @@ export default class StoryStore extends EventEmitter {
   resetPropertyValue(id: string, propertyName?: string) {
     if (this._data[id]) {
       const story = this._data[id];
+      this._channel.emit(Events.STORY_RESET_PROPERTY_VALUE, { id, propertyName });
       story.properties = resetPropertyValues(story.properties, propertyName);
     }
   }
