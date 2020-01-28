@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropertyTypes } from '@storybook/core-events';
+import { PropertyTypes } from '@storybook/common';
 import { ButtonEditor } from './ButtonEditor';
 
 export default {

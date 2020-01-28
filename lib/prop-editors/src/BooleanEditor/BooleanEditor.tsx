@@ -1,7 +1,7 @@
 import React, { FunctionComponent, Validator } from 'react';
 
 import { styled } from '@storybook/theming';
-import { StoryPropertyBoolean } from '@storybook/core-events';
+import { StoryPropertyBoolean } from '@storybook/common';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 const Input = styled.input({

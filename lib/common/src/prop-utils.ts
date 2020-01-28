@@ -16,7 +16,16 @@ export const mergePropertyValues = (
         [propertyName]: { ...properties[propertyName], value },
       }
     : Object.keys(properties).reduce(
-        (acc, key) => ({ ...acc, [key]: { ...properties[key], value: value[key] } }),
+        (acc, key) => ({
+          ...acc,
+          [key]: {
+            ...properties[key],
+            value:
+              value[key] === undefined || value[key].value === undefined
+                ? value[key]
+                : value[key].value,
+          },
+        }),
         {}
       );
 };

@@ -5,12 +5,14 @@ import {
   STORY_SET_PROPERTY_VALUE,
   STORY_RESET_PROPERTY_VALUE,
   STORY_CLICK_PROPERTY,
+} from '@storybook/core-events';
+import {
   StoryProperty,
   ContextStoryProperties,
-  ContextStoryProperty,
   mergePropertyValues,
   resetPropertyValues,
-} from '@storybook/core-events';
+} from '@storybook/common';
+
 import { Module } from '../index';
 import merge from '../lib/merge';
 

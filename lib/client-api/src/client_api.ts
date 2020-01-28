@@ -7,7 +7,7 @@ import { toId } from '@storybook/csf';
 import mergeWith from 'lodash/mergeWith';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
-import { StoryProperties, ContextStoryProperty } from '@storybook/core-events';
+import { StoryProperties, ContextStoryProperty } from '@storybook/common';
 import { ClientApiParams, DecoratorFunction, ClientApiAddons, StoryApi } from './types';
 import { applyHooks } from './hooks';
 import StoryStore from './story_store';
@@ -216,17 +216,38 @@ export default class ClientApi {
         return api;
       };
     });
-    api.setPropertyValue = ({ id, propertyName, value }) => {
+    api.setPropertyValue = ({
+      id,
+      propertyName,
+      value,
+    }: {
+      id: string;
+      propertyName?: string;
+      value: any;
+    }) => {
       this._storyStore.setPropertyValue(id, propertyName, value);
       return api;
     };
 
-    api.clickProperty = ({ id, propertyName, property }) => {
+    api.clickProperty = ({
+      id,
+      propertyName,
+      property,
+    }: {
+      id: string;
+      propertyName?: string;
+      property: ContextStoryProperty;
+    }) => {
       this._storyStore.clickProperty(id, propertyName, property);
       return api;
     };
 
-    api.add = (storyName, storyFn, parameters = {}, properties = {}) => {
+    api.add = (
+      storyName,
+      storyFn,
+      parameters: Parameters = {},
+      properties: StoryProperties = {}
+    ) => {
       hasAdded = true;
 
       const id = parameters.__id || toId(kind, storyName);

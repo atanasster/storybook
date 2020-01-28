@@ -1,10 +1,10 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { ClientApi } from '@storybook/client-api';
-import { ContextStoryProperties, ContextStoryProperty } from '@storybook/core-events';
+import { ContextStoryProperties, ContextStoryProperty } from '@storybook/common';
 import { Table, SectionRow, TabsState } from '@storybook/components';
 import { ResetWrapper } from '@storybook/components/dist/typography/DocumentFormatting';
-import { DocsContext } from '@storybook/addon-docs/dist/blocks';
+import { DocsContext } from '../DocsContext';
 import { PropertyEditorRow } from './PropEditorRow';
 
 export const StylePropTable = styled(Table)<{}>(() => ({

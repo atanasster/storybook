@@ -1,5 +1,5 @@
 import React from 'react';
-import { StoryProperty } from '@storybook/core-events';
+import { StoryProperty } from '@storybook/common';
 
 export type PropertyOnClick = (prop: StoryProperty) => any;
 export interface PropertyControlProps {

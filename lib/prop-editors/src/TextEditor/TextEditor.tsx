@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 
 import { Form } from '@storybook/components';
-import { StoryPropertyText } from '@storybook/core-events';
+import { StoryPropertyText } from '@storybook/common';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 interface TextEditorProps extends PropertyControlProps {

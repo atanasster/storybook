@@ -1,4 +1,4 @@
-import { StoryProperty, StoryProperties, ContextStoryProperties } from '@storybook/core-events';
+import { ContextStoryProperty, StoryProperties, ContextStoryProperties } from '@storybook/common';
 import { HooksContext } from './hooks';
 import { Addon } from './index';
 
@@ -118,7 +118,7 @@ export interface StoryApi<StoryFnReturnType = unknown> {
   }: {
     id: string;
     propertyName: string;
-    property: StoryProperty;
+    property: ContextStoryProperty;
   }) => StoryApi<StoryFnReturnType>;
 
   [k: string]: string | ClientApiReturnFn<StoryFnReturnType>;

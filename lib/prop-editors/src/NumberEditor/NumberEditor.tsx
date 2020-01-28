@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';
-import { StoryPropertyNumber } from '@storybook/core-events';
+import { StoryPropertyNumber } from '@storybook/common';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 interface NumberEditorProps extends PropertyControlProps {

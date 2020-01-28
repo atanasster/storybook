@@ -29,6 +29,7 @@
     "@reach/router": "^1.2.1",
     "@storybook/channels": "6.0.0-alpha.1",
     "@storybook/client-logger": "6.0.0-alpha.1",
+    "@storybook/common": "6.0.0-alpha.1",
     "@storybook/core-events": "6.0.0-alpha.1",
     "@storybook/csf": "0.0.1",
     "@storybook/router": "6.0.0-alpha.1",

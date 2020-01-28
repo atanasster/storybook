@@ -6,14 +6,16 @@ import dedent from 'ts-dedent';
 import stable from 'stable';
 
 import { Channel } from '@storybook/channels';
-import Events, {
+import Events from '@storybook/core-events';
+import {
   StoryProperty,
   StoryProperties,
   StoryPropertyButton,
   mergePropertyValues,
   resetPropertyValues,
   ContextStoryProperties,
-} from '@storybook/core-events';
+} from '@storybook/common';
+
 import { logger } from '@storybook/client-logger';
 import { Comparator, Parameters, StoryFn, StoryContext } from '@storybook/addons';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from '@storybook/components';
-import { StoryPropertyButton } from '@storybook/core-events';
+import { StoryPropertyButton } from '@storybook/common';
 import { PropertyControlProps, PropertyEditor, PropertyOnClick } from '../types';
 
 interface ButtonEditorProps extends PropertyControlProps {

@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { styled } from '@storybook/theming';
-import { StoryPropertyOptions } from '@storybook/core-events';
+import { StoryPropertyOptions } from '@storybook/common';
 import { normalizeOptions, NormalizedOption } from './utils';
 import { PropertyControlProps, PropertyEditor } from '../types';
 

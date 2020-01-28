@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import deepEqual from 'fast-deep-equal';
 import { Form } from '@storybook/components';
-import { StoryPropertyObject } from '@storybook/core-events';
+import { StoryPropertyObject } from '@storybook/common';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 interface ObjectEditorState {

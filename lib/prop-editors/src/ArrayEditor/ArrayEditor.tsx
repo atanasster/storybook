@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { StoryPropertyArray } from '@storybook/core-events';
+import { StoryPropertyArray } from '@storybook/common';
 import { Form } from '@storybook/components';
 import { PropertyControlProps, PropertyEditor } from '../types';
 

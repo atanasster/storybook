@@ -1,4 +1,4 @@
-import { OptionsListType, OptionsValueType } from '@storybook/core-events';
+import { OptionsListType, OptionsValueType } from '@storybook/common';
 
 export interface NormalizedOption {
   label: string;

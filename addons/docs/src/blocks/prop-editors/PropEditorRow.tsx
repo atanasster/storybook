@@ -1,8 +1,7 @@
 import React from 'react';
-import { ContextStoryProperty } from '@storybook/core-events';
+import { ContextStoryProperty } from '@storybook/common';
 import { ClientApi } from '@storybook/client-api';
-import { getPropertyEditor } from '../index';
-import { PropertyEditor } from '../types';
+import { getPropertyEditor, PropertyEditor } from '@storybook/prop-editors';
 
 const InvalidType = () => <span>Invalid Type</span>;
 

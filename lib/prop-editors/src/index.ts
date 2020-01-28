@@ -1,4 +1,4 @@
-import { StoryProperty, PropertyTypes } from '@storybook/core-events';
+import { PropertyTypes } from '@storybook/common';
 import { PropertyEditor } from './types';
 import { TextEditor } from './TextEditor';
 import { NumberEditor } from './NumberEditor';
@@ -30,3 +30,4 @@ const PropertyEditors: {
 };
 
 export const getPropertyEditor = (type: PropertyTypes): PropertyEditor => PropertyEditors[type];
+export * from './types';

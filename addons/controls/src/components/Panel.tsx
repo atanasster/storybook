@@ -1,7 +1,7 @@
 import React from 'react';
 import qs from 'qs';
 import { document } from 'global';
-import { StoryProperties, StoryProperty } from '@storybook/core-events';
+import { StoryProperties, StoryProperty } from '@storybook/common';
 import { Combo, Consumer, API, StoryInput } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import copy from 'copy-to-clipboard';
