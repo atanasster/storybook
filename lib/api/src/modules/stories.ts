@@ -55,6 +55,8 @@ export interface Group {
   isComponent: boolean;
   isRoot: boolean;
   isLeaf: boolean;
+  // MDX stories are "Group" type
+  parameters?: any;
 }
 
 export interface StoryInput {
@@ -345,6 +347,7 @@ Did you create a path that uses the separator char accidentally, such as 'Vue <d
             isComponent: false,
             isLeaf: false,
             isRoot: !!root && index === 0,
+            parameters,
           };
           return soFar.concat([result]);
         }, [] as GroupsList);
