@@ -2,21 +2,26 @@ import React, { Children, FunctionComponent, ReactElement, ReactNode, useState }
 import { styled } from '@storybook/theming';
 import { darken } from 'polished';
 import { logger } from '@storybook/client-logger';
-import { ContextStoryProperties } from '@storybook/common';
 
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 import { Source, SourceProps } from './Source';
+import { PropEditorsTable, PropEditorsTableProps } from '../prop-editors';
 import { ActionBar, ActionItem } from '../ActionBar/ActionBar';
 import { Toolbar } from './Toolbar';
+
+const SOURCE_EXPANDED = 'code';
+const PROPS_EXPANDED = 'props';
+
+type ExpandedState = false | typeof SOURCE_EXPANDED | typeof PROPS_EXPANDED | true;
 
 export interface PreviewProps {
   isColumn?: boolean;
   columns?: number;
   withSource?: SourceProps;
-  isExpanded?: boolean;
+  isExpanded?: ExpandedState;
   withToolbar?: boolean;
   className?: string;
-  properties?: ContextStoryProperties;
+  propProps?: PropEditorsTableProps;
 }
 
 const ChildrenContainer = styled.div<PreviewProps>(({ isColumn, columns }) => ({
@@ -71,7 +76,7 @@ interface SourceItem {
 
 const getSource = (
   withSource: SourceProps,
-  expanded: boolean,
+  expanded: ExpandedState,
   setExpanded: Function
 ): SourceItem => {
   switch (true) {
@@ -81,11 +86,11 @@ const getSource = (
         actionItem: {
           title: 'No code available',
           disabled: true,
-          onClick: () => setExpanded(false),
+          onClick: () => setExpanded(expanded === SOURCE_EXPANDED ? false : expanded),
         },
       };
     }
-    case expanded: {
+    case expanded === SOURCE_EXPANDED || expanded === true: {
       return {
         source: <StyledSource {...withSource} dark />,
         actionItem: { title: 'Hide code', onClick: () => setExpanded(false) },
@@ -94,7 +99,38 @@ const getSource = (
     default: {
       return {
         source: null,
-        actionItem: { title: 'Show code', onClick: () => setExpanded(true) },
+        actionItem: { title: 'Show code', onClick: () => setExpanded(SOURCE_EXPANDED) },
+      };
+    }
+  }
+};
+
+const getProperties = (
+  props: PropEditorsTableProps,
+  expanded: ExpandedState,
+  setExpanded: Function
+): SourceItem => {
+  switch (true) {
+    case !props.properties || !Object.keys(props.properties).length: {
+      return {
+        source: null,
+        actionItem: {
+          title: 'No controls available',
+          disabled: true,
+          onClick: () => setExpanded(expanded === PROPS_EXPANDED ? false : expanded),
+        },
+      };
+    }
+    case expanded === PROPS_EXPANDED: {
+      return {
+        source: <PropEditorsTable {...props} />,
+        actionItem: { title: 'Hide controls', onClick: () => setExpanded(false) },
+      };
+    }
+    default: {
+      return {
+        source: null,
+        actionItem: { title: 'Show controls', onClick: () => setExpanded(PROPS_EXPANDED) },
       };
     }
   }
@@ -147,10 +183,16 @@ const Preview: FunctionComponent<PreviewProps> = ({
   withToolbar = false,
   isExpanded = false,
   className,
+  propProps,
   ...props
 }) => {
   const [expanded, setExpanded] = useState(isExpanded);
-  const { source, actionItem } = getSource(withSource, expanded, setExpanded);
+  const { source, actionItem: actionSource } = getSource(withSource, expanded, setExpanded);
+  const { source: propsTable, actionItem: actionProps } = getProperties(
+    propProps,
+    expanded,
+    setExpanded
+  );
   const [scale, setScale] = useState(1);
   const previewClasses = className ? `${className} sbdocs sbdocs-preview` : 'sbdocs sbdocs-preview';
 
@@ -181,9 +223,10 @@ const Preview: FunctionComponent<PreviewProps> = ({
             <Scale scale={scale}>{children}</Scale>
           )}
         </ChildrenContainer>
-        {withSource && <ActionBar actionItems={[actionItem]} />}
+        {(withSource || propsTable) && <ActionBar actionItems={[actionProps, actionSource]} />}
       </Relative>
       {withSource && source}
+      {propProps && propsTable}
     </PreviewContainer>
   );
 };

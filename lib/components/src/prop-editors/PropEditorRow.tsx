@@ -2,8 +2,8 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 
 import { ContextStoryProperty } from '@storybook/common';
-import { ClientApi } from '@storybook/client-api';
-import { getPropertyEditor, PropertyEditor } from '@storybook/components';
+import { getPropertyEditor } from './prop-factory';
+import { PropertyEditor, OnSetPropertyValue, OnResetPropertyValue, OnClickProperty } from './types';
 
 const EditorContainer = styled.div<{}>(({ theme }) => ({
   display: 'flex',
@@ -13,22 +13,29 @@ const InvalidType = () => <span>Invalid Type</span>;
 interface PropertyEditorRowProps {
   prop: ContextStoryProperty;
   name: string;
-  storyId: string;
-  api: ClientApi;
+  storyId?: string;
+  setPropertyValue?: OnSetPropertyValue;
+  resetPropertyValue?: OnResetPropertyValue;
+  clickProperty?: OnClickProperty;
 }
 
 export const PropertyEditorRow: React.FunctionComponent<PropertyEditorRowProps> = ({
   prop,
   name,
-  api,
+  setPropertyValue,
+  clickProperty,
   storyId,
 }) => {
   const InputType: PropertyEditor = getPropertyEditor(prop.type) || InvalidType;
   const onChange = (propName: string, value: any) => {
-    api.setPropertyValue(storyId, propName, value);
+    if (setPropertyValue && storyId) {
+      setPropertyValue(storyId, propName, value);
+    }
   };
   const onClick = () => {
-    api.clickProperty(storyId, name, prop);
+    if (clickProperty && storyId) {
+      clickProperty(storyId, name, prop);
+    }
   };
   return (
     <tr>

@@ -37,6 +37,7 @@ const defaultContext: StoryContext = {
   name: 'unspecified',
   kind: 'unspecified',
   parameters: {},
+  properties: {},
 };
 
 export const defaultDecorateStory = (storyFn: StoryFn, decorators: DecoratorFunction[]) =>
@@ -155,7 +156,7 @@ export default class ClientApi {
     this._storyStore.setPropertyValue(storyId, propertyName, value);
   };
 
-  ressetPropertyValue = (storyId: string, propertyName?: string) => {
+  resetPropertyValue = (storyId: string, propertyName?: string) => {
     this._storyStore.resetPropertyValue(storyId, propertyName);
   };
 

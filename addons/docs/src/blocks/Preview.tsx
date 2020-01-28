@@ -1,6 +1,10 @@
 import React, { FunctionComponent, ReactElement, ReactNode, ReactNodeArray } from 'react';
 import { toId, storyNameFromExport } from '@storybook/csf';
-import { Preview as PurePreview, PreviewProps as PurePreviewProps } from '@storybook/components';
+import {
+  Preview as PurePreview,
+  PreviewProps as PurePreviewProps,
+  PropEditorsTableProps,
+} from '@storybook/components';
 import { getSourceProps } from './Source';
 import { DocsContext, DocsContextProps } from './DocsContext';
 
@@ -22,17 +26,8 @@ const getPreviewProps = (
     children,
     ...props
   }: PreviewProps & { children?: ReactNode },
-  { mdxStoryNameToKey, mdxComponentMeta, storyStore }: DocsContextProps
+  { id: currentId, mdxStoryNameToKey, mdxComponentMeta, storyStore, ...rest }: DocsContextProps
 ): PurePreviewProps => {
-  if (withSource === SourceState.NONE) {
-    return props;
-  }
-  if (mdxSource) {
-    return {
-      ...props,
-      withSource: getSourceProps({ code: decodeURI(mdxSource) }, { storyStore }),
-    };
-  }
   const childArray: ReactNodeArray = Array.isArray(children) ? children : [children];
   const stories = childArray.filter(
     (c: ReactElement) => c.props && (c.props.id || c.props.name)
@@ -45,9 +40,37 @@ const getPreviewProps = (
         storyNameFromExport(mdxStoryNameToKey[s.props.name])
       )
   );
+  const storyId = targetIds.length && targetIds[0];
+  const data = storyStore.fromId(storyId);
+  // @ts-ignore
+  const api: any = rest.clientApi;
+  const propProps: PropEditorsTableProps = data
+    ? {
+        title: null,
+        storyId,
+        setPropertyValue: api.setPropertyValue,
+        resetPropertyValue: api.resetPropertyValue,
+        clickProperty: api.clickProperty,
+        properties: data.properties,
+      }
+    : undefined;
+  const defaultProps = {
+    ...props,
+    propProps,
+  };
+  if (withSource === SourceState.NONE) {
+    return defaultProps;
+  }
+  if (mdxSource) {
+    return {
+      ...defaultProps,
+      withSource: getSourceProps({ code: decodeURI(mdxSource) }, { storyStore }),
+    };
+  }
+
   const sourceProps = getSourceProps({ ids: targetIds }, { storyStore });
   return {
-    ...props, // pass through columns etc.
+    ...defaultProps, // pass through columns etc.
     withSource: sourceProps,
     isExpanded: withSource === SourceState.OPEN,
   };

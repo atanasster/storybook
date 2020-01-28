@@ -11,6 +11,7 @@ export * from './Meta';
 export * from './Preview';
 export * from './Primary';
 export * from './Props';
+export * from './PropEditorsTable';
 export * from './Source';
 export * from './Stories';
 export * from './Story';
@@ -21,4 +22,3 @@ export * from './Wrapper';
 
 export * from './shared';
 export * from './mdx';
-export * from './prop-editors';
