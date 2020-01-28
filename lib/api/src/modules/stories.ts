@@ -27,10 +27,14 @@ export interface SubState {
   storiesConfigured: boolean;
 }
 
-export type SetPropertyValueFn = (storyId: StoryId, propertyName: string, value: any) => void;
+export type SetPropertyValueFn = (
+  storyId: StoryId,
+  propertyName: string | undefined,
+  value: any
+) => void;
 export type ClickPropertyFn = (storyId: StoryId, propertyName: string, prop: StoryProperty) => void;
 
-export type ResetPropertyValueFn = (storyId: StoryId, propertyName: string) => void;
+export type ResetPropertyValueFn = (storyId: StoryId, propertyName?: string) => void;
 export interface SubAPI {
   storyId: typeof toId;
   selectStory: (kindOrId: string, story?: string, obj?: any) => void;
@@ -162,7 +166,7 @@ const initStoriesApi = ({
     provider.channel.emit(STORY_CLICK_PROPERTY, { id: storyId, propertyName, property: prop });
   };
 
-  const resetPropertyValue = (storyId: StoryId, propertyName: string) => {
+  const resetPropertyValue = (storyId: StoryId, propertyName?: string) => {
     const { storiesHash } = store.getState();
     const story = storiesHash[storyId] as StoryInput;
     if (story) {

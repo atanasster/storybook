@@ -163,7 +163,7 @@ export default class StoryStore extends EventEmitter {
       }
     };
 
-    const onResetPropertyValue = ({ id, propertyName }: { id: string; propertyName: string }) => {
+    const onResetPropertyValue = ({ id, propertyName }: { id: string; propertyName?: string }) => {
       const story = this._data[id];
       if (story) {
         const properties = resetPropertyValues(story.properties, propertyName);
@@ -570,7 +570,7 @@ export default class StoryStore extends EventEmitter {
     }
   }
 
-  resetPropertyValue(id: string, propertyName: string) {
+  resetPropertyValue(id: string, propertyName?: string) {
     if (this._data[id]) {
       const story = this._data[id];
       story.properties = resetPropertyValues(story.properties, propertyName);

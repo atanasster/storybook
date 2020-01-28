@@ -21,10 +21,7 @@ export const mergePropertyValues = (
       );
 };
 
-export const resetPropertyValues = (
-  properties: ContextStoryProperties,
-  propertyName: string | undefined
-) => {
+export const resetPropertyValues = (properties: ContextStoryProperties, propertyName?: string) => {
   return propertyName
     ? {
         ...properties,

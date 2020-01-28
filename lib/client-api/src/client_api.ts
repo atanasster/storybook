@@ -151,11 +151,11 @@ export default class ClientApi {
     this._storyStore.addProperties(storyId, properties);
   };
 
-  setPropertyValue = (storyId: string, propertyName: string, value: any) => {
+  setPropertyValue = (storyId: string, propertyName: string | undefined, value: any) => {
     this._storyStore.setPropertyValue(storyId, propertyName, value);
   };
 
-  ressetPropertyValue = (storyId: string, propertyName: string) => {
+  ressetPropertyValue = (storyId: string, propertyName?: string) => {
     this._storyStore.resetPropertyValue(storyId, propertyName);
   };
 
