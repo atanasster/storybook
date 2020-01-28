@@ -1,13 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Title,
-  Subtitle,
-  Description,
-  Primary,
-  Props,
-  Stories,
-} from '@storybook/addon-docs/blocks';
+import { Title, Subtitle, Description, Story, Props, Stories } from '@storybook/addon-docs/blocks';
 import { PropEditorsTable } from '@storybook/prop-editors/blocks';
 
 export default {
@@ -19,7 +12,7 @@ export default {
           <Title />
           <Subtitle />
           <Description />
-          <Primary />
+          <Story id="." />
           <PropEditorsTable />
           <Props />
           <Stories />
