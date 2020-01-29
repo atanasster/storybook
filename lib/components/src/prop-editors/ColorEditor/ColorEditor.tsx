@@ -33,6 +33,7 @@ const Swatch = styled.div<{}>(({ theme }) => ({
 const ColorButton = styled(Button)<ColorButtonProps>(({ active }) => ({
   zIndex: active ? 3 : 'unset',
   paddingLeft: '30px',
+  minHeight: '36px',
 }));
 
 const Popover = styled.div({

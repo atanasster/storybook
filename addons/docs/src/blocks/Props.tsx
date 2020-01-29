@@ -84,7 +84,7 @@ export const getComponentProps = (
             return acc;
           }, {})
         : undefined;
-    if (smartProps) {
+    if (smartProps && Object.keys(smartProps).length) {
       api.setProperties(story.id, smartProps);
     }
     return {

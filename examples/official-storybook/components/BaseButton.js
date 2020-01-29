@@ -18,7 +18,7 @@ BaseButton.defaultProps = {
   disabled: false,
   onClick: () => {},
   style: {},
-  backgroundColor: 'buttonface',
+  backgroundColor: '#fefefe',
   color: 'black',
   type: 'button',
 };

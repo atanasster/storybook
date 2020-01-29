@@ -23,7 +23,7 @@ export const createFieldFromProps = (
     case 'string': {
       let value: string | undefined =
         typeof propDef.defaultValue === 'string' ? propDef.defaultValue : undefined;
-      const isColor = propDef.name.includes('color');
+      const isColor = propDef.name.toLowerCase().includes('color');
       if (!value && propDef.required) {
         value = isColor ? 'red' : 'example';
       }
