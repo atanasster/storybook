@@ -6,7 +6,7 @@ export default {
   title: 'Addons/Controls/kind',
   component: PropEditorsTable,
   properties: {
-    name: { type: PropertyTypes.TEXT, label: 'Name', value: 'Mark' },
+    name: { type: PropertyTypes.TEXT, label: 'Name', value: 'Mark', order: 9999 },
   },
 };
 
@@ -24,11 +24,12 @@ export const docsPropEditorsTable = ({ name, age }: DocsPropEditorsTable) => {
 
 docsPropEditorsTable.story = {
   properties: {
-    age: { type: PropertyTypes.NUMBER, label: 'Age', value: 19 },
+    age: { type: PropertyTypes.NUMBER, label: 'Age', value: 19, order: 2 },
     clickMe: {
       type: PropertyTypes.BUTTON,
       label: '+1',
       onClick: () => {},
+      order: 1,
     },
   },
 };

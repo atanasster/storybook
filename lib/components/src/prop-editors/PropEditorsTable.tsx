@@ -50,16 +50,29 @@ const PropGroupTable: React.FC<PropEditorsTableProps> = ({
   <StyleTable className="docblock-propeditorstable">
     <tbody>
       {properties &&
-        Object.keys(properties).map(key => (
-          <PropertyEditorRow
-            storyId={storyId}
-            key={`prop_editor_row_${storyId}_${key}`}
-            prop={properties[key]}
-            name={key}
-            setPropertyValue={setPropertyValue}
-            clickProperty={clickProperty}
-          />
-        ))}
+        Object.keys(properties)
+          .map((key, index) => ({
+            name: key,
+            property: {
+              ...properties[key],
+              order: properties[key].order === undefined ? index : properties[key].order,
+            },
+          }))
+          .sort((a, b) => {
+            const aOrder = a.property.order;
+            const bOrder = b.property.order;
+            return aOrder - bOrder;
+          })
+          .map(p => (
+            <PropertyEditorRow
+              storyId={storyId}
+              key={`prop_editor_row_${storyId}_${p.name}`}
+              prop={p.property}
+              name={p.name}
+              setPropertyValue={setPropertyValue}
+              clickProperty={clickProperty}
+            />
+          ))}
     </tbody>
   </StyleTable>
 );
