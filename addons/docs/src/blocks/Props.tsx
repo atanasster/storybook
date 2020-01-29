@@ -1,22 +1,18 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { isNil } from 'lodash';
-
 import {
   PropsTable,
   PropsTableError,
   PropsTableProps,
   PropsTableRowsProps,
   PropsTableSectionsProps,
-  PropDef,
   TabsState,
 } from '@storybook/components';
+import { PropsExtractor } from '../lib/docgen/types';
+import { inferPropsExtractor, filterRows } from './propExtract';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { Component, PropsSlot, CURRENT_SELECTION } from './shared';
 import { getComponentName } from './utils';
-import { createFieldFromProps } from './smartControls';
-import { PropsExtractor } from '../lib/docgen/types';
-import { extractProps as reactExtractProps } from '../frameworks/react/extractProps';
-import { extractProps as vueExtractProps } from '../frameworks/vue/extractProps';
 
 interface PropsProps {
   exclude?: string[];
@@ -26,21 +22,6 @@ interface PropsProps {
   };
   slot?: PropsSlot;
 }
-
-// FIXME: remove in SB6.0 & require config
-const inferPropsExtractor = (framework: string): PropsExtractor | null => {
-  switch (framework) {
-    case 'react':
-      return reactExtractProps;
-    case 'vue':
-      return vueExtractProps;
-    default:
-      return null;
-  }
-};
-
-const filterRows = (rows: PropDef[], exclude: string[]) =>
-  rows && rows.filter((row: PropDef) => !exclude.includes(row.name));
 
 export const getComponentProps = (
   component: Component,
@@ -52,7 +33,7 @@ export const getComponentProps = (
   }
   try {
     const params = parameters || {};
-    const { framework = null, smartControls } = params;
+    const { framework = null } = params;
 
     const { extractProps = inferPropsExtractor(framework) }: { extractProps: PropsExtractor } =
       params.docs || {};
@@ -74,19 +55,6 @@ export const getComponentProps = (
     const api: any = (context as any).clientApi;
     const story = context.storyStore.fromId(context.id) || {};
 
-    const smartProps =
-      story && !story.smartControls && rows
-        ? rows.reduce((acc, row) => {
-            const field = createFieldFromProps(row, story.properties, smartControls);
-            if (field) {
-              return { ...acc, [row.name]: field };
-            }
-            return acc;
-          }, {})
-        : undefined;
-    if (smartProps && Object.keys(smartProps).length) {
-      api.setProperties(story.id, smartProps);
-    }
     return {
       ...props,
       propProps: {

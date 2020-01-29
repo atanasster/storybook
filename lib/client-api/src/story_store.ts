@@ -305,7 +305,14 @@ export default class StoryStore extends EventEmitter {
   };
 
   addStory(
-    { id, kind, name, storyFn: original, parameters = {}, properties = {} }: AddStoryArgs,
+    {
+      id,
+      kind,
+      name,
+      storyFn: original,
+      parameters = {},
+      properties: storyProps = {},
+    }: AddStoryArgs,
     {
       getDecorators,
       applyDecorators,
@@ -332,7 +339,14 @@ export default class StoryStore extends EventEmitter {
       story: name, // legacy
     };
 
-    const { legacyContextProp } = parameters.options || {};
+    const { legacyContextProp, propExtractor } = parameters.options || {};
+    let properties: StoryProperties;
+    if (typeof propExtractor === 'function') {
+      properties = { ...propExtractor(parameters), ...storyProps };
+    } else {
+      properties = storyProps;
+    }
+
     // immutable original storyFn
     const getOriginal = () => (context: StoryContext) => {
       const values = Object.keys(this._data[id].properties).reduce(

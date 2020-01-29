@@ -22,3 +22,5 @@ export * from './Wrapper';
 
 export * from './shared';
 export * from './mdx';
+
+export { extractSmartProperties } from './smartControls';

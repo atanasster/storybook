@@ -4,7 +4,7 @@ import { Global, ThemeProvider, themes, createReset, convert } from '@storybook/
 import { withCssResources } from '@storybook/addon-cssresources';
 // import { withA11y } from '@storybook/addon-a11y';
 import { withNotes } from '@storybook/addon-notes';
-import { DocsPage } from '@storybook/addon-docs/blocks';
+import { DocsPage, extractSmartProperties } from '@storybook/addon-docs/blocks';
 
 import addHeadWarning from './head-warning';
 
@@ -49,6 +49,8 @@ addParameters({
     // if the following option is true, context will be passed in the first parameter to stories
     // if false (default), prop values are in the first parameter, while the context is in the second
     // legacyContextProp: true,
+
+    propExtractor: extractSmartProperties,
     theme: themes.light, // { base: 'dark', brandTitle: 'Storybook!' },
     storySort: (a, b) =>
       a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),

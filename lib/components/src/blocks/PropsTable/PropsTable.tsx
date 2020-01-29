@@ -161,7 +161,7 @@ const PropsTableRow: FC<SectionRowProps | PropsTableRowProps> = props => {
 
   const field = propProps && propProps.properties ? propProps.properties[row.name] : undefined;
   let control: React.ReactNode | undefined;
-  const { setPropertyValue, clickProperty, storyId } = propProps;
+  const { setPropertyValue, clickProperty, storyId } = propProps || {};
   const onChange = (propName: string, value: any) => {
     if (setPropertyValue && storyId) {
       setPropertyValue(storyId, propName, value);
