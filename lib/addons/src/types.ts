@@ -102,6 +102,7 @@ export interface StoryApi<StoryFnReturnType = unknown> {
   ) => StoryApi<StoryFnReturnType>;
   addDecorator: (decorator: DecoratorFunction<StoryFnReturnType>) => StoryApi<StoryFnReturnType>;
   addParameters: (parameters: Parameters) => StoryApi<StoryFnReturnType>;
+  addProperties: (properties: StoryProperties) => StoryApi<StoryFnReturnType>;
   setPropertyValue: ({
     id,
     propertyName,
@@ -133,6 +134,7 @@ export interface ClientStoryApi<StoryFnReturnType = unknown> {
   storiesOf(kind: string, module: NodeModule): StoryApi<StoryFnReturnType>;
   addDecorator(decorator: DecoratorFunction<StoryFnReturnType>): StoryApi<StoryFnReturnType>;
   addParameters(parameter: Parameters): StoryApi<StoryFnReturnType>;
+  addProperties(properties: StoryProperties): StoryApi<StoryFnReturnType>;
 }
 
 type LoadFn = () => any;

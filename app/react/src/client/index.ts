@@ -4,6 +4,7 @@ export {
   addDecorator,
   DecoratorFn,
   addParameters,
+  addProperties,
   configure,
   getStorybook,
   raw,

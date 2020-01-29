@@ -1,32 +1,12 @@
 import React from 'react';
 import { PropertyTypes } from '@storybook/common';
-import {
-  Title,
-  Subtitle,
-  Description,
-  Story,
-  Props,
-  Stories,
-  PropEditorsTable,
-} from '@storybook/addon-docs/blocks';
+import { PropEditorsTable } from '@storybook/addon-docs/blocks';
 
 export default {
-  title: 'Docs/PropEditors/PropEditorsTable',
+  title: 'Addons/Controls/kind',
   component: PropEditorsTable,
-  parameters: {
-    docs: {
-      page: () => (
-        <>
-          <Title />
-          <Subtitle />
-          <Description />
-          <Story id="." />
-          <PropEditorsTable />
-          <Props />
-          <Stories />
-        </>
-      ),
-    },
+  properties: {
+    name: { type: PropertyTypes.TEXT, label: 'Name', value: 'Mark' },
   },
 };
 
@@ -44,7 +24,6 @@ export const docsPropEditorsTable = ({ name, age }: DocsPropEditorsTable) => {
 
 docsPropEditorsTable.story = {
   properties: {
-    name: { type: PropertyTypes.TEXT, label: 'Name', value: 'Mark' },
     age: { type: PropertyTypes.NUMBER, label: 'Age', value: 19 },
     clickMe: {
       type: PropertyTypes.BUTTON,

@@ -7,7 +7,12 @@ import { toId } from '@storybook/csf';
 import mergeWith from 'lodash/mergeWith';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
-import { StoryProperties, ContextStoryProperty } from '@storybook/common';
+import {
+  StoryProperties,
+  ContextStoryProperty,
+  StoryProperty,
+  StoryPropertyButton,
+} from '@storybook/common';
 import { ClientApiParams, DecoratorFunction, ClientApiAddons, StoryApi } from './types';
 import { applyHooks } from './hooks';
 import StoryStore from './story_store';
@@ -81,6 +86,15 @@ export const addParameters = (parameters: Parameters) => {
   };
 };
 
+let _globalProperties: StoryProperties = {};
+
+export const addProperties = (properties: StoryProperties) => {
+  _globalProperties = {
+    ..._globalProperties,
+    ...properties,
+  };
+};
+
 export default class ClientApi {
   private _storyStore: StoryStore;
 
@@ -148,8 +162,13 @@ export default class ClientApi {
     _globalParameters = {};
   };
 
-  addProperties = (storyId: string, properties: StoryProperties) => {
-    this._storyStore.addProperties(storyId, properties);
+  addProperties = (properties: StoryProperties) => {
+    addProperties(properties);
+  };
+
+  clearPproperties = () => {
+    // Utility function FOR TESTING USE ONLY
+    _globalProperties = {};
   };
 
   setPropertyValue = (storyId: string, propertyName: string | undefined, value: any) => {
@@ -199,6 +218,7 @@ export default class ClientApi {
 
     const localDecorators: DecoratorFunction<StoryFnReturnType>[] = [];
     let localParameters: Parameters = {};
+    let localProperties: StoryProperties = {};
     let hasAdded = false;
     const api: StoryApi<StoryFnReturnType> = {
       kind: kind.toString(),
@@ -285,7 +305,13 @@ export default class ClientApi {
         { fileName }
       );
       const { properties: storyProperties } = (storyFn as any).story || {};
-      const allProperties = { ...storyProperties, ...properties };
+      const allProperties = {
+        ..._globalProperties,
+        ...localProperties,
+        ...storyProperties,
+        ...properties,
+      };
+
       this._storyStore.addStory(
         {
           id,
@@ -320,6 +346,10 @@ This is probably not what you intended. Read more here: https://github.com/story
 
     api.addParameters = (parameters: Parameters) => {
       localParameters = { ...localParameters, ...parameters };
+      return api;
+    };
+    api.addProperties = (properties: StoryProperties) => {
+      localProperties = { ...localProperties, ...properties };
       return api;
     };
 

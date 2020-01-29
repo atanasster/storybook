@@ -3,6 +3,7 @@ export {
   setAddon,
   addDecorator,
   addParameters,
+  addProperties,
   configure,
   getStorybook,
   forceReRender,

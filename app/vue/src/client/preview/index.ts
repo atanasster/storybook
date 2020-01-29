@@ -131,6 +131,8 @@ export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
 export const configure: ClientApi['configure'] = (...args) => api.configure(...args, framework);
 export const addDecorator: ClientApi['addDecorator'] = api.clientApi.addDecorator;
 export const addParameters: ClientApi['addParameters'] = api.clientApi.addParameters;
+export const addProperties: ClientApi['addProperties'] = api.clientApi.addProperties;
+
 export const clearDecorators: ClientApi['clearDecorators'] = api.clientApi.clearDecorators;
 export const setAddon: ClientApi['setAddon'] = api.clientApi.setAddon;
 export const forceReRender: ClientApi['forceReRender'] = api.forceReRender;
