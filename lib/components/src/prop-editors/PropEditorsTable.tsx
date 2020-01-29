@@ -82,7 +82,7 @@ interface GroupedPropertiesType {
 }
 
 export const PropEditorsTable: React.FC<PropEditorsTableProps & { title?: string }> = props => {
-  const { properties, title = 'Property Editors' } = props;
+  const { properties, title } = props;
   if (properties && Object.keys(properties).length) {
     const groupped: GroupedPropertiesType = Object.keys(properties)
       .filter(k => {

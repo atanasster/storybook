@@ -20,7 +20,7 @@ export type OnClickProperty = (
 ) => void;
 
 export interface PropEditorsTableProps {
-  title?: string | null;
+  title?: string;
   storyId?: string;
   properties?: ContextStoryProperties;
   setPropertyValue?: OnSetPropertyValue;

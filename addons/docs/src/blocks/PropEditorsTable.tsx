@@ -30,7 +30,10 @@ const getPropertyProps = (
     properties: data.properties,
   };
 };
-export const PropEditorsTable: React.FC<PropEditorsTable & StoryProps> = ({ title, ...rest }) => (
+export const PropEditorsTable: React.FC<PropEditorsTable & StoryProps> = ({
+  title = 'Property Editors',
+  ...rest
+}) => (
   <DocsContext.Consumer>
     {context => {
       const { properties, id } = getPropertyProps(rest, context);

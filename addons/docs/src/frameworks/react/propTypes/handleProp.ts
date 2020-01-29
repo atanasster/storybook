@@ -8,8 +8,7 @@ import { keepOriginalDefinitionOrder } from './sortProps';
 import { rawDefaultPropTypeResolvers } from './rawDefaultPropResolvers';
 
 export function enhancePropTypesProp(extractedProp: ExtractedProp, rawDefaultProp?: any): PropDef {
-  const { propDef } = extractedProp;
-
+  const { propDef, docgenInfo } = extractedProp;
   const newtype = createType(extractedProp);
   if (!isNil(newtype)) {
     propDef.type = newtype;
@@ -33,7 +32,10 @@ export function enhancePropTypesProp(extractedProp: ExtractedProp, rawDefaultPro
       propDef.defaultValue = newDefaultValue;
     }
   }
-
+  if (docgenInfo && docgenInfo.type) {
+    propDef.type.value = docgenInfo.type.value;
+    propDef.type.type = docgenInfo.type.name;
+  }
   return propDef;
 }
 

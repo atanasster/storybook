@@ -45,14 +45,14 @@ const filterRows = (rows: PropDef[], exclude: string[]) =>
 export const getComponentProps = (
   component: Component,
   { exclude }: PropsProps,
-  { parameters }: DocsContextProps
+  { parameters, ...context }: DocsContextProps
 ): PropsTableProps => {
   if (!component) {
     return null;
   }
   try {
     const params = parameters || {};
-    const { framework = null } = params;
+    const { framework = null, smartControls } = params;
 
     const { extractProps = inferPropsExtractor(framework) }: { extractProps: PropsExtractor } =
       params.docs || {};
@@ -71,8 +71,19 @@ export const getComponentProps = (
         });
       }
     }
-
-    return props;
+    const api: any = (context as any).clientApi;
+    const story = context.storyStore.fromId(context.id) || {};
+    return {
+      ...props,
+      smartControls,
+      propProps: {
+        storyId: story.id,
+        properties: story.properties,
+        setPropertyValue: api.setPropertyValue,
+        resetPropertyValue: api.resetPropertyValue,
+        clickProperty: api.clickProperty,
+      },
+    };
   } catch (err) {
     return { error: err.message };
   }

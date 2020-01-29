@@ -10,6 +10,7 @@ import { codeCommon } from '../../typography/shared';
 
 export interface PropRowProps {
   row: PropDef;
+  control?: React.ReactNode;
 }
 
 const Name = styled.span({ fontWeight: 'bold' });
@@ -54,9 +55,9 @@ const TypeWithJsDoc = styled.div<{ hasDescription: boolean }>(({ theme, hasDescr
 
 export const PropRow: FC<PropRowProps> = ({
   row: { name, type, required, description, defaultValue, jsDocTags },
+  control,
 }) => {
   const hasDescription = !isNil(description) && description !== '';
-
   return (
     <tr>
       <td>
@@ -85,6 +86,7 @@ export const PropRow: FC<PropRowProps> = ({
       <td>
         <PropValue value={defaultValue} />
       </td>
+      {control && <td>{control}</td>}
     </tr>
   );
 };
