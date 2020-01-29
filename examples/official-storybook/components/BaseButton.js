@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /** BaseButton component description imported from comments inside the component file */
-const BaseButton = ({ disabled, label, onClick, style, color, type }) => (
+const BaseButton = ({ disabled, label, onClick, style, backgroundColor, color, type }) => (
   // eslint-disable-next-line react/button-has-type
   <button
     type={type}
     disabled={disabled}
     onClick={onClick}
-    style={{ ...style, backgroundColor: color }}
+    style={{ ...style, backgroundColor, color }}
   >
     {label}
   </button>
@@ -18,7 +18,8 @@ BaseButton.defaultProps = {
   disabled: false,
   onClick: () => {},
   style: {},
-  color: 'buttonface',
+  backgroundColor: 'buttonface',
+  color: 'black',
   type: 'button',
 };
 
@@ -32,7 +33,10 @@ BaseButton.propTypes = {
   /** Custom styles */
   style: PropTypes.shape({}),
 
-  /** Background color, default grey */
+  /** Background color */
+  backgroundColor: PropTypes.string,
+
+  /** Text color, default black */
   color: PropTypes.string,
 
   /** Button type */

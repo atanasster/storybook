@@ -1,4 +1,4 @@
-import { StoryProperty } from './properties';
+import { StoryProperty } from '.';
 
 export type ContextStoryProperty = StoryProperty & { defaultValue: any };
 export interface ContextStoryProperties {

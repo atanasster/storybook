@@ -605,4 +605,19 @@ export default class StoryStore extends EventEmitter {
       };
     }
   }
+
+  setProperties(id: string, properties: StoryProperties) {
+    if (this._data[id]) {
+      const story = this._data[id];
+      this._data[id].properties = {
+        ...createStoreProperties(
+          properties,
+          story,
+          this._data[id].parameters.options.legacyContextProp
+        ),
+      };
+      this._data[id].smartControls = true;
+      this._channel.emit(Events.FORCE_RE_RENDER);
+    }
+  }
 }

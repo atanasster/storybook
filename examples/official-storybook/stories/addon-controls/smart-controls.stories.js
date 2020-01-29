@@ -9,4 +9,12 @@ export default {
   },
 };
 
-export const basic = props => <Button label="Basic" {...props} />;
+export const allProps = props => <Button {...props} />;
+
+export const onlyColors = props => <Button label="Choose colors" {...props} />;
+
+onlyColors.story = {
+  parameters: {
+    smartControls: ['color', 'backgroundColor'],
+  },
+};

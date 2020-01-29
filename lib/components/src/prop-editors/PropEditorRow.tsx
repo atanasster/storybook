@@ -5,7 +5,7 @@ import { ContextStoryProperty } from '@storybook/common';
 import { getPropertyEditor } from './prop-factory';
 import { PropertyEditor, OnSetPropertyValue, OnResetPropertyValue, OnClickProperty } from './types';
 
-const EditorContainer = styled.div<{}>(({ theme }) => ({
+export const EditorContainer = styled.div<{}>(({ theme }) => ({
   display: 'flex',
 }));
 const InvalidType = () => <span>Invalid Type</span>;

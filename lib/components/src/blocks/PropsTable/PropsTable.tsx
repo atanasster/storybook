@@ -7,7 +7,6 @@ import { PropDef, PropType, PropDefaultValue, PropSummaryValue } from './PropDef
 import { EmptyBlock } from '../EmptyBlock';
 import { ResetWrapper } from '../../typography/DocumentFormatting';
 import { PropEditorsTableProps, PropertyEditor, getPropertyEditor } from '../../prop-editors';
-import { SmartControls, createFieldFromProps } from './SmartControl';
 
 export const Table = styled.table<{}>(({ theme }) => ({
   '&&': {
@@ -138,7 +137,6 @@ export enum PropsTableError {
 export interface PropsTableRowsProps {
   rows: PropDef[];
   propProps?: PropEditorsTableProps;
-  smartControls?: SmartControls;
 }
 
 export interface PropsTableSectionsProps {
@@ -153,15 +151,15 @@ export type PropsTableProps = PropsTableRowsProps | PropsTableSectionsProps | Pr
 
 type PropsTableRowProps = PropRowProps & {
   propProps?: PropEditorsTableProps;
-  smartControls?: SmartControls;
 };
 const PropsTableRow: FC<SectionRowProps | PropsTableRowProps> = props => {
   const { section } = props as SectionRowProps;
   if (section) {
     return <SectionRow section={section} />;
   }
-  const { row, propProps, smartControls } = props as PropsTableRowProps;
-  const field = createFieldFromProps(row, propProps && propProps.properties, smartControls);
+  const { row, propProps } = props as PropsTableRowProps;
+
+  const field = propProps && propProps.properties ? propProps.properties[row.name] : undefined;
   let control: React.ReactNode | undefined;
   const { setPropertyValue, clickProperty, storyId } = propProps;
   const onChange = (propName: string, value: any) => {
@@ -195,7 +193,7 @@ const PropsTable: FC<PropsTableProps> = props => {
 
   let allRows: any[] = [];
   const { sections } = props as PropsTableSectionsProps;
-  const { rows, smartControls, propProps } = props as PropsTableRowsProps;
+  const { rows, propProps } = props as PropsTableRowsProps;
   if (sections) {
     Object.keys(sections).forEach(section => {
       const sectionRows = sections[section];
@@ -220,7 +218,7 @@ const PropsTable: FC<PropsTableProps> = props => {
     return <EmptyBlock>No props found for this component</EmptyBlock>;
   }
 
-  const hasSmartControls = smartControls && propProps && propProps.properties;
+  const hasSmartControls = propProps && propProps.properties;
 
   return (
     <ResetWrapper>
@@ -235,12 +233,7 @@ const PropsTable: FC<PropsTableProps> = props => {
         </thead>
         <tbody className="docblock-propstable-body">
           {allRows.map(row => (
-            <PropsTableRow
-              key={row.key}
-              {...row.value}
-              smartControls={smartControls}
-              propProps={propProps}
-            />
+            <PropsTableRow key={row.key} {...row.value} propProps={propProps} />
           ))}
         </tbody>
       </Table>

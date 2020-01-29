@@ -13,7 +13,7 @@ import {
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { Component, PropsSlot, CURRENT_SELECTION } from './shared';
 import { getComponentName } from './utils';
-
+import { createFieldFromProps } from './smartControls';
 import { PropsExtractor } from '../lib/docgen/types';
 import { extractProps as reactExtractProps } from '../frameworks/react/extractProps';
 import { extractProps as vueExtractProps } from '../frameworks/vue/extractProps';
@@ -60,8 +60,8 @@ export const getComponentProps = (
       throw new Error(PropsTableError.PROPS_UNSUPPORTED);
     }
     let props = extractProps(component);
+    const { rows } = props as PropsTableRowsProps;
     if (!isNil(exclude)) {
-      const { rows } = props as PropsTableRowsProps;
       const { sections } = props as PropsTableSectionsProps;
       if (rows) {
         props = { rows: filterRows(rows, exclude) };
@@ -73,9 +73,22 @@ export const getComponentProps = (
     }
     const api: any = (context as any).clientApi;
     const story = context.storyStore.fromId(context.id) || {};
+
+    const smartProps =
+      story && !story.smartControls && rows
+        ? rows.reduce((acc, row) => {
+            const field = createFieldFromProps(row, story.properties, smartControls);
+            if (field) {
+              return { ...acc, [row.name]: field };
+            }
+            return acc;
+          }, {})
+        : undefined;
+    if (smartProps) {
+      api.setProperties(story.id, smartProps);
+    }
     return {
       ...props,
-      smartControls,
       propProps: {
         storyId: story.id,
         properties: story.properties,

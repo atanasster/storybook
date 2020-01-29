@@ -7,6 +7,7 @@ import { PropDef } from './PropDef';
 import { PropJsDoc } from './PropJsDoc';
 import { PropValue } from './PropValue';
 import { codeCommon } from '../../typography/shared';
+import { EditorContainer } from '../../prop-editors/PropEditorRow';
 
 export interface PropRowProps {
   row: PropDef;
@@ -86,7 +87,11 @@ export const PropRow: FC<PropRowProps> = ({
       <td>
         <PropValue value={defaultValue} />
       </td>
-      {control && <td>{control}</td>}
+      {control && (
+        <td>
+          <EditorContainer>{control}</EditorContainer>
+        </td>
+      )}
     </tr>
   );
 };

@@ -25,6 +25,7 @@ export interface StoreItem extends StoryContext {
   storyFn: StoryFn;
   hooks: HooksContext;
   parameters: Parameters;
+  smartControls?: boolean;
   properties?: ContextStoryProperties;
 }
 

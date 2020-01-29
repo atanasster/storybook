@@ -7,12 +7,7 @@ import { toId } from '@storybook/csf';
 import mergeWith from 'lodash/mergeWith';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
-import {
-  StoryProperties,
-  ContextStoryProperty,
-  StoryProperty,
-  StoryPropertyButton,
-} from '@storybook/common';
+import { StoryProperties, ContextStoryProperty, StoryProperty } from '@storybook/common';
 import { ClientApiParams, DecoratorFunction, ClientApiAddons, StoryApi } from './types';
 import { applyHooks } from './hooks';
 import StoryStore from './story_store';
@@ -183,6 +178,10 @@ export default class ClientApi {
     this._storyStore.clickProperty(storyId, propertyName, property);
   };
 
+  setProperties = (storyId: string, properties: StoryProperties) => {
+    this._storyStore.setProperties(storyId, properties);
+  };
+
   // what are the occasions that "m" is a boolean vs an obj
   storiesOf = <StoryFnReturnType = unknown>(
     kind: string,
@@ -227,6 +226,7 @@ export default class ClientApi {
       setPropertyValue: () => api,
       clickProperty: () => api,
       addParameters: () => api,
+      addProperties: () => api,
     };
 
     // apply addons

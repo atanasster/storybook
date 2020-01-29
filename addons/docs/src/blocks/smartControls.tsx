@@ -1,5 +1,5 @@
 import { StoryProperties, StoryProperty, PropertyTypes } from '@storybook/common';
-import { PropDef } from './PropDef';
+import { PropDef } from '@storybook/components';
 
 export type SmartControls = boolean | string[];
 export const createFieldFromProps = (
@@ -21,10 +21,14 @@ export const createFieldFromProps = (
   }
   switch (propDef.type.type) {
     case 'string': {
-      const value: string | undefined =
+      let value: string | undefined =
         typeof propDef.defaultValue === 'string' ? propDef.defaultValue : undefined;
+      const isColor = propDef.name.includes('color');
+      if (!value && propDef.required) {
+        value = isColor ? 'red' : 'example';
+      }
       return {
-        type: propDef.name.includes('color') ? PropertyTypes.COLOR : PropertyTypes.TEXT,
+        type: isColor ? PropertyTypes.COLOR : PropertyTypes.TEXT,
         value,
       };
     }
@@ -38,12 +42,16 @@ export const createFieldFromProps = (
       }
       return { type: PropertyTypes.BOOLEAN, value };
     }
-    case 'enum':
+    case 'enum': {
+      const value = propDef.defaultValue
+        ? propDef.defaultValue.summary.replace(/['"]+/g, '')
+        : undefined;
       return {
         type: PropertyTypes.OPTIONS,
-        options: propDef.type.value.map((v: any) => v.value.replace(/[']+/g, '')),
-        value: propDef.defaultValue ? propDef.defaultValue.summary : undefined,
+        options: propDef.type.value.map((v: any) => v.value.replace(/['"]+/g, '')),
+        value,
       };
+    }
     default:
       return null;
   }
