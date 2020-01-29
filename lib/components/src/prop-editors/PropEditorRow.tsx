@@ -5,8 +5,13 @@ import { ContextStoryProperty } from '@storybook/common';
 import { getPropertyEditor } from './prop-factory';
 import { PropertyEditor, OnSetPropertyValue, OnResetPropertyValue, OnClickProperty } from './types';
 
-export const EditorContainer = styled.div<{}>(({ theme }) => ({
+export interface EditorContainerProps {
+  align?: string;
+}
+export const EditorContainer = styled.div<EditorContainerProps>(({ align = 'center' }) => ({
   display: 'flex',
+  alignItems: align,
+  justifyContent: align,
 }));
 const InvalidType = () => <span>Invalid Type</span>;
 
@@ -41,7 +46,7 @@ export const PropertyEditorRow: React.FunctionComponent<PropertyEditorRowProps> 
     <tr>
       <td>{!prop.hideLabel ? prop.label || name : null}</td>
       <td>
-        <EditorContainer>
+        <EditorContainer align="left">
           <InputType prop={prop} name={name} onChange={onChange} onClick={onClick} />
         </EditorContainer>
       </td>

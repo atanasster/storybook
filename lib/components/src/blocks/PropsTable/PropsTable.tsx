@@ -1,11 +1,14 @@
 import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
+import { ContextStoryProperties } from '@storybook/common';
 import { opacify, transparentize, darken, lighten } from 'polished';
+import { ContextStoryProperty } from '@storybook/common/dist/prop-utils';
 import { PropRow, PropRowProps } from './PropRow';
 import { SectionRow, SectionRowProps } from './SectionRow';
 import { PropDef, PropType, PropDefaultValue, PropSummaryValue } from './PropDef';
 import { EmptyBlock } from '../EmptyBlock';
 import { ResetWrapper } from '../../typography/DocumentFormatting';
+import { Icons } from '../../icon/icon';
 import { PropEditorsTableProps, PropertyEditor, getPropertyEditor } from '../../prop-editors';
 
 export const Table = styled.table<{}>(({ theme }) => ({
@@ -129,6 +132,10 @@ export const Table = styled.table<{}>(({ theme }) => ({
   },
 }));
 
+const TitleIcon = styled(Icons)({
+  height: 18,
+  width: 18,
+});
 export enum PropsTableError {
   NO_COMPONENT = 'No component found',
   PROPS_UNSUPPORTED = 'Props unsupported. See Props documentation for your framework.',
@@ -151,17 +158,18 @@ export type PropsTableProps = PropsTableRowsProps | PropsTableSectionsProps | Pr
 
 type PropsTableRowProps = PropRowProps & {
   propProps?: PropEditorsTableProps;
+  field?: ContextStoryProperty;
+  hasSmartControls: boolean;
 };
 const PropsTableRow: FC<SectionRowProps | PropsTableRowProps> = props => {
   const { section } = props as SectionRowProps;
   if (section) {
     return <SectionRow section={section} />;
   }
-  const { row, propProps } = props as PropsTableRowProps;
+  const { row, propProps, field, hasSmartControls } = props as PropsTableRowProps;
 
-  const field = propProps && propProps.properties ? propProps.properties[row.name] : undefined;
-  let control: React.ReactNode | undefined;
   const { setPropertyValue, clickProperty, storyId } = propProps || {};
+
   const onChange = (propName: string, value: any) => {
     if (setPropertyValue && storyId) {
       setPropertyValue(storyId, propName, value);
@@ -172,13 +180,14 @@ const PropsTableRow: FC<SectionRowProps | PropsTableRowProps> = props => {
       clickProperty(storyId, row.name, field);
     }
   };
+  let control: React.ReactNode | undefined;
   if (field) {
     const InputType: PropertyEditor = getPropertyEditor(field.type);
     if (InputType) {
       control = <InputType prop={field} name={row.name} onChange={onChange} onClick={onClick} />;
     }
   }
-  return <PropRow row={row} control={control} />;
+  return <PropRow row={row} control={control} hasSmartControls={hasSmartControls} />;
 };
 
 /**
@@ -218,8 +227,16 @@ const PropsTable: FC<PropsTableProps> = props => {
     return <EmptyBlock>No props found for this component</EmptyBlock>;
   }
 
-  const hasSmartControls = propProps && propProps.properties;
-
+  const smartControls =
+    propProps && propProps.properties
+      ? Object.keys(propProps.properties)
+          .filter(name => allRows.find(row => row.key === name) !== undefined)
+          .reduce(
+            (acc: ContextStoryProperties, name) => ({ ...acc, [name]: propProps.properties[name] }),
+            {}
+          )
+      : {};
+  const hasSmartControls = Object.keys(smartControls).length > 0;
   return (
     <ResetWrapper>
       <Table className="docblock-propstable">
@@ -228,13 +245,26 @@ const PropsTable: FC<PropsTableProps> = props => {
             <th>Name</th>
             <th>Description</th>
             <th>Default</th>
-            {hasSmartControls && <th>Edit</th>}
+            {hasSmartControls && (
+              <th align="center">
+                <TitleIcon icon="edit" />
+              </th>
+            )}
           </tr>
         </thead>
         <tbody className="docblock-propstable-body">
-          {allRows.map(row => (
-            <PropsTableRow key={row.key} {...row.value} propProps={propProps} />
-          ))}
+          {allRows.map(row => {
+            const field = smartControls[row.key];
+            return (
+              <PropsTableRow
+                key={row.key}
+                {...row.value}
+                propProps={propProps}
+                field={field}
+                hasSmartControls={hasSmartControls}
+              />
+            );
+          })}
         </tbody>
       </Table>
     </ResetWrapper>

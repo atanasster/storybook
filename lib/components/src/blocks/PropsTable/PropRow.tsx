@@ -12,6 +12,7 @@ import { EditorContainer } from '../../prop-editors/PropEditorRow';
 export interface PropRowProps {
   row: PropDef;
   control?: React.ReactNode;
+  hasSmartControls?: boolean;
 }
 
 const Name = styled.span({ fontWeight: 'bold' });
@@ -57,6 +58,7 @@ const TypeWithJsDoc = styled.div<{ hasDescription: boolean }>(({ theme, hasDescr
 export const PropRow: FC<PropRowProps> = ({
   row: { name, type, required, description, defaultValue, jsDocTags },
   control,
+  hasSmartControls,
 }) => {
   const hasDescription = !isNil(description) && description !== '';
   return (
@@ -87,8 +89,8 @@ export const PropRow: FC<PropRowProps> = ({
       <td>
         <PropValue value={defaultValue} />
       </td>
-      {control && (
-        <td>
+      {hasSmartControls && (
+        <td align="center">
           <EditorContainer>{control}</EditorContainer>
         </td>
       )}

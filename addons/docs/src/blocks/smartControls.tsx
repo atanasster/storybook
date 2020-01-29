@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { StoryProperties, StoryProperty, PropertyTypes } from '@storybook/common';
 import { Parameters } from '@storybook/addons';
 import { PropsTableRowsProps, PropDef } from '@storybook/components';
@@ -62,6 +63,16 @@ export const createFieldFromProps = (
         type: PropertyTypes.OPTIONS,
         options: propDef.type.value.map((v: any) => cleanQuotes(v.value)),
         value,
+      };
+    }
+    case 'func': {
+      return {
+        type: PropertyTypes.BUTTON,
+        label: propDef.name,
+        onClick() {
+          // eslint-disable-next-line prefer-rest-params
+          console.info(`${propDef.name}: `, arguments);
+        },
       };
     }
     default:
