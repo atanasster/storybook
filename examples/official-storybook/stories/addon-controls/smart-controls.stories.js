@@ -15,6 +15,18 @@ export const onlyColors = props => <Button label="Choose colors" {...props} />;
 
 onlyColors.story = {
   parameters: {
-    smartControls: ['color', 'backgroundColor'],
+    smartControls: {
+      include: ['color', 'backgroundColor'],
+    },
+  },
+};
+
+export const noColors = props => <Button label="Choose colors" {...props} />;
+
+noColors.story = {
+  parameters: {
+    smartControls: {
+      exclude: ['color', 'backgroundColor'],
+    },
   },
 };
