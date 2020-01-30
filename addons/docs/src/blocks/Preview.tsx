@@ -3,7 +3,7 @@ import { toId, storyNameFromExport } from '@storybook/csf';
 import {
   Preview as PurePreview,
   PreviewProps as PurePreviewProps,
-  PropEditorsTableProps,
+  ControlsEditorsTableProps,
 } from '@storybook/components';
 import { getSourceProps } from './Source';
 import { DocsContext, DocsContextProps } from './DocsContext';
@@ -44,19 +44,19 @@ const getPreviewProps = (
   const data = storyStore.fromId(storyId);
   // @ts-ignore
   const api: any = rest.clientApi;
-  const propProps: PropEditorsTableProps = data
+  const controlProps: ControlsEditorsTableProps = data
     ? {
         title: null,
         storyId,
-        setPropertyValue: api.setPropertyValue,
-        resetPropertyValue: api.resetPropertyValue,
-        clickProperty: api.clickProperty,
-        properties: data.properties,
+        setControlValue: api.setControlValue,
+        resetControlValue: api.resetControlValue,
+        clickControl: api.clickControl,
+        controls: data.controls,
       }
     : undefined;
   const defaultProps = {
     ...props,
-    propProps,
+    controlProps,
   };
   if (withSource === SourceState.NONE) {
     return defaultProps;

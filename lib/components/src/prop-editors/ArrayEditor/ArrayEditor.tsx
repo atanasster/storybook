@@ -1,10 +1,10 @@
 import React, { ChangeEvent } from 'react';
-import { StoryPropertyArray } from '@storybook/common';
+import { StoryControlArray } from '@storybook/common';
 import { Form } from '../../form';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 interface ArrayEditorProps extends PropertyControlProps {
-  prop: StoryPropertyArray;
+  prop: StoryControlArray;
 }
 
 const formatArray = (value: string, separator: string) => {

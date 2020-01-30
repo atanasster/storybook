@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropertyTypes } from '@storybook/common';
+import { ControlTypes } from '@storybook/common';
 import { TextEditor } from './TextEditor';
 
 export default {
@@ -13,7 +13,7 @@ export const simple = () => {
     <TextEditor
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
-      prop={{ type: PropertyTypes.TEXT, value: state }}
+      prop={{ type: ControlTypes.TEXT, value: state }}
     />
   );
 };
@@ -24,7 +24,7 @@ export const placeholder = () => {
     <TextEditor
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
-      prop={{ type: PropertyTypes.TEXT, value: state, placeholder: 'Enter some text' }}
+      prop={{ type: ControlTypes.TEXT, value: state, placeholder: 'Enter some text' }}
     />
   );
 };

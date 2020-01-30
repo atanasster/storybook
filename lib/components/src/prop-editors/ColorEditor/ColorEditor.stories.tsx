@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropertyTypes } from '@storybook/common';
+import { ControlTypes } from '@storybook/common';
 import { ColorEditor } from './ColorEditor';
 
 export default {
@@ -13,7 +13,7 @@ export const sample = () => {
     <ColorEditor
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
-      prop={{ type: PropertyTypes.COLOR, value: state }}
+      prop={{ type: ControlTypes.COLOR, value: state }}
     />
   );
 };
@@ -24,7 +24,7 @@ export const rgb = () => {
     <ColorEditor
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
-      prop={{ type: PropertyTypes.COLOR, value: state }}
+      prop={{ type: ControlTypes.COLOR, value: state }}
     />
   );
 };

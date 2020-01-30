@@ -2,15 +2,15 @@ import { DOCS_MODE } from 'global';
 import { toId, sanitize, parseKind } from '@storybook/csf';
 import deprecate from 'util-deprecate';
 import {
-  STORY_SET_PROPERTY_VALUE,
-  STORY_RESET_PROPERTY_VALUE,
-  STORY_CLICK_PROPERTY,
+  STORY_SET_CONTROL_VALUE,
+  STORY_RESET_CONTROL_VALUE,
+  STORY_CLICK_CONTROL,
 } from '@storybook/core-events';
 import {
-  StoryProperty,
-  ContextStoryProperties,
-  mergePropertyValues,
-  resetPropertyValues,
+  StoryControl,
+  ContextStoryControls,
+  mergeControlValues,
+  resetControlValues,
 } from '@storybook/common';
 
 import { Module } from '../index';
@@ -29,14 +29,14 @@ export interface SubState {
   storiesConfigured: boolean;
 }
 
-export type SetPropertyValueFn = (
+export type SetControlValueFn = (
   storyId: StoryId,
   propertyName: string | undefined,
   value: any
 ) => void;
-export type ClickPropertyFn = (storyId: StoryId, propertyName: string, prop: StoryProperty) => void;
+export type ClickControlFn = (storyId: StoryId, propertyName: string, prop: StoryControl) => void;
 
-export type ResetPropertyValueFn = (storyId: StoryId, propertyName?: string) => void;
+export type resetControlValueFn = (storyId: StoryId, propertyName?: string) => void;
 export interface SubAPI {
   storyId: typeof toId;
   selectStory: (kindOrId: string, story?: string, obj?: any) => void;
@@ -47,9 +47,9 @@ export interface SubAPI {
   getData: (storyId: StoryId) => Story | Group;
   getParameters: (storyId: StoryId, parameterName?: ParameterName) => Story['parameters'] | any;
   getCurrentParameter<S>(parameterName?: ParameterName): S;
-  setPropertyValue: SetPropertyValueFn;
-  clickProperty: ClickPropertyFn;
-  resetPropertyValue: ResetPropertyValueFn;
+  setControlValue: SetControlValueFn;
+  clickControl: ClickControlFn;
+  resetControlValue: resetControlValueFn;
 }
 
 export interface Group {
@@ -80,7 +80,7 @@ export interface StoryInput {
     };
     [parameterName: string]: any;
   };
-  properties?: ContextStoryProperties;
+  controls?: ContextStoryControls;
   isLeaf: boolean;
 }
 
@@ -145,44 +145,44 @@ const initStoriesApi = ({
     return null;
   };
 
-  const setPropertyValue = function setPropertyValue<S>(
+  const setControlValue = function setControlValue<S>(
     storyId: StoryId,
     propertyName: string,
     value: S
   ) {
     const { storiesHash } = store.getState();
     const story = storiesHash[storyId] as StoryInput;
-    const properties = mergePropertyValues(story.properties, propertyName, value);
+    const controls = mergeControlValues(story.controls, propertyName, value);
     store.setState({
       storiesHash: {
         ...storiesHash,
         [storyId]: {
           ...storiesHash[storyId],
-          properties,
+          controls,
         },
       },
     });
-    provider.channel.emit(STORY_SET_PROPERTY_VALUE, { id: storyId, propertyName, value });
+    provider.channel.emit(STORY_SET_CONTROL_VALUE, { id: storyId, propertyName, value });
   };
-  const clickProperty = (storyId: StoryId, propertyName: string, prop: StoryProperty) => {
-    provider.channel.emit(STORY_CLICK_PROPERTY, { id: storyId, propertyName, property: prop });
+  const clickControl = (storyId: StoryId, propertyName: string, prop: StoryControl) => {
+    provider.channel.emit(STORY_CLICK_CONTROL, { id: storyId, propertyName, property: prop });
   };
 
-  const resetPropertyValue = (storyId: StoryId, propertyName?: string) => {
+  const resetControlValue = (storyId: StoryId, propertyName?: string) => {
     const { storiesHash } = store.getState();
     const story = storiesHash[storyId] as StoryInput;
     if (story) {
-      const properties = resetPropertyValues(story.properties, propertyName);
+      const controls = resetControlValues(story.controls, propertyName);
       store.setState({
         storiesHash: {
           ...storiesHash,
           [storyId]: {
             ...storiesHash[storyId],
-            properties,
+            controls,
           },
         },
       });
-      provider.channel.emit(STORY_RESET_PROPERTY_VALUE, { id: storyId, propertyName });
+      provider.channel.emit(STORY_RESET_CONTROL_VALUE, { id: storyId, propertyName });
     }
   };
 
@@ -469,9 +469,9 @@ Did you create a path that uses the separator char accidentally, such as 'Vue <d
       getData,
       getParameters,
       getCurrentParameter,
-      setPropertyValue,
-      resetPropertyValue,
-      clickProperty,
+      setControlValue,
+      resetControlValue,
+      clickControl,
     },
     state: {
       storiesHash: {},

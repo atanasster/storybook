@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropertyTypes } from '@storybook/common';
+import { ControlTypes } from '@storybook/common';
 import { ButtonEditor } from './ButtonEditor';
 
 export default {
@@ -12,6 +12,6 @@ export const sample = () => (
     name="Check in console"
     onClick={() => console.log('clicked')}
     onChange={() => {}}
-    prop={{ type: PropertyTypes.BUTTON }}
+    prop={{ type: ControlTypes.BUTTON }}
   />
 );

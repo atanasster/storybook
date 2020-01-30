@@ -8,12 +8,12 @@ import stable from 'stable';
 import { Channel } from '@storybook/channels';
 import Events from '@storybook/core-events';
 import {
-  StoryProperty,
-  StoryProperties,
-  StoryPropertyButton,
-  mergePropertyValues,
-  resetPropertyValues,
-  ContextStoryProperties,
+  StoryControl,
+  StoryControls,
+  StoryControlButton,
+  mergeControlValues,
+  resetControlValues,
+  ContextStoryControls,
 } from '@storybook/common';
 
 import { logger } from '@storybook/client-logger';
@@ -87,31 +87,31 @@ interface IdentificationType {
   story: string;
 }
 
-const createStoreProperties = (
-  properties: StoryProperties,
+const createStoreControls = (
+  controls: StoryControls,
   identification: IdentificationType,
   legacyContextProp: boolean
-): ContextStoryProperties => {
+): ContextStoryControls => {
   const reservedContextKeys = [
     'id',
     'kind',
     'name',
     'story',
     'storyFn',
-    'properties',
+    'controls',
     'parameters',
     'values',
     'hooks',
   ];
 
   // save default value for 'reset'
-  return Object.keys(properties).reduce((v, key) => {
+  return Object.keys(controls).reduce((v, key) => {
     if (legacyContextProp && reservedContextKeys.indexOf(key) >= 0) {
       logger.error(
         `Story "${identification.name}" in ${identification.kind} uses a reserved property id "${key}"`
       );
     }
-    const prop = properties[key];
+    const prop = controls[key];
     return { ...v, [key]: { ...prop, defaultValue: prop.value } };
   }, {});
 };
@@ -146,7 +146,7 @@ export default class StoryStore extends EventEmitter {
   }
 
   setChannel = (channel: Channel) => {
-    const onSetPropertyValue = ({
+    const onSetControlValue = ({
       id,
       propertyName,
       value,
@@ -157,52 +157,52 @@ export default class StoryStore extends EventEmitter {
     }) => {
       const story = this._data[id];
       if (story) {
-        const properties = mergePropertyValues(story.properties, propertyName, value);
+        const controls = mergeControlValues(story.controls, propertyName, value);
         this._data[id] = {
           ...story,
-          properties,
+          controls,
         };
         channel.emit(Events.FORCE_RE_RENDER);
       }
     };
 
-    const onResetPropertyValue = ({ id, propertyName }: { id: string; propertyName?: string }) => {
+    const onResetControlValue = ({ id, propertyName }: { id: string; propertyName?: string }) => {
       const story = this._data[id];
       if (story) {
-        const properties = resetPropertyValues(story.properties, propertyName);
+        const controls = resetControlValues(story.controls, propertyName);
         this._data[id] = {
           ...story,
-          properties,
+          controls,
         };
         channel.emit(Events.FORCE_RE_RENDER);
       }
     };
 
-    const onClickProperty = ({
+    const onClickControl = ({
       id,
       propertyName,
       property,
     }: {
       id: string;
       propertyName: string;
-      property: StoryProperty;
+      property: StoryControl;
     }) => {
       const story = this._data[id];
       if (story) {
-        this.clickProperty(id, propertyName, property);
+        this.clickControl(id, propertyName, property);
         this._channel.emit(Events.FORCE_RE_RENDER);
       }
     };
     if (this._channel) {
-      this._channel.off(Events.STORY_SET_PROPERTY_VALUE, onSetPropertyValue);
-      this._channel.off(Events.STORY_RESET_PROPERTY_VALUE, onResetPropertyValue);
-      this._channel.off(Events.STORY_CLICK_PROPERTY, onClickProperty);
+      this._channel.off(Events.STORY_SET_CONTROL_VALUE, onSetControlValue);
+      this._channel.off(Events.STORY_RESET_CONTROL_VALUE, onResetControlValue);
+      this._channel.off(Events.STORY_CLICK_CONTROL, onClickControl);
     }
     this._channel = channel;
     if (this._channel) {
-      this._channel.on(Events.STORY_SET_PROPERTY_VALUE, onSetPropertyValue);
-      this._channel.on(Events.STORY_RESET_PROPERTY_VALUE, onResetPropertyValue);
-      this._channel.on(Events.STORY_CLICK_PROPERTY, onClickProperty);
+      this._channel.on(Events.STORY_SET_CONTROL_VALUE, onSetControlValue);
+      this._channel.on(Events.STORY_RESET_CONTROL_VALUE, onResetControlValue);
+      this._channel.on(Events.STORY_CLICK_CONTROL, onClickControl);
     }
   };
 
@@ -306,14 +306,7 @@ export default class StoryStore extends EventEmitter {
   };
 
   addStory(
-    {
-      id,
-      kind,
-      name,
-      storyFn: original,
-      parameters = {},
-      properties: storyProps = {},
-    }: AddStoryArgs,
+    { id, kind, name, storyFn: original, parameters = {}, controls: storyProps = {} }: AddStoryArgs,
     {
       getDecorators,
       applyDecorators,
@@ -341,17 +334,17 @@ export default class StoryStore extends EventEmitter {
     };
 
     const { legacyContextProp, propExtractor } = parameters.options || {};
-    let properties: StoryProperties;
+    let controls: StoryControls;
     if (typeof propExtractor === 'function') {
-      properties = { ...propExtractor(parameters), ...storyProps };
+      controls = { ...propExtractor(parameters), ...storyProps };
     } else {
-      properties = storyProps;
+      controls = storyProps;
     }
 
     // immutable original storyFn
     const getOriginal = () => (context: StoryContext) => {
-      const values = Object.keys(this._data[id].properties).reduce(
-        (acc, key) => ({ ...acc, [key]: this._data[id].properties[key].value }),
+      const values = Object.keys(this._data[id].controls).reduce(
+        (acc, key) => ({ ...acc, [key]: this._data[id].controls[key].value }),
         {}
       );
       return legacyContextProp ? original({ ...values, ...context }) : original(values, context);
@@ -368,19 +361,19 @@ export default class StoryStore extends EventEmitter {
       return getDecorated()({
         ...identification,
         ...p,
-        properties,
+        controls,
         hooks,
         parameters: { ...parameters, ...(p && p.parameters) },
       });
     };
-    const props = createStoreProperties(properties, identification, legacyContextProp);
+    const props = createStoreControls(controls, identification, legacyContextProp);
     _data[id] = {
       ...identification,
       hooks,
       getDecorated,
       getOriginal,
       storyFn,
-      properties: props,
+      controls: props,
       parameters,
     };
 
@@ -579,41 +572,41 @@ export default class StoryStore extends EventEmitter {
     this.getStoriesForKind(kind).map(story => this.cleanHooks(story.id));
   }
 
-  setPropertyValue(id: string, propertyName: string, value: any) {
+  setControlValue(id: string, propertyName: string, value: any) {
     if (this._data[id]) {
       const story = this._data[id];
-      story.properties = mergePropertyValues(story.properties, propertyName, value);
-      this._channel.emit(Events.STORY_SET_PROPERTY_VALUE, { id, propertyName, value });
+      story.controls = mergeControlValues(story.controls, propertyName, value);
+      this._channel.emit(Events.STORY_SET_CONTROL_VALUE, { id, propertyName, value });
       this._channel.emit(Events.FORCE_RE_RENDER);
     }
   }
 
-  resetPropertyValue(id: string, propertyName?: string) {
+  resetControlValue(id: string, propertyName?: string) {
     if (this._data[id]) {
       const story = this._data[id];
-      this._channel.emit(Events.STORY_RESET_PROPERTY_VALUE, { id, propertyName });
-      story.properties = resetPropertyValues(story.properties, propertyName);
+      this._channel.emit(Events.STORY_RESET_CONTROL_VALUE, { id, propertyName });
+      story.controls = resetControlValues(story.controls, propertyName);
     }
   }
 
-  clickProperty(id: string, propName: string, property: StoryProperty) {
+  clickControl(id: string, propName: string, property: StoryControl) {
     if (this._data[id]) {
-      if (this._data[id].properties && this._data[id].properties[propName]) {
-        const prop = this._data[id].properties[propName];
-        if (typeof (prop as StoryPropertyButton).onClick === 'function') {
-          (prop as StoryPropertyButton).onClick(property as StoryPropertyButton);
+      if (this._data[id].controls && this._data[id].controls[propName]) {
+        const prop = this._data[id].controls[propName];
+        if (typeof (prop as StoryControlButton).onClick === 'function') {
+          (prop as StoryControlButton).onClick(property as StoryControlButton);
         }
       }
     }
   }
 
-  addProperties(id: string, properties: StoryProperties) {
+  addControls(id: string, controls: StoryControls) {
     if (this._data[id]) {
       const story = this._data[id];
-      this._data[id].properties = {
-        ...this._data[id].properties,
-        ...createStoreProperties(
-          properties,
+      this._data[id].controls = {
+        ...this._data[id].controls,
+        ...createStoreControls(
+          controls,
           story,
           this._data[id].parameters.options.legacyContextProp
         ),
@@ -621,11 +614,11 @@ export default class StoryStore extends EventEmitter {
     }
   }
 
-  setProperties(id: string, properties: StoryProperties) {
+  setControls(id: string, controls: StoryControls) {
     if (this._data[id]) {
       const story = this._data[id];
-      story.properties = {
-        ...createStoreProperties(properties, story, story.parameters.options.legacyContextProp),
+      story.controls = {
+        ...createStoreControls(controls, story, story.parameters.options.legacyContextProp),
       };
       story.smartControls = true;
       this._channel.emit(Events.FORCE_RE_RENDER);

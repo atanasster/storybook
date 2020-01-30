@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropertyTypes } from '@storybook/common';
+import { ControlTypes } from '@storybook/common';
 import { BooleanEditor } from './BooleanEditor';
 
 export default {
@@ -13,7 +13,7 @@ export const sample = () => {
     <BooleanEditor
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
-      prop={{ type: PropertyTypes.BOOLEAN, value: state }}
+      prop={{ type: ControlTypes.BOOLEAN, value: state }}
     />
   );
 };

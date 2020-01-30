@@ -1,10 +1,10 @@
 import React, { ChangeEvent } from 'react';
-import { StoryPropertyText } from '@storybook/common';
+import { StoryControlText } from '@storybook/common';
 import { Form } from '../../form';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 interface TextEditorProps extends PropertyControlProps {
-  prop: StoryPropertyText;
+  prop: StoryControlText;
 }
 
 export const TextEditor: PropertyEditor<TextEditorProps> = ({ prop, name, onChange }) => {

@@ -1,13 +1,13 @@
 import React from 'react';
 import qs from 'qs';
 import { document } from 'global';
-import { StoryProperties, StoryProperty } from '@storybook/common';
+import { StoryControls, StoryControl } from '@storybook/common';
 import { Combo, Consumer, API, StoryInput } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import copy from 'copy-to-clipboard';
 
 import { TabWrapper, TabsState, ActionBar, ScrollArea } from '@storybook/components';
-import { NoProperties } from './NoProperties';
+import { NoControls } from './NoControls';
 
 import { PropForm } from './PropForm';
 
@@ -34,18 +34,18 @@ interface PropsPanelProps {
 
 interface MapperReturnProps {
   story?: StoryInput;
-  properties?: StoryProperties;
+  controls?: StoryControls;
 }
 const mapper = ({ state }: Combo): MapperReturnProps => {
   const { storyId } = state;
   if (!state.storiesHash[storyId]) {
     return {};
   }
-  const { properties } = state.storiesHash[state.storyId] as StoryInput;
-  return { story: state.storiesHash[storyId] as StoryInput, properties };
+  const { controls } = state.storiesHash[state.storyId] as StoryInput;
+  return { story: state.storiesHash[storyId] as StoryInput, controls };
 };
 
-const copyProps = (props: StoryProperties) => {
+const copyProps = (props: StoryControls) => {
   const { location } = document;
   const query = qs.parse(location.search, { ignoreQueryPrefix: true });
 
@@ -53,24 +53,24 @@ const copyProps = (props: StoryProperties) => {
 };
 
 const handlePropChange = (api: API, story: StoryInput, name: string, newValue: any) => {
-  const { setPropertyValue } = api;
-  setPropertyValue(story.id, name, newValue);
+  const { setControlValue } = api;
+  setControlValue(story.id, name, newValue);
 };
 
-const handlePropClick = (api: API, storyId: string, name: string, prop: StoryProperty) => {
-  const { clickProperty } = api;
-  clickProperty(storyId, name, prop);
+const handlePropClick = (api: API, storyId: string, name: string, prop: StoryControl) => {
+  const { clickControl } = api;
+  clickControl(storyId, name, prop);
 };
 
-const propEntries = (api: API, story: StoryInput, props: StoryProperties) => {
+const propEntries = (api: API, story: StoryInput, props: StoryControls) => {
   const groups: Record<string, PanelPropsGroups> = {};
   const groupIds: string[] = [];
 
-  const handleClick = (name: string, prop: StoryProperty) => {
+  const handleClick = (name: string, prop: StoryControl) => {
     handlePropClick(api, story.id, name, prop);
   };
   Object.keys(props).forEach(key => {
-    const prop: StoryProperty = props[key];
+    const prop: StoryControl = props[key];
     const propKeyGroupId = prop.groupId || DEFAULT_GROUP_ID;
     groupIds.push(propKeyGroupId);
     groups[propKeyGroupId] = {
@@ -82,7 +82,7 @@ const propEntries = (api: API, story: StoryInput, props: StoryProperties) => {
                 const p = props[k];
                 return (p.groupId || DEFAULT_GROUP_ID) === propKeyGroupId;
               })
-              .reduce((acc: StoryProperties, k: string) => ({ ...acc, [k]: props[k] }), {})}
+              .reduce((acc: StoryControls, k: string) => ({ ...acc, [k]: props[k] }), {})}
             onFieldChange={(name: string, newValue: any) =>
               handlePropChange(api, story, name, newValue)
             }
@@ -114,17 +114,17 @@ export const PropsPanel: React.FC<PropsPanelProps> = ({ api, active: panelActive
   return (
     <Consumer filter={mapper}>
       {p => {
-        const { properties, story } = p as MapperReturnProps;
-        const props: StoryProperties = properties
-          ? Object.keys(properties)
-              .filter(key => !properties[key].hidden)
+        const { controls, story } = p as MapperReturnProps;
+        const props: StoryControls = controls
+          ? Object.keys(controls)
+              .filter(key => !controls[key].hidden)
               .reduce((a, key: string) => {
-                const prop = properties[key];
+                const prop = controls[key];
                 return { ...a, [key]: prop };
               }, {})
           : {};
         if (!story || !Object.keys(props).length) {
-          return <NoProperties />;
+          return <NoControls />;
         }
         const entries = propEntries(api, story, props);
         // console.log(entries);
@@ -145,7 +145,7 @@ export const PropsPanel: React.FC<PropsPanelProps> = ({ api, active: panelActive
                   onFieldChange={(name: string, newValue: any) =>
                     handlePropChange(api, story, name, newValue)
                   }
-                  onFieldClick={(name: string, prop: StoryProperty) => {
+                  onFieldClick={(name: string, prop: StoryControl) => {
                     handlePropClick(api, story.id, name, prop);
                   }}
                 />
@@ -154,7 +154,7 @@ export const PropsPanel: React.FC<PropsPanelProps> = ({ api, active: panelActive
             <ActionBar
               actionItems={[
                 { title: 'Copy', onClick: () => copyProps(props) },
-                { title: 'Reset', onClick: () => api.resetPropertyValue(story.id) },
+                { title: 'Reset', onClick: () => api.resetControlValue(story.id) },
               ]}
             />
           </>

@@ -1,4 +1,4 @@
-import { ContextStoryProperty, StoryProperties, ContextStoryProperties } from '@storybook/common';
+import { ContextStoryControl, StoryControls, ContextStoryControls } from '@storybook/common';
 import { HooksContext } from './hooks';
 import { Addon } from './index';
 
@@ -29,7 +29,7 @@ export interface StoryContext {
   [key: string]: any;
   parameters: Parameters;
   hooks?: HooksContext;
-  properties?: ContextStoryProperties;
+  controls?: ContextStoryControls;
 }
 
 export interface WrapperSettings {
@@ -61,9 +61,9 @@ export interface OptionsParameter extends Object {
   [key: string]: any;
 }
 
-export type StoryGetter = (p?: StoryContext | ContextStoryProperties, c?: StoryContext) => any;
+export type StoryGetter = (p?: StoryContext | ContextStoryControls, c?: StoryContext) => any;
 export type StoryFn<ReturnType = unknown> = (
-  p?: StoryContext | ContextStoryProperties,
+  p?: StoryContext | ContextStoryControls,
   c?: StoryContext
 ) => ReturnType;
 
@@ -98,12 +98,12 @@ export interface StoryApi<StoryFnReturnType = unknown> {
     storyName: string,
     storyFn: StoryFn<StoryFnReturnType>,
     parameters?: Parameters,
-    properties?: StoryProperties
+    controls?: StoryControls
   ) => StoryApi<StoryFnReturnType>;
   addDecorator: (decorator: DecoratorFunction<StoryFnReturnType>) => StoryApi<StoryFnReturnType>;
   addParameters: (parameters: Parameters) => StoryApi<StoryFnReturnType>;
-  addProperties: (properties: StoryProperties) => StoryApi<StoryFnReturnType>;
-  setPropertyValue: ({
+  addControls: (controls: StoryControls) => StoryApi<StoryFnReturnType>;
+  setControlValue: ({
     id,
     propertyName,
     value,
@@ -112,14 +112,14 @@ export interface StoryApi<StoryFnReturnType = unknown> {
     propertyName: string;
     value: any;
   }) => StoryApi<StoryFnReturnType>;
-  clickProperty: ({
+  clickControl: ({
     id,
     propertyName,
     property,
   }: {
     id: string;
     propertyName: string;
-    property: ContextStoryProperty;
+    property: ContextStoryControl;
   }) => StoryApi<StoryFnReturnType>;
 
   [k: string]: string | ClientApiReturnFn<StoryFnReturnType>;
@@ -134,7 +134,7 @@ export interface ClientStoryApi<StoryFnReturnType = unknown> {
   storiesOf(kind: string, module: NodeModule): StoryApi<StoryFnReturnType>;
   addDecorator(decorator: DecoratorFunction<StoryFnReturnType>): StoryApi<StoryFnReturnType>;
   addParameters(parameter: Parameters): StoryApi<StoryFnReturnType>;
-  addProperties(properties: StoryProperties): StoryApi<StoryFnReturnType>;
+  addControls(controls: StoryControls): StoryApi<StoryFnReturnType>;
 }
 
 type LoadFn = () => any;

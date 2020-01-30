@@ -1,9 +1,9 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
 
-import { ContextStoryProperty } from '@storybook/common';
+import { ContextStoryControl } from '@storybook/common';
 import { getPropertyEditor } from './prop-factory';
-import { PropertyEditor, OnSetPropertyValue, OnResetPropertyValue, OnClickProperty } from './types';
+import { PropertyEditor, OnSetControlValue, OnResetControlValue, OnClickControl } from './types';
 
 export interface EditorContainerProps {
   align?: string;
@@ -16,30 +16,30 @@ export const EditorContainer = styled.div<EditorContainerProps>(({ align = 'cent
 const InvalidType = () => <span>Invalid Type</span>;
 
 interface PropertyEditorRowProps {
-  prop: ContextStoryProperty;
+  prop: ContextStoryControl;
   name: string;
   storyId?: string;
-  setPropertyValue?: OnSetPropertyValue;
-  resetPropertyValue?: OnResetPropertyValue;
-  clickProperty?: OnClickProperty;
+  setControlValue?: OnSetControlValue;
+  resetControlValue?: OnResetControlValue;
+  clickControl?: OnClickControl;
 }
 
 export const PropertyEditorRow: React.FunctionComponent<PropertyEditorRowProps> = ({
   prop,
   name,
-  setPropertyValue,
-  clickProperty,
+  setControlValue,
+  clickControl,
   storyId,
 }) => {
   const InputType: PropertyEditor = getPropertyEditor(prop.type) || InvalidType;
   const onChange = (propName: string, value: any) => {
-    if (setPropertyValue && storyId) {
-      setPropertyValue(storyId, propName, value);
+    if (setControlValue && storyId) {
+      setControlValue(storyId, propName, value);
     }
   };
   const onClick = () => {
-    if (clickProperty && storyId) {
-      clickProperty(storyId, name, prop);
+    if (clickControl && storyId) {
+      clickControl(storyId, name, prop);
     }
   };
   return (

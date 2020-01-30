@@ -1,11 +1,11 @@
 import React, { ComponentType } from 'react';
 import { Form, getPropertyEditor } from '@storybook/components';
-import { StoryProperties, StoryProperty } from '@storybook/common';
+import { StoryControls, StoryControl } from '@storybook/common';
 
 interface PropFormProps {
-  props: StoryProperties;
+  props: StoryControls;
   onFieldChange: (name: string, newValue: any) => void;
-  onFieldClick: (name: string, prop: StoryProperty) => void;
+  onFieldClick: (name: string, prop: StoryControl) => void;
 }
 
 const InvalidType = () => <span>Invalid Type</span>;
@@ -13,7 +13,7 @@ const InvalidType = () => <span>Invalid Type</span>;
 export const PropForm: React.FC<PropFormProps> = ({ props, onFieldChange, onFieldClick }) => (
   <Form>
     {Object.keys(props).map(name => {
-      const prop: StoryProperty = props[name];
+      const prop: StoryControl = props[name];
       const InputType: ComponentType<any> = getPropertyEditor(prop.type) || InvalidType;
 
       return (

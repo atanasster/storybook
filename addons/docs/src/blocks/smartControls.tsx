@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { StoryProperties, StoryProperty, PropertyTypes } from '@storybook/common';
+import { StoryControls, StoryControl, ControlTypes } from '@storybook/common';
 import { Parameters } from '@storybook/addons';
 import { PropsTableRowsProps, PropDef } from '@storybook/components';
 import { PropsExtractor } from '../lib/docgen/types';
@@ -16,7 +16,7 @@ const cleanQuotes = (txt?: string) => (txt ? txt.replace(/['"]+/g, '') : txt);
 export const createFieldFromProps = (
   propDef: PropDef,
   smartControls: SmartControls
-): StoryProperty | null | undefined => {
+): StoryControl | null | undefined => {
   if (typeof smartControls === 'object') {
     const { include, exclude } = smartControls;
     if (Array.isArray(include) && !include.includes(propDef.name)) {
@@ -40,7 +40,7 @@ export const createFieldFromProps = (
         value = isColor ? 'red' : 'example';
       }
       return {
-        type: isColor ? PropertyTypes.COLOR : PropertyTypes.TEXT,
+        type: isColor ? ControlTypes.COLOR : ControlTypes.TEXT,
         value,
       };
     }
@@ -52,7 +52,7 @@ export const createFieldFromProps = (
       if (propDef.defaultValue.summary === 'true') {
         value = true;
       }
-      return { type: PropertyTypes.BOOLEAN, value };
+      return { type: ControlTypes.BOOLEAN, value };
     }
     case 'number': {
       let value;
@@ -61,7 +61,7 @@ export const createFieldFromProps = (
       } catch (e) {
         // eat exceptoin
       }
-      return { type: PropertyTypes.NUMBER, value };
+      return { type: ControlTypes.NUMBER, value };
     }
     case 'enum': {
       const value = propDef.defaultValue ? cleanQuotes(propDef.defaultValue.summary) : undefined;
@@ -70,14 +70,14 @@ export const createFieldFromProps = (
         return null;
       }
       return {
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         options: options.map((v: any) => cleanQuotes(v.value)),
         value,
       };
     }
     case 'func': {
       return {
-        type: PropertyTypes.BUTTON,
+        type: ControlTypes.BUTTON,
         label: propDef.name,
         onClick() {
           // eslint-disable-next-line prefer-rest-params
@@ -95,7 +95,7 @@ export const createFieldFromProps = (
         // eat exception
       }
       return {
-        type: PropertyTypes.OBJECT,
+        type: ControlTypes.OBJECT,
         maxRows: 10,
         value,
       };
@@ -105,7 +105,7 @@ export const createFieldFromProps = (
   }
 };
 
-export const extractSmartProperties = (parameters: Parameters): StoryProperties => {
+export const extractSmartProperties = (parameters: Parameters): StoryControls => {
   const params = parameters || {};
   const { component, framework = null, smartControls } = params;
   if (!smartControls) {

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { styled } from '@storybook/theming';
-import { StoryPropertyBoolean } from '@storybook/common';
+import { StoryControlBoolean } from '@storybook/common';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 const Input = styled.input({
@@ -16,7 +16,7 @@ const Input = styled.input({
 });
 
 interface BooleanEditorProps extends PropertyControlProps {
-  prop: StoryPropertyBoolean;
+  prop: StoryControlBoolean;
 }
 
 export const BooleanEditor: PropertyEditor<BooleanEditorProps> = ({ prop, name, onChange }) => (

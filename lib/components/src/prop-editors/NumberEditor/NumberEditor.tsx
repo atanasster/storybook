@@ -1,11 +1,11 @@
 import React, { ChangeEvent } from 'react';
 import { styled } from '@storybook/theming';
-import { StoryPropertyNumber } from '@storybook/common';
+import { StoryControlNumber } from '@storybook/common';
 import { Form } from '../../form';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 interface NumberEditorProps extends PropertyControlProps {
-  prop: StoryPropertyNumber;
+  prop: StoryControlNumber;
 }
 
 const RangeInput = styled.input(

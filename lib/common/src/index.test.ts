@@ -1,29 +1,29 @@
-import { PropertyTypes } from './properties';
-import { mergePropertyValues, resetPropertyValues, ContextStoryProperties } from './index';
+import { ControlTypes } from './story-controls';
+import { mergeControlValues, resetControlValues, ContextStoryControls } from './index';
 
-describe('Property utils', () => {
-  const properties: ContextStoryProperties = {
-    name: { type: PropertyTypes.TEXT, value: 'hello', defaultValue: 'hello' },
-    age: { type: PropertyTypes.NUMBER, value: 19, defaultValue: 19 },
+describe('Controls utils', () => {
+  const controls: ContextStoryControls = {
+    name: { type: ControlTypes.TEXT, value: 'hello', defaultValue: 'hello' },
+    age: { type: ControlTypes.NUMBER, value: 19, defaultValue: 19 },
   };
-  const modifiedProperties: ContextStoryProperties = {
-    name: { type: PropertyTypes.TEXT, value: 'today', defaultValue: 'hello' },
-    age: { type: PropertyTypes.NUMBER, value: 19, defaultValue: 19 },
+  const modifiedControls: ContextStoryControls = {
+    name: { type: ControlTypes.TEXT, value: 'today', defaultValue: 'hello' },
+    age: { type: ControlTypes.NUMBER, value: 19, defaultValue: 19 },
   };
 
   it('Should merge property value', () => {
-    expect(mergePropertyValues(properties, 'name', 'today')).toMatchObject(modifiedProperties);
+    expect(mergeControlValues(controls, 'name', 'today')).toMatchObject(modifiedControls);
   });
   it('Should merge property object', () => {
-    expect(mergePropertyValues(properties, undefined, modifiedProperties)).toMatchObject(
-      modifiedProperties
+    expect(mergeControlValues(controls, undefined, modifiedControls)).toMatchObject(
+      modifiedControls
     );
   });
 
   it('Should reset property value', () => {
-    expect(resetPropertyValues(modifiedProperties, 'name')).toMatchObject(properties);
+    expect(resetControlValues(modifiedControls, 'name')).toMatchObject(controls);
   });
   it('Should reset property object', () => {
-    expect(resetPropertyValues(modifiedProperties)).toMatchObject(properties);
+    expect(resetControlValues(modifiedControls)).toMatchObject(controls);
   });
 });

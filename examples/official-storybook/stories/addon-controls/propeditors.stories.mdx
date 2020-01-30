@@ -4,7 +4,7 @@ import {
   Props,
   Source,
   Meta,
-  PropEditorsTable,
+  ControlsEditorsTable,
 } from '@storybook/addon-docs/blocks';
 import Button from '../../components/BaseButton';
 
@@ -27,10 +27,10 @@ import Button from '../../components/BaseButton';
 </Preview>
 
 
-# Small story with custom properties
+# Small story with custom controls
 
 <Preview>
-  <Story name="small story" properties={{
+  <Story name="small story" controls={{
     text: {type: 'text', value: 'Hello'},
   }}>
     {({ text }) => (
@@ -39,12 +39,12 @@ import Button from '../../components/BaseButton';
   </Story>
 </Preview>
 
-<PropEditorsTable name="small story" />
+<ControlsEditorsTable name="small story" />
 
-# Story with no properties
+# Story with no controls
 
 <Preview>
-  <Story name="no properties" >
+  <Story name="no controls" >
       <Button label="Hello"/>
   </Story>
 </Preview>

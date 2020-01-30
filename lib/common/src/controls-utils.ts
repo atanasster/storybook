@@ -1,15 +1,15 @@
-import { StoryProperty } from '.';
+import { StoryControl } from '.';
 
-export type ContextStoryProperty = StoryProperty & { defaultValue: any };
-export interface ContextStoryProperties {
-  [name: string]: ContextStoryProperty;
+export type ContextStoryControl = StoryControl & { defaultValue: any };
+export interface ContextStoryControls {
+  [name: string]: ContextStoryControl;
 }
 
-export const mergePropertyValues = (
-  properties: ContextStoryProperties,
+export const mergeControlValues = (
+  properties: ContextStoryControls,
   propertyName: string | undefined,
   value: any
-): ContextStoryProperties => {
+): ContextStoryControls => {
   return propertyName
     ? {
         ...properties,
@@ -30,7 +30,7 @@ export const mergePropertyValues = (
       );
 };
 
-export const resetPropertyValues = (properties: ContextStoryProperties, propertyName?: string) => {
+export const resetControlValues = (properties: ContextStoryControls, propertyName?: string) => {
   return propertyName
     ? {
         ...properties,

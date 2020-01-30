@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropertyTypes } from '@storybook/common';
+import { ControlTypes } from '@storybook/common';
 import { FilesEditor } from './FilesEditor';
 
 export default {
@@ -17,7 +17,7 @@ export const sample = () => {
         name="prop"
         onChange={(name, newVal) => setState(newVal)}
         prop={{
-          type: PropertyTypes.FILES,
+          type: ControlTypes.FILES,
           accept: 'image/*',
           value: state,
         }}

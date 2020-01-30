@@ -109,11 +109,11 @@ function genStoryExport(ast, context) {
     statements.push(`${storyKey}.story.decorators = ${decos};`);
   }
 
-  let properties = getAttr(ast.openingElement, 'properties');
-  properties = properties && properties.expression;
-  if (properties) {
-    const { code: props } = generate(properties, {});
-    statements.push(`${storyKey}.story.properties = ${props};`);
+  let controls = getAttr(ast.openingElement, 'controls');
+  controls = controls && controls.expression;
+  if (controls) {
+    const { code: props } = generate(controls, {});
+    statements.push(`${storyKey}.story.controls = ${props};`);
   }
 
   // eslint-disable-next-line no-param-reassign

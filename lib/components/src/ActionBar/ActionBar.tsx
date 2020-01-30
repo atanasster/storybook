@@ -2,7 +2,7 @@ import React, { FunctionComponent, MouseEvent } from 'react';
 
 import { styled } from '@storybook/theming';
 
-const Container = styled.div<{ zIndex?: number }>(({ theme, zIndex }) => ({
+const Container = styled.div<{ zIndex?: number }>(({ theme, zIndex = 1 }) => ({
   position: 'absolute',
   bottom: 0,
   right: 0,
@@ -64,11 +64,7 @@ export interface ActionBarProps {
   zIndex?: number;
 }
 
-export const ActionBar: FunctionComponent<ActionBarProps> = ({
-  actionItems,
-  zIndex = 1,
-  ...props
-}) => (
+export const ActionBar: FunctionComponent<ActionBarProps> = ({ actionItems, zIndex, ...props }) => (
   <Container zIndex={zIndex} {...props}>
     {actionItems.map(({ title, onClick, disabled }, index: number) => (
       // eslint-disable-next-line react/no-array-index-key

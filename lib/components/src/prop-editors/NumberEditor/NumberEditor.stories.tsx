@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropertyTypes } from '@storybook/common';
+import { ControlTypes } from '@storybook/common';
 import { NumberEditor } from './NumberEditor';
 
 export default {
@@ -13,7 +13,7 @@ export const simple = () => {
     <NumberEditor
       name="prop"
       onChange={(nama, newValue) => setValue(newValue)}
-      prop={{ type: PropertyTypes.NUMBER, value, min: 3, max: 22 }}
+      prop={{ type: ControlTypes.NUMBER, value, min: 3, max: 22 }}
     />
   );
 };
@@ -24,7 +24,7 @@ export const range = () => {
     <NumberEditor
       name="prop"
       onChange={(nama, newValue) => setValue(newValue)}
-      prop={{ type: PropertyTypes.NUMBER, value, min: 3, max: 22, range: true }}
+      prop={{ type: ControlTypes.NUMBER, value, min: 3, max: 22, range: true }}
     />
   );
 };
@@ -35,7 +35,7 @@ export const step = () => {
     <NumberEditor
       name="prop"
       onChange={(nama, newValue) => setValue(newValue)}
-      prop={{ type: PropertyTypes.NUMBER, value, min: 3, max: 22, step: 0.5 }}
+      prop={{ type: ControlTypes.NUMBER, value, min: 3, max: 22, step: 0.5 }}
     />
   );
 };

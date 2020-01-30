@@ -11,8 +11,8 @@ import {
   SHARED_STATE_CHANGED,
   SHARED_STATE_SET,
   NAVIGATE_URL,
-  STORY_SET_PROPERTY_VALUE,
-  STORY_RESET_PROPERTY_VALUE,
+  STORY_SET_CONTROL_VALUE,
+  STORY_RESET_CONTROL_VALUE,
 } from '@storybook/core-events';
 import { RenderData as RouterData } from '@storybook/router';
 import { Listener } from '@storybook/channels';
@@ -32,8 +32,8 @@ import initStories, {
   SubState as StoriesSubState,
   SubAPI as StoriesAPI,
   StoriesRaw,
-  SetPropertyValueFn,
-  ClickPropertyFn,
+  SetControlValueFn,
+  ClickControlFn,
   StoryInput,
   Group,
 } from './modules/stories';
@@ -50,7 +50,7 @@ import initVersions, {
 
 export { Options as StoreOptions, Listener as ChannelListener };
 
-export { SetPropertyValueFn, ClickPropertyFn, StoryInput, Group };
+export { SetControlValueFn, ClickControlFn, StoryInput, Group };
 
 const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
 
@@ -203,11 +203,11 @@ class ManagerProvider extends Component<Props, State> {
     api.on(NAVIGATE_URL, (url: string, options: { [k: string]: any }) => {
       api.navigateUrl(url, options);
     });
-    api.on(STORY_SET_PROPERTY_VALUE, ({ id, propertyName, value }) => {
-      api.setPropertyValue(id, propertyName, value);
+    api.on(STORY_SET_CONTROL_VALUE, ({ id, propertyName, value }) => {
+      api.setControlValue(id, propertyName, value);
     });
-    api.on(STORY_RESET_PROPERTY_VALUE, ({ id, propertyName }) => {
-      api.resetPropertyValue(id, propertyName);
+    api.on(STORY_RESET_CONTROL_VALUE, ({ id, propertyName }) => {
+      api.resetControlValue(id, propertyName);
     });
     this.state = state;
     this.api = api;

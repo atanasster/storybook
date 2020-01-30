@@ -29,7 +29,7 @@ export const configure: ClientApi['configure'] = (...args) => api.configure(...a
 export const addDecorator: ClientApi['addDecorator'] = api.clientApi.addDecorator;
 export type DecoratorFn = Parameters<typeof addDecorator>[0];
 export const addParameters: ClientApi['addParameters'] = api.clientApi.addParameters;
-export const addProperties: ClientApi['addProperties'] = api.clientApi.addProperties;
+export const addControls: ClientApi['addControls'] = api.clientApi.addControls;
 export const clearDecorators: ClientApi['clearDecorators'] = api.clientApi.clearDecorators;
 export const setAddon: ClientApi['setAddon'] = api.clientApi.setAddon;
 export const forceReRender: ClientApi['forceReRender'] = api.forceReRender;

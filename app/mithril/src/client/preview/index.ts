@@ -27,7 +27,7 @@ export const configure: ClientApi['configure'] = (...args) => coreConfigure(...a
 export const { setAddon } = clientApi;
 export const { addDecorator } = clientApi;
 export const { addParameters } = clientApi;
-export const { addProperties } = clientApi;
+export const { addControls } = clientApi;
 export const { clearDecorators } = clientApi;
 export const { getStorybook } = clientApi;
 export const { raw } = clientApi;

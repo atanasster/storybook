@@ -11,7 +11,7 @@ export * from './Meta';
 export * from './Preview';
 export * from './Primary';
 export * from './Props';
-export * from './PropEditorsTable';
+export * from './ControlsEditorsTable';
 export * from './Source';
 export * from './Stories';
 export * from './Story';

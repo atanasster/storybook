@@ -1,8 +1,8 @@
-import { StoryProperty } from './properties';
+import { StoryControl } from './story-controls';
 
-export * from './properties';
-export type ContextStoryProperty = StoryProperty & { defaultValue?: any };
-export interface ContextStoryProperties {
-  [key: string]: ContextStoryProperty;
+export * from './story-controls';
+export type ContextStoryControl = StoryControl & { defaultValue?: any };
+export interface ContextStoryControls {
+  [key: string]: ContextStoryControl;
 }
-export * from './prop-utils';
+export * from './controls-utils';

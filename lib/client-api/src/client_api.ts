@@ -7,7 +7,7 @@ import { toId } from '@storybook/csf';
 import mergeWith from 'lodash/mergeWith';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
-import { StoryProperties, ContextStoryProperty, StoryProperty } from '@storybook/common';
+import { StoryControls, ContextStoryControl } from '@storybook/common';
 import { ClientApiParams, DecoratorFunction, ClientApiAddons, StoryApi } from './types';
 import { applyHooks } from './hooks';
 import StoryStore from './story_store';
@@ -37,7 +37,7 @@ const defaultContext: StoryContext = {
   name: 'unspecified',
   kind: 'unspecified',
   parameters: {},
-  properties: {},
+  controls: {},
 };
 
 export const defaultDecorateStory = (storyFn: StoryFn, decorators: DecoratorFunction[]) =>
@@ -81,12 +81,12 @@ export const addParameters = (parameters: Parameters) => {
   };
 };
 
-let _globalProperties: StoryProperties = {};
+let _globalControls: StoryControls = {};
 
-export const addProperties = (properties: StoryProperties) => {
-  _globalProperties = {
-    ..._globalProperties,
-    ...properties,
+export const addControls = (controls: StoryControls) => {
+  _globalControls = {
+    ..._globalControls,
+    ...controls,
   };
 };
 
@@ -157,29 +157,29 @@ export default class ClientApi {
     _globalParameters = {};
   };
 
-  addProperties = (properties: StoryProperties) => {
-    addProperties(properties);
+  addControls = (controls: StoryControls) => {
+    addControls(controls);
   };
 
-  clearPproperties = () => {
+  clearControls = () => {
     // Utility function FOR TESTING USE ONLY
-    _globalProperties = {};
+    _globalControls = {};
   };
 
-  setPropertyValue = (storyId: string, propertyName: string | undefined, value: any) => {
-    this._storyStore.setPropertyValue(storyId, propertyName, value);
+  setControlValue = (storyId: string, propertyName: string | undefined, value: any) => {
+    this._storyStore.setControlValue(storyId, propertyName, value);
   };
 
-  resetPropertyValue = (storyId: string, propertyName?: string) => {
-    this._storyStore.resetPropertyValue(storyId, propertyName);
+  resetControlValue = (storyId: string, propertyName?: string) => {
+    this._storyStore.resetControlValue(storyId, propertyName);
   };
 
-  clickProperty = (storyId: string, propertyName: string, property: ContextStoryProperty) => {
-    this._storyStore.clickProperty(storyId, propertyName, property);
+  clickControl = (storyId: string, propertyName: string, property: ContextStoryControl) => {
+    this._storyStore.clickControl(storyId, propertyName, property);
   };
 
-  setProperties = (storyId: string, properties: StoryProperties) => {
-    this._storyStore.setProperties(storyId, properties);
+  setControls = (storyId: string, controls: StoryControls) => {
+    this._storyStore.setControls(storyId, controls);
   };
 
   // what are the occasions that "m" is a boolean vs an obj
@@ -217,16 +217,16 @@ export default class ClientApi {
 
     const localDecorators: DecoratorFunction<StoryFnReturnType>[] = [];
     let localParameters: Parameters = {};
-    let localProperties: StoryProperties = {};
+    let localControls: StoryControls = {};
     let hasAdded = false;
     const api: StoryApi<StoryFnReturnType> = {
       kind: kind.toString(),
       add: () => api,
       addDecorator: () => api,
-      setPropertyValue: () => api,
-      clickProperty: () => api,
+      setControlValue: () => api,
+      clickControl: () => api,
       addParameters: () => api,
-      addProperties: () => api,
+      addControls: () => api,
     };
 
     // apply addons
@@ -237,7 +237,7 @@ export default class ClientApi {
         return api;
       };
     });
-    api.setPropertyValue = ({
+    api.setControlValue = ({
       id,
       propertyName,
       value,
@@ -246,29 +246,24 @@ export default class ClientApi {
       propertyName?: string;
       value: any;
     }) => {
-      this._storyStore.setPropertyValue(id, propertyName, value);
+      this._storyStore.setControlValue(id, propertyName, value);
       return api;
     };
 
-    api.clickProperty = ({
+    api.clickControl = ({
       id,
       propertyName,
       property,
     }: {
       id: string;
       propertyName?: string;
-      property: ContextStoryProperty;
+      property: ContextStoryControl;
     }) => {
-      this._storyStore.clickProperty(id, propertyName, property);
+      this._storyStore.clickControl(id, propertyName, property);
       return api;
     };
 
-    api.add = (
-      storyName,
-      storyFn,
-      parameters: Parameters = {},
-      properties: StoryProperties = {}
-    ) => {
+    api.add = (storyName, storyFn, parameters: Parameters = {}, controls: StoryControls = {}) => {
       hasAdded = true;
 
       const id = parameters.__id || toId(kind, storyName);
@@ -304,12 +299,12 @@ export default class ClientApi {
         },
         { fileName }
       );
-      const { properties: storyProperties } = (storyFn as any).story || {};
-      const allProperties = {
-        ..._globalProperties,
-        ...localProperties,
-        ...storyProperties,
-        ...properties,
+      const { controls: storyControls } = (storyFn as any).story || {};
+      const allControls = {
+        ..._globalControls,
+        ...localControls,
+        ...storyControls,
+        ...controls,
       };
 
       this._storyStore.addStory(
@@ -318,7 +313,7 @@ export default class ClientApi {
           kind,
           name: storyName,
           storyFn,
-          properties: allProperties,
+          controls: allControls,
           parameters: allParam,
         },
         {
@@ -348,8 +343,8 @@ This is probably not what you intended. Read more here: https://github.com/story
       localParameters = { ...localParameters, ...parameters };
       return api;
     };
-    api.addProperties = (properties: StoryProperties) => {
-      localProperties = { ...localProperties, ...properties };
+    api.addControls = (controls: StoryControls) => {
+      localControls = { ...localControls, ...controls };
       return api;
     };
 

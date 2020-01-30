@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import { styled } from '@storybook/theming';
 import deepEqual from 'fast-deep-equal';
-import { StoryPropertyObject } from '@storybook/common';
+import { StoryControlObject } from '@storybook/common';
 import { Form } from '../../form';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
@@ -16,7 +16,7 @@ interface ObjectEditorState {
 }
 
 interface ObjectEditorProps extends PropertyControlProps {
-  prop: StoryPropertyObject;
+  prop: StoryControlObject;
 }
 
 const serialize = (o: object): ObjectEditorState => {

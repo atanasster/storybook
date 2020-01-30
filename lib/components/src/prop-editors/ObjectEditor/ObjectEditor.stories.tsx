@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropertyTypes } from '@storybook/common';
+import { ControlTypes } from '@storybook/common';
 import { ObjectEditor } from './ObjectEditor';
 
 export default {
@@ -17,7 +17,7 @@ export const sample = () => {
     <ObjectEditor
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
-      prop={{ type: PropertyTypes.OBJECT, value: state }}
+      prop={{ type: ControlTypes.OBJECT, value: state }}
     />
   );
 };

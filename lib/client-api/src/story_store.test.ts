@@ -13,13 +13,13 @@ jest.mock('@storybook/client-logger', () => ({
 
 const channel = createChannel({ page: 'preview' });
 
-const make = (kind, name, storyFn, parameters = {}, properties = {}) => [
+const make = (kind, name, storyFn, parameters = {}, controls = {}) => [
   {
     kind,
     name,
     storyFn,
     parameters,
-    properties,
+    controls,
     id: toId(kind, name),
   },
   {
@@ -346,7 +346,7 @@ describe('preview.story_store', () => {
           name: 'name',
           kind: 'kind',
           story: 'name',
-          properties: {},
+          controls: {},
           parameters,
           hooks,
         }
@@ -378,16 +378,16 @@ describe('preview.story_store', () => {
       expect(stories[3].id).toBe('kind-2--story-2-1');
     });
   });
-  describe('story properties', () => {
+  describe('story controls', () => {
     it('should return a function that is called with the propety values and context', () => {
       const store = new StoryStore({ channel });
       const storyFn = jest.fn();
       const name = 'Tom Sawyer';
       const parameters = {};
-      const properties = {
+      const controls = {
         firstName: { type: 'text', value: name },
       };
-      store.addStory(...make('kind', 'name', storyFn, parameters, properties));
+      store.addStory(...make('kind', 'name', storyFn, parameters, controls));
       const storyWithContext = store.getStoryWithContext('kind', 'name');
       storyWithContext();
       const { hooks } = store.fromId(toId('kind', 'name'));
@@ -398,7 +398,7 @@ describe('preview.story_store', () => {
           name: 'name',
           kind: 'kind',
           story: 'name',
-          properties,
+          controls,
           parameters,
           hooks,
         }
@@ -409,12 +409,12 @@ describe('preview.story_store', () => {
       const store = new StoryStore({ channel });
       const storyFn = jest.fn();
       const parameters = {};
-      const properties = {
+      const controls = {
         name: { type: 'text', value: 'Tom Sawyer' },
       };
-      store.addStory(...make('kind', 'name', storyFn, parameters, properties));
+      store.addStory(...make('kind', 'name', storyFn, parameters, controls));
 
-      channel.emit(Events.STORY_SET_PROPERTY_VALUE, {
+      channel.emit(Events.STORY_SET_CONTROL_VALUE, {
         id: toId('kind', 'name'),
         propertyName: 'name',
         value: 'Huckleberry Finn',
@@ -430,24 +430,24 @@ describe('preview.story_store', () => {
           name: 'name',
           kind: 'kind',
           story: 'name',
-          properties,
+          controls,
           parameters,
           hooks,
         }
       );
     });
   });
-  it('should modify properties on channel message with empty propertyName parameter', () => {
+  it('should modify controls on channel message with empty propertyName parameter', () => {
     const store = new StoryStore({ channel });
     const storyFn = jest.fn();
     const parameters = {};
-    const properties = {
+    const controls = {
       firstName: { type: 'text', value: 'Tom' },
       lastName: { type: 'text', value: 'Sawyer' },
     };
-    store.addStory(...make('kind', 'name', storyFn, parameters, properties));
+    store.addStory(...make('kind', 'name', storyFn, parameters, controls));
     const newProps = { firstName: 'Huckleberry', lastName: 'Finn' };
-    channel.emit(Events.STORY_SET_PROPERTY_VALUE, {
+    channel.emit(Events.STORY_SET_CONTROL_VALUE, {
       id: toId('kind', 'name'),
       value: newProps,
     });
@@ -459,26 +459,26 @@ describe('preview.story_store', () => {
       name: 'name',
       kind: 'kind',
       story: 'name',
-      properties,
+      controls,
       parameters,
       hooks,
     });
   });
-  it('should modify properties on channel and then reset to default values', () => {
+  it('should modify controls on channel and then reset to default values', () => {
     const store = new StoryStore({ channel });
     const storyFn = jest.fn();
     const parameters = {};
-    const properties = {
+    const controls = {
       firstName: { type: 'text', value: 'Tom' },
       lastName: { type: 'text', value: 'Sawyer' },
     };
-    store.addStory(...make('kind', 'name', storyFn, parameters, properties));
+    store.addStory(...make('kind', 'name', storyFn, parameters, controls));
     const newProps = { firstName: 'Huckleberry', lastName: 'Finn' };
-    channel.emit(Events.STORY_SET_PROPERTY_VALUE, {
+    channel.emit(Events.STORY_SET_CONTROL_VALUE, {
       id: toId('kind', 'name'),
       value: newProps,
     });
-    channel.emit(Events.STORY_RESET_PROPERTY_VALUE, {
+    channel.emit(Events.STORY_RESET_CONTROL_VALUE, {
       id: toId('kind', 'name'),
     });
 
@@ -492,7 +492,7 @@ describe('preview.story_store', () => {
         name: 'name',
         kind: 'kind',
         story: 'name',
-        properties,
+        controls,
         parameters,
         hooks,
       }
@@ -504,11 +504,11 @@ describe('preview.story_store', () => {
     const parameters = {};
     const onClick = jest.fn();
     const property = { type: 'button', onClick };
-    const properties = {
+    const controls = {
       button: property,
     };
-    store.addStory(...make('kind', 'name', storyFn, parameters, properties));
-    channel.emit(Events.STORY_CLICK_PROPERTY, {
+    store.addStory(...make('kind', 'name', storyFn, parameters, controls));
+    channel.emit(Events.STORY_CLICK_CONTROL, {
       id: toId('kind', 'name'),
       propertyName: 'button',
       property,

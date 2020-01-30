@@ -11,7 +11,7 @@ export const {
   setAddon,
   addDecorator,
   addParameters,
-  addProperties,
+  addControls,
   clearDecorators,
   getStorybook,
   raw,

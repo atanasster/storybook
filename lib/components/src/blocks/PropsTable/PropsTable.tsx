@@ -1,15 +1,15 @@
 import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
-import { ContextStoryProperties } from '@storybook/common';
+import { ContextStoryControls } from '@storybook/common';
 import { opacify, transparentize, darken, lighten } from 'polished';
-import { ContextStoryProperty } from '@storybook/common/dist/prop-utils';
+import { ContextStoryControl } from '@storybook/common/dist/prop-utils';
 import { PropRow, PropRowProps } from './PropRow';
 import { SectionRow, SectionRowProps } from './SectionRow';
 import { PropDef, PropType, PropDefaultValue, PropSummaryValue } from './PropDef';
 import { EmptyBlock } from '../EmptyBlock';
 import { ResetWrapper } from '../../typography/DocumentFormatting';
 import { Icons } from '../../icon/icon';
-import { PropEditorsTableProps, PropertyEditor, getPropertyEditor } from '../../prop-editors';
+import { ControlsEditorsTableProps, PropertyEditor, getPropertyEditor } from '../../prop-editors';
 
 export const Table = styled.table<{}>(({ theme }) => ({
   '&&': {
@@ -143,7 +143,7 @@ export enum PropsTableError {
 
 export interface PropsTableRowsProps {
   rows: PropDef[];
-  propProps?: PropEditorsTableProps;
+  controlProps?: ControlsEditorsTableProps;
 }
 
 export interface PropsTableSectionsProps {
@@ -157,8 +157,8 @@ export interface PropsTableErrorProps {
 export type PropsTableProps = PropsTableRowsProps | PropsTableSectionsProps | PropsTableErrorProps;
 
 type PropsTableRowProps = PropRowProps & {
-  propProps?: PropEditorsTableProps;
-  field?: ContextStoryProperty;
+  controlProps?: ControlsEditorsTableProps;
+  field?: ContextStoryControl;
   hasSmartControls: boolean;
 };
 const PropsTableRow: FC<SectionRowProps | PropsTableRowProps> = props => {
@@ -166,18 +166,18 @@ const PropsTableRow: FC<SectionRowProps | PropsTableRowProps> = props => {
   if (section) {
     return <SectionRow section={section} />;
   }
-  const { row, propProps, field, hasSmartControls } = props as PropsTableRowProps;
+  const { row, controlProps, field, hasSmartControls } = props as PropsTableRowProps;
 
-  const { setPropertyValue, clickProperty, storyId } = propProps || {};
+  const { setControlValue, clickControl, storyId } = controlProps || {};
 
   const onChange = (propName: string, value: any) => {
-    if (setPropertyValue && storyId) {
-      setPropertyValue(storyId, propName, value);
+    if (setControlValue && storyId) {
+      setControlValue(storyId, propName, value);
     }
   };
   const onClick = () => {
-    if (clickProperty && storyId) {
-      clickProperty(storyId, row.name, field);
+    if (clickControl && storyId) {
+      clickControl(storyId, row.name, field);
     }
   };
   let control: React.ReactNode | undefined;
@@ -202,7 +202,7 @@ const PropsTable: FC<PropsTableProps> = props => {
 
   let allRows: any[] = [];
   const { sections } = props as PropsTableSectionsProps;
-  const { rows, propProps } = props as PropsTableRowsProps;
+  const { rows, controlProps } = props as PropsTableRowsProps;
   if (sections) {
     Object.keys(sections).forEach(section => {
       const sectionRows = sections[section];
@@ -228,11 +228,11 @@ const PropsTable: FC<PropsTableProps> = props => {
   }
 
   const smartControls =
-    propProps && propProps.properties
-      ? Object.keys(propProps.properties)
+    controlProps && controlProps.controls
+      ? Object.keys(controlProps.controls)
           .filter(name => allRows.find(row => row.key === name) !== undefined)
           .reduce(
-            (acc: ContextStoryProperties, name) => ({ ...acc, [name]: propProps.properties[name] }),
+            (acc: ContextStoryControls, name) => ({ ...acc, [name]: controlProps.controls[name] }),
             {}
           )
       : {};
@@ -259,7 +259,7 @@ const PropsTable: FC<PropsTableProps> = props => {
               <PropsTableRow
                 key={row.key}
                 {...row.value}
-                propProps={propProps}
+                controlProps={controlProps}
                 field={field}
                 hasSmartControls={hasSmartControls}
               />

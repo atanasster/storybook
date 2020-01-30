@@ -1,13 +1,13 @@
 import React, { MouseEvent } from 'react';
 import { window } from 'global';
 import { styled } from '@storybook/theming';
-import { ContextStoryProperties, ContextStoryProperty } from '@storybook/common';
+import { ContextStoryControls, ContextStoryControl } from '@storybook/common';
 import { ResetWrapper } from '../typography/index';
 import { getSectionTitleStyle, getBlockBackgroundStyle } from '../blocks';
 import { Table } from '../blocks/PropsTable/PropsTable';
 import { ActionBar } from '../ActionBar/ActionBar';
 import { TabsState } from '../tabs/tabs';
-import { PropEditorsTableProps } from './types';
+import { ControlsEditorsTableProps } from './types';
 
 import { PropertyEditorRow } from './PropEditorRow';
 
@@ -42,21 +42,21 @@ export const BlockWrapper: React.FC = ({ children }) => (
   </ResetWrapper>
 );
 
-const PropGroupTable: React.FC<PropEditorsTableProps> = ({
-  properties,
+const PropGroupTable: React.FC<ControlsEditorsTableProps> = ({
+  controls,
   storyId,
-  setPropertyValue,
-  clickProperty,
+  setControlValue,
+  clickControl,
 }) => (
   <StyleTable className="docblock-propeditorstable">
     <tbody>
-      {properties &&
-        Object.keys(properties)
+      {controls &&
+        Object.keys(controls)
           .map((key, index) => ({
             name: key,
             property: {
-              ...properties[key],
-              order: properties[key].order === undefined ? index : properties[key].order,
+              ...controls[key],
+              order: controls[key].order === undefined ? index : controls[key].order,
             },
           }))
           .sort((a, b) => {
@@ -70,39 +70,41 @@ const PropGroupTable: React.FC<PropEditorsTableProps> = ({
               key={`prop_editor_row_${storyId}_${p.name}`}
               prop={p.property}
               name={p.name}
-              setPropertyValue={setPropertyValue}
-              clickProperty={clickProperty}
+              setControlValue={setControlValue}
+              clickControl={clickControl}
             />
           ))}
     </tbody>
   </StyleTable>
 );
 
-interface GroupedPropertiesType {
-  [key: string]: ContextStoryProperties;
+interface GroupedControlsType {
+  [key: string]: ContextStoryControls;
 }
 
-export const PropEditorsTable: React.FC<PropEditorsTableProps & { title?: string }> = props => {
+export const ControlsEditorsTable: React.FC<ControlsEditorsTableProps & {
+  title?: string;
+}> = props => {
   const [copied, setCopied] = React.useState(false);
-  const { properties, title, storyId, resetPropertyValue } = props;
-  if (properties && Object.keys(properties).length) {
+  const { controls, title, storyId, resetControlValue } = props;
+  if (controls && Object.keys(controls).length) {
     const onReset = (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
-      resetPropertyValue(storyId);
+      resetControlValue(storyId);
     };
     const onCopy = (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1500);
     };
-    const groupped: GroupedPropertiesType = Object.keys(properties)
+    const groupped: GroupedControlsType = Object.keys(controls)
       .filter(k => {
-        const p: ContextStoryProperty = properties[k];
+        const p: ContextStoryControl = controls[k];
         return !p.hidden;
       })
-      .reduce((acc: GroupedPropertiesType, k: string) => {
-        const groupId = properties[k].groupId || DEFAULT_GROUP_ID;
-        return { ...acc, [groupId]: { ...acc[groupId], [k]: properties[k] } };
+      .reduce((acc: GroupedControlsType, k: string) => {
+        const groupId = controls[k].groupId || DEFAULT_GROUP_ID;
+        return { ...acc, [groupId]: { ...acc[groupId], [k]: controls[k] } };
       }, {});
     return (
       <BlockWrapper>
@@ -114,13 +116,13 @@ export const PropEditorsTable: React.FC<PropEditorsTableProps & { title?: string
             {Object.keys(groupped)
               .sort()
               .map(key => {
-                const group: ContextStoryProperties = groupped[key];
+                const group: ContextStoryControls = groupped[key];
                 const tabId = `prop_editors_div_${props.storyId}_${key}`;
                 return (
                   <div key={tabId} id={tabId} title={key}>
                     {({ active }: { active: boolean }) =>
                       active ? (
-                        <PropGroupTable key={tabId} {...{ ...props, properties: group }} />
+                        <PropGroupTable key={tabId} {...{ ...props, controls: group }} />
                       ) : null
                     }
                   </div>

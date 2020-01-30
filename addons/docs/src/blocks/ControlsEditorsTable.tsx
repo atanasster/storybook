@@ -1,21 +1,21 @@
 import React from 'react';
 import { toId, storyNameFromExport } from '@storybook/csf';
-import { PropEditorsTable as PurePropEditorsTable } from '@storybook/components';
-import { ContextStoryProperties } from '@storybook/common';
+import { ControlsEditorsTable as PureControlsEditorsTable } from '@storybook/components';
+import { ContextStoryControls } from '@storybook/common';
 import { DocsContextProps, DocsContext } from './DocsContext';
 import { StoryProps } from './Story';
 import { CURRENT_SELECTION } from './shared';
 
-interface PropEditorsTable {
+interface ControlsEditorsTableProps {
   title?: string;
   id?: string;
   name?: string;
 }
 
 const getPropertyProps = (
-  props: PropEditorsTable,
+  props: ControlsEditorsTableProps,
   { id: currentId, storyStore, mdxStoryNameToKey, mdxComponentMeta }: DocsContextProps | null
-): { properties?: ContextStoryProperties; id: string | null } => {
+): { controls?: ContextStoryControls; id: string | null } => {
   const { id, name } = props;
   const inputId = id === CURRENT_SELECTION ? currentId : id;
   const previewId =
@@ -31,32 +31,32 @@ const getPropertyProps = (
   }
   const data = storyStore.fromId(previewId);
 
-  const propsParam = (data && data.parameters && data.parameters.properties) || {};
+  const propsParam = (data && data.parameters && data.parameters.controls) || {};
 
   if (!data || propsParam.disable) {
     return null;
   }
   return {
     id: data.id,
-    properties: data.properties,
+    controls: data.controls,
   };
 };
-export const PropEditorsTable: React.FC<PropEditorsTable & StoryProps> = ({
+export const ControlsEditorsTable: React.FC<ControlsEditorsTableProps & StoryProps> = ({
   title = 'Property Editors',
   ...rest
 }) => (
   <DocsContext.Consumer>
     {context => {
-      const { properties, id } = getPropertyProps(rest, context) || {};
+      const { controls, id } = getPropertyProps(rest, context) || {};
       const api: any = (context as any).clientApi;
       return id ? (
-        <PurePropEditorsTable
+        <PureControlsEditorsTable
           title={title}
-          properties={properties}
+          controls={controls}
           storyId={id}
-          setPropertyValue={api.setPropertyValue}
-          resetPropertyValue={api.resetPropertyValue}
-          clickProperty={api.clickProperty}
+          setControlValue={api.setControlValue}
+          resetControlValue={api.resetControlValue}
+          clickControl={api.clickControl}
         />
       ) : null;
     }}

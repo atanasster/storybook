@@ -1,7 +1,7 @@
 import { document } from 'global';
 import React from 'react';
 import { SketchPicker, ColorResult } from 'react-color';
-import { StoryPropertyColor } from '@storybook/common';
+import { StoryControlColor } from '@storybook/common';
 
 import { styled } from '@storybook/theming';
 import { Form } from '../../form';
@@ -42,7 +42,7 @@ const Popover = styled.div({
 });
 
 interface ColorEditorProps extends PropertyControlProps {
-  prop: StoryPropertyColor;
+  prop: StoryControlColor;
 }
 
 export const ColorEditor: PropertyEditor<ColorEditorProps> = ({ prop, name, onChange }) => {

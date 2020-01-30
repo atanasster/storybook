@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { StoryPropertyButton, StoryPropertyBoolean } from '@storybook/common';
+import { StoryControlButton } from '@storybook/common';
 import { Form } from '../../form';
 import { PropertyControlProps, PropertyEditor, PropertyOnClick } from '../types';
 
@@ -9,7 +9,7 @@ const FlexButton = styled(Form.Button)({
 });
 
 interface ButtonEditorProps extends PropertyControlProps {
-  prop: StoryPropertyButton;
+  prop: StoryControlButton;
   onClick: PropertyOnClick;
 }
 

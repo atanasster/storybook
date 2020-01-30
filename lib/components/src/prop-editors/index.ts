@@ -1,3 +1,3 @@
 export * from './prop-factory';
 export * from './types';
-export * from './PropEditorsTable';
+export * from './ControlEditorsTable';

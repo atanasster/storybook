@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropertyTypes } from '@storybook/common';
+import { ControlTypes } from '@storybook/common';
 import { DateEditor } from './DateEditor';
 
 export default {
@@ -13,7 +13,7 @@ export const sample = () => {
     <DateEditor
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
-      prop={{ type: PropertyTypes.DATE, value: state }}
+      prop={{ type: ControlTypes.DATE, value: state }}
     />
   );
 };
@@ -24,7 +24,7 @@ export const onlyDatePicker = () => {
     <DateEditor
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
-      prop={{ type: PropertyTypes.DATE, value: state, timePicker: false }}
+      prop={{ type: ControlTypes.DATE, value: state, timePicker: false }}
     />
   );
 };
@@ -35,7 +35,7 @@ export const onlyTimePicker = () => {
     <DateEditor
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
-      prop={{ type: PropertyTypes.DATE, value: state, datePicker: false }}
+      prop={{ type: ControlTypes.DATE, value: state, datePicker: false }}
     />
   );
 };

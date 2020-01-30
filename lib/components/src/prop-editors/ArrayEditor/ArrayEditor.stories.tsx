@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropertyTypes } from '@storybook/common';
+import { ControlTypes } from '@storybook/common';
 import { ArrayEditor } from './ArrayEditor';
 
 export default {
@@ -14,7 +14,7 @@ export const sample = () => {
       <ArrayEditor
         name="prop"
         onChange={(name, newVal) => setState(newVal)}
-        prop={{ type: PropertyTypes.ARRAY, value: state }}
+        prop={{ type: ControlTypes.ARRAY, value: state }}
       />
       <ul>{state && state.map(item => <li key={item}>{item}</li>)}</ul>
     </>

@@ -150,7 +150,7 @@ describe('preview.client_api', () => {
       expect(rest).toEqual({ a: '1', b: '2' });
     });
 
-    it('should override specific properties in options', () => {
+    it('should override specific controls in options', () => {
       const { clientApi, storyStore } = getContext(undefined);
       const { storiesOf } = clientApi;
 
@@ -168,7 +168,7 @@ describe('preview.client_api', () => {
       expect(rest).toEqual({ a: '2', b: '3' });
     });
 
-    it('should replace top level properties and override specific properties in options', () => {
+    it('should replace top level controls and override specific controls in options', () => {
       const { clientApi, storyStore } = getContext(undefined);
       const { storiesOf } = clientApi;
 
@@ -685,8 +685,8 @@ describe('preview.client_api', () => {
     });
   });
 
-  describe('properties', () => {
-    it('verifies properties are set', () => {
+  describe('controls', () => {
+    it('verifies controls are set', () => {
       const {
         storyStore,
         clientApi: { storiesOf },
@@ -696,11 +696,11 @@ describe('preview.client_api', () => {
       kind.add('name', jest.fn(), {}, { name: { type: 'text', value } });
       expect(logger.error).not.toHaveBeenCalled();
 
-      expect(storyStore.fromId('kind--name').properties).toEqual({
+      expect(storyStore.fromId('kind--name').controls).toEqual({
         name: { type: 'text', value, defaultValue: value },
       });
     });
-    it('verifies properties options.legacyContextProp', () => {
+    it('verifies controls options.legacyContextProp', () => {
       const {
         storyStore,
         clientApi: { storiesOf },
@@ -713,7 +713,7 @@ describe('preview.client_api', () => {
         { name: { type: 'text', value: 'Tom Sawyer' } }
       );
       const story = storyStore.fromId('error--name');
-      expect(story.properties).toEqual({
+      expect(story.controls).toEqual({
         name: { type: 'text', value: 'Tom Sawyer', defaultValue: 'Tom Sawyer' },
       });
       expect(logger.error).toHaveBeenCalledWith(
@@ -730,9 +730,9 @@ describe('preview.client_api', () => {
       const kind = storiesOf('kind', module);
       kind.add('name', jest.fn(), {}, { name: { type: 'text', value } });
       expect(logger.error).not.toHaveBeenCalled();
-      storyStore.setPropertyValue('kind--name', 'name', newValue);
+      storyStore.setControlValue('kind--name', 'name', newValue);
 
-      expect(storyStore.fromId('kind--name').properties).toEqual({
+      expect(storyStore.fromId('kind--name').controls).toEqual({
         name: { type: 'text', value: newValue, defaultValue: value },
       });
     });

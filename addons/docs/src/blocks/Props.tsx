@@ -57,12 +57,12 @@ export const getComponentProps = (
 
     return {
       ...props,
-      propProps: {
+      controlProps: {
         storyId: story.id,
-        properties: story.properties,
-        setPropertyValue: api.setPropertyValue,
-        resetPropertyValue: api.resetPropertyValue,
-        clickProperty: api.clickProperty,
+        controls: story.controls,
+        setControlValue: api.setControlValue,
+        resetControlValue: api.resetControlValue,
+        clickControl: api.clickControl,
       },
     };
   } catch (err) {

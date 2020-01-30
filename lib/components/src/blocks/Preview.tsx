@@ -5,7 +5,7 @@ import { logger } from '@storybook/client-logger';
 
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 import { Source, SourceProps } from './Source';
-import { PropEditorsTable, PropEditorsTableProps } from '../prop-editors';
+import { ControlsEditorsTable, ControlsEditorsTableProps } from '../prop-editors';
 import { ActionBar, ActionItem } from '../ActionBar/ActionBar';
 import { Toolbar } from './Toolbar';
 
@@ -21,7 +21,7 @@ export interface PreviewProps {
   isExpanded?: ExpandedState;
   withToolbar?: boolean;
   className?: string;
-  propProps?: PropEditorsTableProps;
+  controlProps?: ControlsEditorsTableProps;
 }
 
 const ChildrenContainer = styled.div<PreviewProps>(({ isColumn, columns }) => ({
@@ -105,13 +105,13 @@ const getSource = (
   }
 };
 
-const getProperties = (
-  props: PropEditorsTableProps,
+const getControls = (
+  props: ControlsEditorsTableProps,
   expanded: ExpandedState,
   setExpanded: Function
 ): SourceItem => {
   switch (true) {
-    case !props || !props.properties || !Object.keys(props.properties).length: {
+    case !props || !props.controls || !Object.keys(props.controls).length: {
       return {
         source: null,
         actionItem: null,
@@ -119,7 +119,7 @@ const getProperties = (
     }
     case expanded === PROPS_EXPANDED: {
       return {
-        source: <PropEditorsTable {...props} />,
+        source: <ControlsEditorsTable {...props} />,
         actionItem: { title: 'Hide controls', onClick: () => setExpanded(false) },
       };
     }
@@ -179,13 +179,13 @@ const Preview: FunctionComponent<PreviewProps> = ({
   withToolbar = false,
   isExpanded = false,
   className,
-  propProps,
+  controlProps,
   ...props
 }) => {
   const [expanded, setExpanded] = useState(isExpanded);
   const { source, actionItem: actionSource } = getSource(withSource, expanded, setExpanded);
-  const { source: propsTable, actionItem: actionProps } = getProperties(
-    propProps,
+  const { source: propsTable, actionItem: actionProps } = getControls(
+    controlProps,
     expanded,
     setExpanded
   );
@@ -223,7 +223,7 @@ const Preview: FunctionComponent<PreviewProps> = ({
         {(withSource || propsTable) && <ActionBar actionItems={actions} />}
       </Relative>
       {withSource && source}
-      {propProps && propsTable}
+      {controlProps && propsTable}
     </PreviewContainer>
   );
 };

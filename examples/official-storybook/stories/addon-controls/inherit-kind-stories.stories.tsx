@@ -1,20 +1,20 @@
 import React from 'react';
-import { PropertyTypes } from '@storybook/common';
-import { PropEditorsTable } from '@storybook/addon-docs/blocks';
+import { ControlTypes } from '@storybook/common';
+import { ControlsEditorsTable } from '@storybook/addon-docs/blocks';
 
 export default {
   title: 'Addons/Controls/kind',
-  component: PropEditorsTable,
+  component: ControlsEditorsTable,
   properties: {
-    name: { type: PropertyTypes.TEXT, label: 'Name', value: 'Mark', order: 9999 },
+    name: { type: ControlTypes.TEXT, label: 'Name', value: 'Mark', order: 9999 },
   },
 };
 
-interface DocsPropEditorsTable {
+interface DocsControlsEditorsTable {
   name: string;
   age: number;
 }
-export const docsPropEditorsTable = ({ name, age }: DocsPropEditorsTable) => {
+export const docsControlsEditorsTable = ({ name, age }: DocsControlsEditorsTable) => {
   return (
     <>
       <h2>{`Hello, my name is ${name}, and I am ${age} years old.`}</h2>
@@ -22,11 +22,11 @@ export const docsPropEditorsTable = ({ name, age }: DocsPropEditorsTable) => {
   );
 };
 
-docsPropEditorsTable.story = {
+docsControlsEditorsTable.story = {
   properties: {
-    age: { type: PropertyTypes.NUMBER, label: 'Age', value: 19, order: 2 },
+    age: { type: ControlTypes.NUMBER, label: 'Age', value: 19, order: 2 },
     clickMe: {
-      type: PropertyTypes.BUTTON,
+      type: ControlTypes.BUTTON,
       label: '+1',
       onClick: () => {},
       order: 1,

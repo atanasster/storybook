@@ -1,9 +1,9 @@
 import React from 'react';
 import { Placeholder, Link } from '@storybook/components';
 
-export const NoProperties = () => (
+export const NoControls = () => (
   <Placeholder>
-    <>No properties found</>
+    <>No controls found</>
     <>
       Learn how to&nbsp;
       <Link

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropertyTypes } from '@storybook/common';
+import { ControlTypes } from '@storybook/common';
 import { OptionsEditor } from './OptionsEditor';
 
 export default {
@@ -13,7 +13,7 @@ export const simple = () => {
     <OptionsEditor
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
-      prop={{ type: PropertyTypes.OPTIONS, value: state, options: ['one', 'two', 'three'] }}
+      prop={{ type: ControlTypes.OPTIONS, value: state, options: ['one', 'two', 'three'] }}
     />
   );
 };
@@ -25,7 +25,7 @@ export const objects = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: { One: 'one', Two: 'two', Three: 'three' },
       }}
@@ -40,7 +40,7 @@ export const numeric = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: [
           { value: 1, label: 'One' },
@@ -59,7 +59,7 @@ export const multiSelectSimple = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: ['one', 'two', 'three'],
         display: 'multi-select',
@@ -75,7 +75,7 @@ export const multiSelectObjects = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: { One: 'one', Two: 'two', Three: 'three' },
         display: 'multi-select',
@@ -91,7 +91,7 @@ export const multiSelectNumeric = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: [
           { value: 1, label: 'One' },
@@ -111,7 +111,7 @@ export const simpleRadios = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: ['one', 'two', 'three'],
         display: 'radio',
@@ -127,7 +127,7 @@ export const objectsRadios = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: { One: 'one', Two: 'two', Three: 'three' },
         display: 'radio',
@@ -143,7 +143,7 @@ export const numericRadios = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: [
           { value: 1, label: 'One' },
@@ -163,7 +163,7 @@ export const simpleRadiosInline = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: ['one', 'two', 'three'],
         display: 'inline-radio',
@@ -179,7 +179,7 @@ export const objectsRadiosInline = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: { One: 'one', Two: 'two', Three: 'three' },
         display: 'inline-radio',
@@ -195,7 +195,7 @@ export const numericRadiosInline = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: [
           { value: 1, label: 'One' },
@@ -215,7 +215,7 @@ export const simpleCheck = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: ['one', 'two', 'three'],
         display: 'check',
@@ -231,7 +231,7 @@ export const objectsCheck = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: { One: 'one', Two: 'two', Three: 'three' },
         display: 'check',
@@ -247,7 +247,7 @@ export const numericCheck = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: [
           { value: 1, label: 'One' },
@@ -267,7 +267,7 @@ export const simpleCheckInline = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: ['one', 'two', 'three'],
         display: 'inline-check',
@@ -283,7 +283,7 @@ export const objectsCheckInline = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: { One: 'one', Two: 'two', Three: 'three' },
         display: 'inline-check',
@@ -299,7 +299,7 @@ export const numericCheckInline = () => {
       name="prop"
       onChange={(name, newVal) => setState(newVal)}
       prop={{
-        type: PropertyTypes.OPTIONS,
+        type: ControlTypes.OPTIONS,
         value: state,
         options: [
           { value: 1, label: 'One' },

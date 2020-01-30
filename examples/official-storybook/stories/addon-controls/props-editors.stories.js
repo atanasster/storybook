@@ -7,7 +7,7 @@ import {
   Story,
   Props,
   Stories,
-  PropEditorsTable,
+  ControlsEditorsTable,
 } from '@storybook/addon-docs/blocks';
 
 export default {
@@ -20,7 +20,7 @@ export default {
           <Subtitle />
           <Description />
           <Story id="." />
-          <PropEditorsTable />
+          <ControlsEditorsTable />
           <Props />
           <Stories />
         </>
@@ -31,7 +31,7 @@ export default {
 
 export const textDefaultProp = ({ text }) => text;
 textDefaultProp.story = {
-  properties: {
+  controls: {
     text: { type: 'text', value: 'Hello' },
   },
 };
@@ -47,7 +47,7 @@ selectProp.defaultProps = {
 };
 
 selectProp.story = {
-  properties: {
+  controls: {
     value: {
       type: 'options',
       label: 'Select',
@@ -137,7 +137,7 @@ const GROUP_IDS = {
 };
 
 tweaksStaticValues.story = {
-  properties: {
+  controls: {
     userName: {
       type: 'text',
       label: 'Name',
@@ -257,7 +257,7 @@ dynamicProps.propTypes = {
 };
 
 dynamicProps.story = {
-  properties: {
+  controls: {
     showOptional: {
       type: 'options',
       label: 'Show optional',
@@ -284,7 +284,7 @@ complexSelect.propTypes = {
 };
 
 complexSelect.story = {
-  properties: {
+  controls: {
     m: {
       type: 'options',
       label: 'complex',
@@ -345,7 +345,7 @@ optionsProperties.propTypes = {
 };
 
 optionsProperties.story = {
-  properties: {
+  controls: {
     optionRadio: {
       type: 'options',
       label: 'Radio',
@@ -454,7 +454,7 @@ export const triggersActionsViaButton = () => {
 };
 
 triggersActionsViaButton.story = {
-  properties: {
+  controls: {
     button: {
       type: 'button',
       onClick: () => {
@@ -474,7 +474,7 @@ triggersActionsViaButton.story = {
 export const radioEnum = ({ radio }) => radio;
 
 radioEnum.story = {
-  properties: {
+  controls: {
     radio: {
       type: 'options',
       label: 'Radio',
@@ -492,7 +492,7 @@ radioEnum.story = {
 export const reservedKeyword = ({ name }) => name;
 
 reservedKeyword.story = {
-  properties: {
+  controls: {
     name: { type: 'text', label: 'Text', value: 'Hello' },
   },
 };
