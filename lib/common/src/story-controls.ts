@@ -236,8 +236,8 @@ export interface StoryControlButton extends StoryControlBase<void> {
   onClick?: (prop: StoryControlButton) => void;
 }
 
-export type OptionsValueType =
-  | string
+export type OptionsValueType<T = unknown> =
+  | T
   | number
   | string[]
   | number[]
@@ -246,7 +246,7 @@ export type OptionsValueType =
 /**
  * value/label pairs or array of OptionsValueType
  */
-export type OptionsListType = { [key: string]: string } | OptionsValueType[];
+export type OptionsListType<T = unknown> = { [key: string]: T } | OptionsValueType<T>[];
 
 /**
  * list of options can be
@@ -255,12 +255,12 @@ export type OptionsListType = { [key: string]: string } | OptionsValueType[];
  * 3. array of key-value pair objects
  */
 
-export interface StoryControlOptions extends StoryControlBase<OptionsValueType> {
+export interface StoryControlOptions<T = unknown> extends StoryControlBase<OptionsValueType<T>> {
   type: ControlTypes.OPTIONS;
 
   options: OptionsListType;
   /**
-   * how to render slecting the options:
+   * how to render selecting the options:
    * default is 'select'
    */
 
