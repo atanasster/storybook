@@ -25,7 +25,6 @@ const StyleTable = styled(Table)<{}>(() => ({
 
 const PropEditorsContainer = styled.div<{}>(({ theme }) => ({
   position: 'relative',
-  overflow: 'hidden',
   paddingBottom: '25px',
   ...getBlockBackgroundStyle(theme),
 }));
