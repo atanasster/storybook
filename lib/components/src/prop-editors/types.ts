@@ -12,7 +12,7 @@ export interface PropertyControlProps {
 export type PropertyEditor<T extends PropertyControlProps = any> = React.FC<T>;
 
 export type OnSetPropertyValue = (storyId: string, propName: string, value: any) => void;
-export type OnResetPropertyValue = (storyId: string, propName: string) => void;
+export type OnResetPropertyValue = (storyId: string, propName?: string) => void;
 export type OnClickProperty = (
   storyId: string,
   propName: string,

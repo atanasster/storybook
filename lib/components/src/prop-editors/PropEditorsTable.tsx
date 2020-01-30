@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
+import { window } from 'global';
 import { styled } from '@storybook/theming';
 import { ContextStoryProperties, ContextStoryProperty } from '@storybook/common';
 import { ResetWrapper } from '../typography/index';
 import { getSectionTitleStyle, getBlockBackgroundStyle } from '../blocks';
 import { Table } from '../blocks/PropsTable/PropsTable';
+import { ActionBar } from '../ActionBar/ActionBar';
 import { TabsState } from '../tabs/tabs';
 import { PropEditorsTableProps } from './types';
 
@@ -24,7 +26,7 @@ const StyleTable = styled(Table)<{}>(() => ({
 const PropEditorsContainer = styled.div<{}>(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden',
-  marginTop: '25px',
+  paddingBottom: '25px',
   ...getBlockBackgroundStyle(theme),
 }));
 
@@ -82,8 +84,18 @@ interface GroupedPropertiesType {
 }
 
 export const PropEditorsTable: React.FC<PropEditorsTableProps & { title?: string }> = props => {
-  const { properties, title } = props;
+  const [copied, setCopied] = React.useState(false);
+  const { properties, title, storyId, resetPropertyValue } = props;
   if (properties && Object.keys(properties).length) {
+    const onReset = (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      resetPropertyValue(storyId);
+    };
+    const onCopy = (e: MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1500);
+    };
     const groupped: GroupedPropertiesType = Object.keys(properties)
       .filter(k => {
         const p: ContextStoryProperty = properties[k];
@@ -117,6 +129,12 @@ export const PropEditorsTable: React.FC<PropEditorsTableProps & { title?: string
               })}
           </TabsState>
         )}
+        <ActionBar
+          actionItems={[
+            { title: 'Reset', onClick: onReset },
+            { title: copied ? 'Copied' : 'Copy', onClick: onCopy },
+          ]}
+        />
       </BlockWrapper>
     );
   }
