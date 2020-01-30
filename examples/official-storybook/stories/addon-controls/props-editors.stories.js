@@ -489,10 +489,10 @@ radioEnum.story = {
   },
 };
 
-export const reservedKeyword = ({ values }) => values;
+export const reservedKeyword = ({ name }) => name;
 
 reservedKeyword.story = {
   properties: {
-    values: { type: 'text', label: 'Text', value: 'Hello' },
+    name: { type: 'text', label: 'Text', value: 'Hello' },
   },
 };

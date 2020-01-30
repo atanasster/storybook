@@ -100,6 +100,7 @@ const createStoreProperties = (
     'storyFn',
     'properties',
     'parameters',
+    'values',
     'hooks',
   ];
 
