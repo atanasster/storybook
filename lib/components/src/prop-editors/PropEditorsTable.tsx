@@ -11,7 +11,7 @@ import { PropertyEditorRow } from './PropEditorRow';
 
 const StyleTable = styled(Table)<{}>(() => ({
   '&&': {
-    marginTop: 0,
+    margin: 0,
     tbody: {
       boxShadow: 'none',
     },
@@ -24,7 +24,7 @@ const StyleTable = styled(Table)<{}>(() => ({
 const PropEditorsContainer = styled.div<{}>(({ theme }) => ({
   position: 'relative',
   overflow: 'hidden',
-  margin: '25px 0 40px',
+  marginTop: '25px',
   ...getBlockBackgroundStyle(theme),
 }));
 

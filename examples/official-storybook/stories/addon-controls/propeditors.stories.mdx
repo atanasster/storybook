@@ -6,31 +6,45 @@ import {
   Meta,
   PropEditorsTable,
 } from '@storybook/addon-docs/blocks';
-import { Button } from '@storybook/react/demo';
+import Button from '../../components/BaseButton';
 
-<Meta
-  title="Addons/Controls/mdx"
-  component={Button}
-/>
 
-# Selected
+<Meta title="Addons/Controls/mdx" parameters={{component: Button}} />
+
+# Main story with "smart" controls
 
 <Story id="." />
 
-<Source id="." />
-
-<Props of="." />
+<Props of={Button} />
 
 
 <Preview>
-  <Story name="hello story" properties={{
-    text: {type: 'text', value: 'Hello'},
-  }}>
-    {({ text}) => (
-      <Button>{text}</Button>
+  <Story name="smart story" parameters={{ smartControls: true }}>
+    {(props) => (
+      <Button label="default" {...props}/>
     )}  
   </Story>
 </Preview>
 
-<PropEditorsTable />
 
+# Small story with custom properties
+
+<Preview>
+  <Story name="small story" properties={{
+    text: {type: 'text', value: 'Hello'},
+  }}>
+    {({ text }) => (
+      <Button label={text}/>
+    )}  
+  </Story>
+</Preview>
+
+<PropEditorsTable name="small story" />
+
+# Story with no properties
+
+<Preview>
+  <Story name="no properties" >
+      <Button label="Hello"/>
+  </Story>
+</Preview>

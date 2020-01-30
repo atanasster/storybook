@@ -1,4 +1,5 @@
 import React from 'react';
+import { toId, storyNameFromExport } from '@storybook/csf';
 import { PropEditorsTable as PurePropEditorsTable } from '@storybook/components';
 import { ContextStoryProperties } from '@storybook/common';
 import { DocsContextProps, DocsContext } from './DocsContext';
@@ -8,15 +9,22 @@ import { CURRENT_SELECTION } from './shared';
 interface PropEditorsTable {
   title?: string;
   id?: string;
+  name?: string;
 }
 
 const getPropertyProps = (
   props: PropEditorsTable,
-  { id: currentId, storyStore }: DocsContextProps | null
+  { id: currentId, storyStore, mdxStoryNameToKey, mdxComponentMeta }: DocsContextProps | null
 ): { properties?: ContextStoryProperties; id: string | null } => {
-  const { id = CURRENT_SELECTION } = props;
+  const { id, name } = props;
   const inputId = id === CURRENT_SELECTION ? currentId : id;
-  const data = storyStore.fromId(inputId);
+  const previewId =
+    inputId ||
+    toId(
+      mdxComponentMeta.id || mdxComponentMeta.title,
+      storyNameFromExport(mdxStoryNameToKey[name])
+    );
+  const data = storyStore.fromId(previewId);
 
   const propsParam = (data && data.parameters && data.parameters.properties) || {};
 

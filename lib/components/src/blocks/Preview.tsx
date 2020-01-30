@@ -111,7 +111,7 @@ const getProperties = (
   setExpanded: Function
 ): SourceItem => {
   switch (true) {
-    case !props.properties || !Object.keys(props.properties).length: {
+    case !props || !props.properties || !Object.keys(props.properties).length: {
       return {
         source: null,
         actionItem: null,

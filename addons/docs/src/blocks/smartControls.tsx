@@ -17,9 +17,6 @@ export const createFieldFromProps = (
   propDef: PropDef,
   smartControls: SmartControls
 ): StoryProperty | null | undefined => {
-  if (!smartControls) {
-    return null;
-  }
   if (typeof smartControls === 'object') {
     const { include, exclude } = smartControls;
     if (Array.isArray(include) && !include.includes(propDef.name)) {
@@ -68,9 +65,13 @@ export const createFieldFromProps = (
     }
     case 'enum': {
       const value = propDef.defaultValue ? cleanQuotes(propDef.defaultValue.summary) : undefined;
+      const options = Array.isArray(propDef.type) ? propDef.type : propDef.type.value;
+      if (!Array.isArray(options)) {
+        return null;
+      }
       return {
         type: PropertyTypes.OPTIONS,
-        options: propDef.type.value.map((v: any) => cleanQuotes(v.value)),
+        options: options.map((v: any) => cleanQuotes(v.value)),
         value,
       };
     }
@@ -107,6 +108,9 @@ export const createFieldFromProps = (
 export const extractSmartProperties = (parameters: Parameters): StoryProperties => {
   const params = parameters || {};
   const { component, framework = null, smartControls } = params;
+  if (!smartControls) {
+    return null;
+  }
   if (!component) {
     return null;
   }
