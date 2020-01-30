@@ -30,7 +30,12 @@ const serialize = (o: object): ObjectEditorState => {
   }
 };
 
-export const ObjectEditor: PropertyEditor<ObjectEditorProps> = ({ prop, name, onChange }) => {
+export const ObjectEditor: PropertyEditor<ObjectEditorProps> = ({
+  prop,
+  name,
+  onChange,
+  maxRows,
+}) => {
   const [state, setState] = React.useState<ObjectEditorState>(serialize(prop.value));
   React.useEffect(() => {
     setState(serialize(prop.value));
@@ -63,6 +68,7 @@ export const ObjectEditor: PropertyEditor<ObjectEditorProps> = ({ prop, name, on
       name={name}
       valid={valid ? undefined : 'error'}
       value={string}
+      maxRows={maxRows}
       onChange={handleChange}
       size="flex"
     />

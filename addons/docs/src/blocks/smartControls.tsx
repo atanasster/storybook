@@ -57,6 +57,15 @@ export const createFieldFromProps = (
       }
       return { type: PropertyTypes.BOOLEAN, value };
     }
+    case 'number': {
+      let value;
+      try {
+        value = parseFloat(propDef.defaultValue.summary);
+      } catch (e) {
+        // eat exceptoin
+      }
+      return { type: PropertyTypes.NUMBER, value };
+    }
     case 'enum': {
       const value = propDef.defaultValue ? cleanQuotes(propDef.defaultValue.summary) : undefined;
       return {
@@ -73,6 +82,21 @@ export const createFieldFromProps = (
           // eslint-disable-next-line prefer-rest-params
           console.info(`${propDef.name}: `, arguments);
         },
+      };
+    }
+    case 'shape': {
+      let value;
+      try {
+        if (propDef.defaultValue) {
+          value = JSON.parse(propDef.defaultValue.summary);
+        }
+      } catch (e) {
+        // eat exception
+      }
+      return {
+        type: PropertyTypes.OBJECT,
+        maxRows: 10,
+        value,
       };
     }
     default:

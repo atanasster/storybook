@@ -1,7 +1,12 @@
 import React from 'react';
-import { StoryPropertyButton } from '@storybook/common';
+import { styled } from '@storybook/theming';
+import { StoryPropertyButton, StoryPropertyBoolean } from '@storybook/common';
 import { Form } from '../../form';
 import { PropertyControlProps, PropertyEditor, PropertyOnClick } from '../types';
+
+const FlexButton = styled(Form.Button)({
+  flex: '1 1',
+});
 
 interface ButtonEditorProps extends PropertyControlProps {
   prop: StoryPropertyButton;
@@ -9,7 +14,7 @@ interface ButtonEditorProps extends PropertyControlProps {
 }
 
 export const ButtonEditor: PropertyEditor<ButtonEditorProps> = ({ prop, name, onClick }) => (
-  <Form.Button type="button" name={name} onClick={() => onClick(prop)}>
+  <FlexButton type="button" name={name} onClick={() => onClick(prop)}>
     {name}
-  </Form.Button>
+  </FlexButton>
 );

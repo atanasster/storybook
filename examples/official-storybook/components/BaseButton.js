@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 /** BaseButton component description imported from comments inside the component file */
-const BaseButton = ({ disabled, label, onClick, style, backgroundColor, color, type }) => (
+const BaseButton = ({ disabled, label, onClick, style, backgroundColor, color, type, padding }) => (
   // eslint-disable-next-line react/button-has-type
   <button
     type={type}
     disabled={disabled}
     onClick={onClick}
-    style={{ ...style, backgroundColor, color }}
+    style={{ ...style, backgroundColor, color, padding }}
   >
     {label}
   </button>
@@ -21,6 +21,7 @@ BaseButton.defaultProps = {
   backgroundColor: '#fefefe',
   color: 'black',
   type: 'button',
+  padding: 5,
 };
 
 BaseButton.propTypes = {
@@ -41,6 +42,9 @@ BaseButton.propTypes = {
 
   /** Button type */
   type: PropTypes.oneOf(['button', 'reset', 'submit']),
+
+  /** Numeric  field type */
+  padding: PropTypes.number,
 };
 
 export default BaseButton;

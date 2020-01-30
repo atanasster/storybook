@@ -211,6 +211,10 @@ export interface StoryPropertyArray extends StoryPropertyBase<string[]> {
 
 export interface StoryPropertyObject extends StoryPropertyBase<object> {
   type: PropertyTypes.OBJECT;
+  /**
+   * number of rows in a TextArea field
+   */
+  maxRows?: number;
 }
 
 export interface StoryPropertyButton extends StoryPropertyBase<void> {
