@@ -20,18 +20,21 @@ const getPropertyProps = (
   const inputId = id === CURRENT_SELECTION ? currentId : id;
   const previewId =
     inputId ||
-    toId(
-      mdxComponentMeta.id || mdxComponentMeta.title,
-      storyNameFromExport(mdxStoryNameToKey[name])
-    );
+    (mdxStoryNameToKey &&
+      mdxComponentMeta &&
+      toId(
+        mdxComponentMeta.id || mdxComponentMeta.title,
+        storyNameFromExport(mdxStoryNameToKey[name])
+      ));
+  if (!previewId) {
+    return null;
+  }
   const data = storyStore.fromId(previewId);
 
   const propsParam = (data && data.parameters && data.parameters.properties) || {};
 
   if (!data || propsParam.disable) {
-    return {
-      id: null,
-    };
+    return null;
   }
   return {
     id: data.id,
@@ -44,7 +47,7 @@ export const PropEditorsTable: React.FC<PropEditorsTable & StoryProps> = ({
 }) => (
   <DocsContext.Consumer>
     {context => {
-      const { properties, id } = getPropertyProps(rest, context);
+      const { properties, id } = getPropertyProps(rest, context) || {};
       const api: any = (context as any).clientApi;
       return id ? (
         <PurePropEditorsTable
