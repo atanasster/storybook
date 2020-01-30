@@ -8,12 +8,14 @@ interface TextEditorProps extends PropertyControlProps {
 }
 
 export const TextEditor: PropertyEditor<TextEditorProps> = ({ prop, name, onChange }) => {
-  return prop.maxRows > 1 ? (
+  const { maxRows, minRows } = prop;
+  return minRows > 1 || maxRows > 1 ? (
     <Form.Textarea
       id={name}
       name={name}
       value={prop.value}
-      maxRows={prop.maxRows}
+      minRows={minRows}
+      maxRows={maxRows}
       placeholder={prop.placeholder}
       onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
         const { value } = event.target;

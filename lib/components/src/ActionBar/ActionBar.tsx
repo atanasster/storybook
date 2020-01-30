@@ -2,14 +2,14 @@ import React, { FunctionComponent, MouseEvent } from 'react';
 
 import { styled } from '@storybook/theming';
 
-const Container = styled.div<{}>(({ theme }) => ({
+const Container = styled.div<{ zIndex?: number }>(({ theme, zIndex }) => ({
   position: 'absolute',
   bottom: 0,
   right: 0,
   maxWidth: '100%',
   display: 'flex',
   background: theme.background.content,
-  zIndex: 1,
+  zIndex,
 }));
 
 export const ActionButton = styled.button<{ disabled: boolean }>(
@@ -61,10 +61,15 @@ export interface ActionItem {
 
 export interface ActionBarProps {
   actionItems: ActionItem[];
+  zIndex?: number;
 }
 
-export const ActionBar: FunctionComponent<ActionBarProps> = ({ actionItems, ...props }) => (
-  <Container {...props}>
+export const ActionBar: FunctionComponent<ActionBarProps> = ({
+  actionItems,
+  zIndex = 1,
+  ...props
+}) => (
+  <Container zIndex={zIndex} {...props}>
     {actionItems.map(({ title, onClick, disabled }, index: number) => (
       // eslint-disable-next-line react/no-array-index-key
       <ActionButton key={index} onClick={onClick} disabled={disabled}>

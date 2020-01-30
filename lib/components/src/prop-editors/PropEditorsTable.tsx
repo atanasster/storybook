@@ -129,6 +129,7 @@ export const PropEditorsTable: React.FC<PropEditorsTableProps & { title?: string
           </TabsState>
         )}
         <ActionBar
+          zIndex={0}
           actionItems={[
             { title: 'Reset', onClick: onReset },
             { title: copied ? 'Copied' : 'Copy', onClick: onCopy },

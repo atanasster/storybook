@@ -162,8 +162,13 @@ export interface StoryPropertyText extends StoryPropertyBase<string> {
   placeholder?: string;
 
   /**
-   * number of rows in a TextArea field
+   * minimum number of rows in a TextArea field for longe textr
    * by default, only 1 row = means a Input field
+   */
+  minRows?: number;
+
+  /**
+   * number of rows in a TextArea field
    */
   maxRows?: number;
 }
@@ -212,7 +217,12 @@ export interface StoryPropertyArray extends StoryPropertyBase<string[]> {
 export interface StoryPropertyObject extends StoryPropertyBase<object> {
   type: PropertyTypes.OBJECT;
   /**
-   * number of rows in a TextArea field
+   * minimum number of rows in a TextArea field
+   */
+  minRows?: number;
+
+  /**
+   * maximun number of rows in a TextArea field
    */
   maxRows?: number;
 }

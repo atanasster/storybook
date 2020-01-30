@@ -13,10 +13,10 @@ This is what Knobs looks like:
 
 ## Getting Started
 
-First of all, you need to install Knobs into your project as a dev dependency.
+First of all, you need to install Controls into your project as a dev dependency.
 
 ```sh
-yarn add @storybook/addon-knobs --dev
+yarn add @storybook/addon-controls --dev
 ```
 
 within `.storybook/main.js`:

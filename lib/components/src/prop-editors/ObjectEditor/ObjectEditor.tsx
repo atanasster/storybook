@@ -1,8 +1,13 @@
 import React, { ChangeEvent } from 'react';
+import { styled } from '@storybook/theming';
 import deepEqual from 'fast-deep-equal';
 import { StoryPropertyObject } from '@storybook/common';
 import { Form } from '../../form';
 import { PropertyControlProps, PropertyEditor } from '../types';
+
+const StyledFlexArea = styled(Form.Textarea)({
+  flexGrow: 1,
+});
 
 interface ObjectEditorState {
   string: string;
@@ -30,12 +35,7 @@ const serialize = (o: object): ObjectEditorState => {
   }
 };
 
-export const ObjectEditor: PropertyEditor<ObjectEditorProps> = ({
-  prop,
-  name,
-  onChange,
-  maxRows,
-}) => {
+export const ObjectEditor: PropertyEditor<ObjectEditorProps> = ({ prop, name, onChange }) => {
   const [state, setState] = React.useState<ObjectEditorState>(serialize(prop.value));
   React.useEffect(() => {
     setState(serialize(prop.value));
@@ -62,15 +62,16 @@ export const ObjectEditor: PropertyEditor<ObjectEditorProps> = ({
     }
   };
   const { string, valid } = state;
-
+  const { maxRows, minRows = 5 } = prop;
   return (
-    <Form.Textarea
+    <StyledFlexArea
       name={name}
       valid={valid ? undefined : 'error'}
       value={string}
       maxRows={maxRows}
+      minRows={minRows}
       onChange={handleChange}
-      size="flex"
+      size="100%"
     />
   );
 };
