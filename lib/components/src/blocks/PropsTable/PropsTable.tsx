@@ -176,7 +176,7 @@ const PropsTableRow: FC<SectionRowProps | PropsTableRowProps> = props => {
   };
   const onClick = () => {
     if (clickControl && storyId) {
-      clickControl(storyId, row.name, field);
+      clickControl(storyId, row.name);
     }
   };
   let control: React.ReactNode | undefined;

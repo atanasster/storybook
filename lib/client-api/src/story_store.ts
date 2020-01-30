@@ -178,18 +178,10 @@ export default class StoryStore extends EventEmitter {
       }
     };
 
-    const onClickControl = ({
-      id,
-      propertyName,
-      property,
-    }: {
-      id: string;
-      propertyName: string;
-      property: StoryControl;
-    }) => {
+    const onClickControl = ({ id, propertyName }: { id: string; propertyName: string }) => {
       const story = this._data[id];
       if (story) {
-        this.clickControl(id, propertyName, property);
+        this.clickControl(id, propertyName);
         this._channel.emit(Events.FORCE_RE_RENDER);
       }
     };
@@ -589,12 +581,14 @@ export default class StoryStore extends EventEmitter {
     }
   }
 
-  clickControl(id: string, propName: string, property: StoryControl) {
+  clickControl(id: string, propName: string) {
     if (this._data[id]) {
       if (this._data[id].controls && this._data[id].controls[propName]) {
         const prop = this._data[id].controls[propName];
         if (typeof (prop as StoryControlButton).onClick === 'function') {
-          (prop as StoryControlButton).onClick(property as StoryControlButton);
+          (prop as StoryControlButton).onClick(
+            this._data[id].controls[propName] as StoryControlButton
+          );
         }
       }
     }

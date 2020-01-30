@@ -57,9 +57,9 @@ const handlePropChange = (api: API, story: StoryInput, name: string, newValue: a
   setControlValue(story.id, name, newValue);
 };
 
-const handlePropClick = (api: API, storyId: string, name: string, prop: StoryControl) => {
+const handlePropClick = (api: API, storyId: string, name: string) => {
   const { clickControl } = api;
-  clickControl(storyId, name, prop);
+  clickControl(storyId, name);
 };
 
 const propEntries = (api: API, story: StoryInput, props: StoryControls) => {

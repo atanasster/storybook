@@ -16,6 +16,7 @@ import {
 } from '@storybook/core-events';
 import { RenderData as RouterData } from '@storybook/router';
 import { Listener } from '@storybook/channels';
+
 import initProviderApi, { SubAPI as ProviderAPI, Provider } from './init-provider-api';
 
 import { createContext } from './context';
@@ -32,8 +33,6 @@ import initStories, {
   SubState as StoriesSubState,
   SubAPI as StoriesAPI,
   StoriesRaw,
-  SetControlValueFn,
-  ClickControlFn,
   StoryInput,
   Group,
 } from './modules/stories';
@@ -50,7 +49,7 @@ import initVersions, {
 
 export { Options as StoreOptions, Listener as ChannelListener };
 
-export { SetControlValueFn, ClickControlFn, StoryInput, Group };
+export { Group };
 
 const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
 

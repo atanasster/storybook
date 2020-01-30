@@ -1,9 +1,14 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
 
-import { ContextStoryControl } from '@storybook/common';
+import {
+  ContextStoryControl,
+  SetControlValueFn,
+  ResetControlValueFn,
+  ClickControlFn,
+} from '@storybook/common';
 import { getPropertyEditor } from './prop-factory';
-import { PropertyEditor, OnSetControlValue, OnResetControlValue, OnClickControl } from './types';
+import { PropertyEditor } from './types';
 
 export interface EditorContainerProps {
   align?: string;
@@ -19,9 +24,9 @@ interface PropertyEditorRowProps {
   prop: ContextStoryControl;
   name: string;
   storyId?: string;
-  setControlValue?: OnSetControlValue;
-  resetControlValue?: OnResetControlValue;
-  clickControl?: OnClickControl;
+  setControlValue?: SetControlValueFn;
+  resetControlValue?: ResetControlValueFn;
+  clickControl?: ClickControlFn;
 }
 
 export const PropertyEditorRow: React.FunctionComponent<PropertyEditorRowProps> = ({
@@ -39,7 +44,7 @@ export const PropertyEditorRow: React.FunctionComponent<PropertyEditorRowProps> 
   };
   const onClick = () => {
     if (clickControl && storyId) {
-      clickControl(storyId, name, prop);
+      clickControl(storyId, name);
     }
   };
   return (

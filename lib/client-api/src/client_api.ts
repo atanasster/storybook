@@ -174,8 +174,8 @@ export default class ClientApi {
     this._storyStore.resetControlValue(storyId, propertyName);
   };
 
-  clickControl = (storyId: string, propertyName: string, property: ContextStoryControl) => {
-    this._storyStore.clickControl(storyId, propertyName, property);
+  clickControl = (storyId: string, propertyName: string) => {
+    this._storyStore.clickControl(storyId, propertyName);
   };
 
   setControls = (storyId: string, controls: StoryControls) => {
@@ -250,16 +250,8 @@ export default class ClientApi {
       return api;
     };
 
-    api.clickControl = ({
-      id,
-      propertyName,
-      property,
-    }: {
-      id: string;
-      propertyName?: string;
-      property: ContextStoryControl;
-    }) => {
-      this._storyStore.clickControl(id, propertyName, property);
+    api.clickControl = ({ id, propertyName }: { id: string; propertyName?: string }) => {
+      this._storyStore.clickControl(id, propertyName);
       return api;
     };
 

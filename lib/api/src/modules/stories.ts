@@ -11,6 +11,9 @@ import {
   ContextStoryControls,
   mergeControlValues,
   resetControlValues,
+  SetControlValueFn,
+  ClickControlFn,
+  ResetControlValueFn,
 } from '@storybook/common';
 
 import { Module } from '../index';
@@ -29,14 +32,6 @@ export interface SubState {
   storiesConfigured: boolean;
 }
 
-export type SetControlValueFn = (
-  storyId: StoryId,
-  propertyName: string | undefined,
-  value: any
-) => void;
-export type ClickControlFn = (storyId: StoryId, propertyName: string, prop: StoryControl) => void;
-
-export type resetControlValueFn = (storyId: StoryId, propertyName?: string) => void;
 export interface SubAPI {
   storyId: typeof toId;
   selectStory: (kindOrId: string, story?: string, obj?: any) => void;
@@ -49,7 +44,7 @@ export interface SubAPI {
   getCurrentParameter<S>(parameterName?: ParameterName): S;
   setControlValue: SetControlValueFn;
   clickControl: ClickControlFn;
-  resetControlValue: resetControlValueFn;
+  resetControlValue: ResetControlValueFn;
 }
 
 export interface Group {
@@ -164,8 +159,8 @@ const initStoriesApi = ({
     });
     provider.channel.emit(STORY_SET_CONTROL_VALUE, { id: storyId, propertyName, value });
   };
-  const clickControl = (storyId: StoryId, propertyName: string, prop: StoryControl) => {
-    provider.channel.emit(STORY_CLICK_CONTROL, { id: storyId, propertyName, property: prop });
+  const clickControl = (storyId: StoryId, propertyName: string) => {
+    provider.channel.emit(STORY_CLICK_CONTROL, { id: storyId, propertyName });
   };
 
   const resetControlValue = (storyId: StoryId, propertyName?: string) => {

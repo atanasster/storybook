@@ -115,11 +115,9 @@ export interface StoryApi<StoryFnReturnType = unknown> {
   clickControl: ({
     id,
     propertyName,
-    property,
   }: {
     id: string;
     propertyName: string;
-    property: ContextStoryControl;
   }) => StoryApi<StoryFnReturnType>;
 
   [k: string]: string | ClientApiReturnFn<StoryFnReturnType>;
