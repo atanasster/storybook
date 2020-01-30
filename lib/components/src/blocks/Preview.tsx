@@ -114,11 +114,7 @@ const getProperties = (
     case !props.properties || !Object.keys(props.properties).length: {
       return {
         source: null,
-        actionItem: {
-          title: 'No controls available',
-          disabled: true,
-          onClick: () => setExpanded(expanded === PROPS_EXPANDED ? false : expanded),
-        },
+        actionItem: null,
       };
     }
     case expanded === PROPS_EXPANDED: {
@@ -193,6 +189,7 @@ const Preview: FunctionComponent<PreviewProps> = ({
     expanded,
     setExpanded
   );
+  const actions = [actionProps, actionSource].filter(a => a);
   const [scale, setScale] = useState(1);
   const previewClasses = className ? `${className} sbdocs sbdocs-preview` : 'sbdocs sbdocs-preview';
 
@@ -223,7 +220,7 @@ const Preview: FunctionComponent<PreviewProps> = ({
             <Scale scale={scale}>{children}</Scale>
           )}
         </ChildrenContainer>
-        {(withSource || propsTable) && <ActionBar actionItems={[actionProps, actionSource]} />}
+        {(withSource || propsTable) && <ActionBar actionItems={actions} />}
       </Relative>
       {withSource && source}
       {propProps && propsTable}
