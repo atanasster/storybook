@@ -162,7 +162,7 @@ export interface StoryControlText extends StoryControlBase<string> {
   placeholder?: string;
 
   /**
-   * minimum number of rows in a TextArea field for longe textr
+   * minimum number of rows in a TextArea field for longer text
    * by default, only 1 row = means a Input field
    */
   minRows?: number;
@@ -258,7 +258,7 @@ export type OptionsListType<T = unknown> = { [key: string]: T } | OptionsValueTy
 export interface StoryControlOptions<T = unknown> extends StoryControlBase<OptionsValueType<T>> {
   type: ControlTypes.OPTIONS;
 
-  options: OptionsListType;
+  options: OptionsListType<T>;
   /**
    * how to render selecting the options:
    * default is 'select'

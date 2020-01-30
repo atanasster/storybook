@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
-import { ContextStoryControls } from '@storybook/common';
+import { ContextStoryControls, ContextStoryControl } from '@storybook/common';
 import { opacify, transparentize, darken, lighten } from 'polished';
-import { ContextStoryControl } from '@storybook/common/dist/prop-utils';
 import { PropRow, PropRowProps } from './PropRow';
 import { SectionRow, SectionRowProps } from './SectionRow';
 import { PropDef, PropType, PropDefaultValue, PropSummaryValue } from './PropDef';

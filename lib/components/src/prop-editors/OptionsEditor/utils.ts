@@ -34,7 +34,7 @@ export const normalizeOptions = (
   if (Array.isArray(options)) {
     entries = options.reduce((acc: NormalizedOptions, o) => {
       return [...acc, findLabelOption(null, o)];
-    }, []);
+    }, []) as NormalizedOptions;
   } else {
     entries = Object.keys(options).reduce((acc, key) => {
       return [...acc, findLabelOption(key, options[key])];
