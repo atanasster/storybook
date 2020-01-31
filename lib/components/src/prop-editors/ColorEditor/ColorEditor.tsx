@@ -50,10 +50,7 @@ export const ColorEditor: PropertyEditor<ColorEditorProps> = ({ prop, name, onCh
   const popoverRef = React.useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     const handleWindowMouseDown = (e: MouseEvent) => {
-      if (
-        !displayColorPicker ||
-        (popoverRef && popoverRef.current && popoverRef.current.contains(e.target as HTMLElement))
-      ) {
+      if (popoverRef.current && !popoverRef.current.contains(e.target as HTMLElement)) {
         return;
       }
       setDisplayColorPicker(false);
@@ -62,7 +59,7 @@ export const ColorEditor: PropertyEditor<ColorEditorProps> = ({ prop, name, onCh
     return () => {
       document.removeEventListener('mousedown', handleWindowMouseDown);
     };
-  }, []);
+  });
 
   const handleChange = (color: ColorResult) => {
     onChange(name, `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`);
@@ -71,11 +68,13 @@ export const ColorEditor: PropertyEditor<ColorEditorProps> = ({ prop, name, onCh
   const colorStyle = {
     background: prop.value,
   };
+
   return (
     <ColorButton
       active={displayColorPicker}
       type="button"
       name={name}
+      onBlur={() => setDisplayColorPicker(false)}
       onClick={() => setDisplayColorPicker(!displayColorPicker)}
       size="flex"
     >

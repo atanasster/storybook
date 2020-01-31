@@ -227,7 +227,7 @@ export interface StoryControlObject extends StoryControlBase<object> {
   maxRows?: number;
 }
 
-export interface StoryControlButton extends StoryControlBase<void> {
+export interface StoryControlButton<ClickEvent = () => void> extends StoryControlBase<ClickEvent> {
   type: ControlTypes.BUTTON;
 
   /**

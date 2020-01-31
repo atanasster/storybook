@@ -7,7 +7,6 @@ import {
   STORY_CLICK_CONTROL,
 } from '@storybook/core-events';
 import {
-  StoryControl,
   ContextStoryControls,
   mergeControlValues,
   resetControlValues,
