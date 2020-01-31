@@ -2,8 +2,7 @@
 import { StoryControls, StoryControl, ControlTypes } from '@storybook/common';
 import { Parameters } from '@storybook/addons';
 import { PropsTableRowsProps, PropDef } from '@storybook/components';
-import { PropsExtractor } from '../lib/docgen/types';
-import { inferPropsExtractor } from './propExtract';
+import { PropsExtractor, inferPropsExtractor } from '@storybook/addon-docs/blocks';
 
 export interface SmartControlsConfig {
   include?: string[];

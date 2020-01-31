@@ -11,7 +11,6 @@ export * from './Meta';
 export * from './Preview';
 export * from './Primary';
 export * from './Props';
-export * from './ControlsEditorsTable';
 export * from './Source';
 export * from './Stories';
 export * from './Story';
@@ -23,4 +22,5 @@ export * from './Wrapper';
 export * from './shared';
 export * from './mdx';
 
-export { extractSmartProperties } from './smartControls';
+export { PropsExtractor } from '../lib/docgen/types';
+export { inferPropsExtractor } from './propExtract';

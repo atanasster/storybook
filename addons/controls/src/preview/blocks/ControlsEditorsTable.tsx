@@ -2,9 +2,12 @@ import React from 'react';
 import { toId, storyNameFromExport } from '@storybook/csf';
 import { ControlsEditorsTable as PureControlsEditorsTable } from '@storybook/components';
 import { ContextStoryControls } from '@storybook/common';
-import { DocsContextProps, DocsContext } from './DocsContext';
-import { StoryProps } from './Story';
-import { CURRENT_SELECTION } from './shared';
+import {
+  CURRENT_SELECTION,
+  StoryProps,
+  DocsContextProps,
+  DocsContext,
+} from '@storybook/addon-docs/blocks';
 
 interface ControlsEditorsTableProps {
   title?: string;
@@ -15,13 +18,14 @@ interface ControlsEditorsTableProps {
 const getPropertyProps = (
   props: ControlsEditorsTableProps,
   { id: currentId, storyStore, mdxStoryNameToKey, mdxComponentMeta }: DocsContextProps | null
-): { controls?: ContextStoryControls; id: string | null } => {
+): { controls?: ContextStoryControls; id: string | null } | null => {
   const { id, name } = props;
   const inputId = id === CURRENT_SELECTION ? currentId : id;
   const previewId =
     inputId ||
     (mdxStoryNameToKey &&
       mdxComponentMeta &&
+      name &&
       toId(
         mdxComponentMeta.id || mdxComponentMeta.title,
         storyNameFromExport(mdxStoryNameToKey[name])

@@ -1,1 +1,1 @@
-// noop
+export { extractSmartProperties } from './smartControls';

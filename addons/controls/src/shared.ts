@@ -2,9 +2,3 @@
 export const PARAM_KEY = 'addon-controls';
 export const ADDON_ID = 'storybookjs/addon-controls';
 export const PANEL_ID = `${ADDON_ID}/panel`;
-
-export const RESET = `${ADDON_ID}/reset`;
-export const SET = `${ADDON_ID}/set`;
-export const CHANGE = `${ADDON_ID}/change`;
-export const SET_OPTIONS = `${ADDON_ID}/set-options`;
-export const CLICK = `${ADDON_ID}/click`;
