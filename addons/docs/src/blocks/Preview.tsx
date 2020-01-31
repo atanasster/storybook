@@ -26,7 +26,7 @@ const getPreviewProps = (
     children,
     ...props
   }: PreviewProps & { children?: ReactNode },
-  { id: currentId, mdxStoryNameToKey, mdxComponentMeta, storyStore, ...rest }: DocsContextProps
+  { mdxStoryNameToKey, mdxComponentMeta, storyStore, ...rest }: DocsContextProps
 ): PurePreviewProps => {
   const childArray: ReactNodeArray = Array.isArray(children) ? children : [children];
   const stories = childArray.filter(

@@ -8,7 +8,7 @@ interface CommonProps {
   dark?: boolean;
 }
 
-export type SingleSourceProps = {
+type SingleSourceProps = {
   id: string;
 } & CommonProps;
 
@@ -66,6 +66,7 @@ export const getSourceProps = (
   const codeProps = props as CodeProps;
   const singleProps = props as SingleSourceProps;
   const multiProps = props as MultiSourceProps;
+
   let source = codeProps.code; // prefer user-specified code
   if (!source) {
     const targetId = singleProps.id === CURRENT_SELECTION ? currentId : singleProps.id;
