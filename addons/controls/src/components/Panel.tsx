@@ -67,7 +67,7 @@ const propEntries = (api: API, story: StoryInput, props: StoryControls) => {
   const groupIds: string[] = [];
 
   const handleClick = (name: string, prop: StoryControl) => {
-    handlePropClick(api, story.id, name, prop);
+    handlePropClick(api, story.id, name);
   };
   Object.keys(props).forEach(key => {
     const prop: StoryControl = props[key];
@@ -146,7 +146,7 @@ export const PropsPanel: React.FC<PropsPanelProps> = ({ api, active: panelActive
                     handlePropChange(api, story, name, newValue)
                   }
                   onFieldClick={(name: string, prop: StoryControl) => {
-                    handlePropClick(api, story.id, name, prop);
+                    handlePropClick(api, story.id, name);
                   }}
                 />
               )}

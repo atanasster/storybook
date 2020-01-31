@@ -49,7 +49,7 @@ import initVersions, {
 
 export { Options as StoreOptions, Listener as ChannelListener };
 
-export { Group };
+export { Group, StoryInput };
 
 const ManagerContext = createContext({ api: undefined, state: getInitialState({}) });
 
