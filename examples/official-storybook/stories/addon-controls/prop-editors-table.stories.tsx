@@ -5,8 +5,8 @@ import { ControlsEditorsTable } from '@storybook/addon-controls/blocks';
 
 export default {
   title: 'Docs/PropEditors/ControlsEditorsTable',
-  component: ControlsEditorsTable,
   parameters: {
+    component: ControlsEditorsTable,
     docs: {
       page: () => (
         <>
@@ -41,7 +41,7 @@ docsControlsEditorsTable.story = {
     age: { type: ControlTypes.NUMBER, label: 'Age', value: 19 },
     clickMe: {
       type: ControlTypes.BUTTON,
-      label: '+1',
+      label: 'button click',
       onClick: () => {},
     },
   },

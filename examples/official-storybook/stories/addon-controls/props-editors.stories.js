@@ -13,7 +13,7 @@ export default {
           <Subtitle />
           <Description />
           <Story id="." />
-          <ControlsEditorsTable />
+          <ControlsEditorsTable id="." />
           <Props />
           <Stories />
         </>
