@@ -2,12 +2,7 @@ import React from 'react';
 import { toId, storyNameFromExport } from '@storybook/csf';
 import { ControlsEditorsTable as PureControlsEditorsTable } from '@storybook/components';
 import { ContextStoryControls } from '@storybook/common';
-import {
-  CURRENT_SELECTION,
-  StoryProps,
-  DocsContextProps,
-  DocsContext,
-} from '@storybook/addon-docs/blocks';
+import { CURRENT_SELECTION, DocsContext } from '@storybook/addon-docs/blocks';
 
 interface ControlsEditorsTableProps {
   title?: string;
@@ -17,7 +12,7 @@ interface ControlsEditorsTableProps {
 
 const getPropertyProps = (
   props: ControlsEditorsTableProps,
-  { id: currentId, storyStore, mdxStoryNameToKey, mdxComponentMeta }: DocsContextProps | null
+  { id: currentId, storyStore, mdxStoryNameToKey, mdxComponentMeta }: any
 ): { controls?: ContextStoryControls; id: string | null } | null => {
   const { id, name } = props;
   const inputId = id === CURRENT_SELECTION ? currentId : id;
@@ -45,12 +40,12 @@ const getPropertyProps = (
     controls: data.controls,
   };
 };
-export const ControlsEditorsTable: React.FC<ControlsEditorsTableProps & StoryProps> = ({
+export const ControlsEditorsTable: React.FC<ControlsEditorsTableProps> = ({
   title = 'Property Editors',
   ...rest
 }) => (
   <DocsContext.Consumer>
-    {context => {
+    {(context: any) => {
       const { controls, id } = getPropertyProps(rest, context) || {};
       const api: any = (context as any).clientApi;
       return id ? (

@@ -2,7 +2,7 @@
 import { StoryControls, StoryControl, ControlTypes } from '@storybook/common';
 import { Parameters } from '@storybook/addons';
 import { PropsTableRowsProps, PropDef } from '@storybook/components';
-import { PropsExtractor, inferPropsExtractor } from '@storybook/addon-docs/blocks';
+import { inferPropsExtractor } from '@storybook/addon-docs/blocks';
 
 export interface SmartControlsConfig {
   include?: string[];
@@ -25,6 +25,9 @@ export const createFieldFromProps = (
       return null;
     }
   }
+  if (!propDef) {
+    return null;
+  }
   switch (propDef.type.type) {
     case 'string': {
       let value: string | undefined;
@@ -45,18 +48,20 @@ export const createFieldFromProps = (
     }
     case 'bool': {
       let value;
-      if (propDef.defaultValue.summary === 'false') {
-        value = false;
-      }
-      if (propDef.defaultValue.summary === 'true') {
-        value = true;
+      if (propDef.defaultValue) {
+        if (propDef.defaultValue.summary === 'false') {
+          value = false;
+        }
+        if (propDef.defaultValue.summary === 'true') {
+          value = true;
+        }
       }
       return { type: ControlTypes.BOOLEAN, value };
     }
     case 'number': {
       let value;
       try {
-        value = parseFloat(propDef.defaultValue.summary);
+        value = propDef.defaultValue ? parseFloat(propDef.defaultValue.summary) : undefined;
       } catch (e) {
         // eat exceptoin
       }
@@ -104,7 +109,7 @@ export const createFieldFromProps = (
   }
 };
 
-export const extractSmartProperties = (parameters: Parameters): StoryControls => {
+export const extractSmartProperties = (parameters: Parameters): StoryControls | null => {
   const params = parameters || {};
   const { component, framework = null, smartControls } = params;
   if (!smartControls) {
@@ -113,7 +118,7 @@ export const extractSmartProperties = (parameters: Parameters): StoryControls =>
   if (!component) {
     return null;
   }
-  const { extractProps = inferPropsExtractor(framework) }: { extractProps: PropsExtractor } =
+  const { extractProps = inferPropsExtractor(framework) }: { extractProps: any } =
     params.docs || {};
   if (!extractProps) {
     return null;
@@ -122,13 +127,13 @@ export const extractSmartProperties = (parameters: Parameters): StoryControls =>
   const { rows } = props as PropsTableRowsProps;
 
   const smartProps = rows
-    ? rows.reduce((acc, row) => {
+    ? rows.reduce((acc: StoryControls, row: PropDef) => {
         const field = createFieldFromProps(row, smartControls);
         if (field) {
           return { ...acc, [row.name]: field };
         }
         return acc;
       }, {})
-    : undefined;
+    : null;
   return smartProps;
 };
