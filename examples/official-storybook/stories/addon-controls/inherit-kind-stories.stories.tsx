@@ -1,11 +1,11 @@
 import React from 'react';
 import { ControlTypes } from '@storybook/common';
-import { ControlsEditorsTable } from '@storybook/addon-docs/blocks';
+import { ControlsEditorsTable } from '@storybook/addon-controls/blocks';
 
 export default {
   title: 'Addons/Controls/kind',
   component: ControlsEditorsTable,
-  properties: {
+  controls: {
     name: { type: ControlTypes.TEXT, label: 'Name', value: 'Mark', order: 9999 },
   },
 };
@@ -23,7 +23,7 @@ export const docsControlsEditorsTable = ({ name, age }: DocsControlsEditorsTable
 };
 
 docsControlsEditorsTable.story = {
-  properties: {
+  controls: {
     age: { type: ControlTypes.NUMBER, label: 'Age', value: 19, order: 2 },
     clickMe: {
       type: ControlTypes.BUTTON,
