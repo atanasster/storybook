@@ -2,8 +2,7 @@ import React from 'react';
 import { addDecorator, addParameters } from '@storybook/react';
 import { Global, ThemeProvider, themes, createReset, convert } from '@storybook/theming';
 import { withCssResources } from '@storybook/addon-cssresources';
-// import { withA11y } from '@storybook/addon-a11y';
-import { withNotes } from '@storybook/addon-notes';
+import { withA11y } from '@storybook/addon-a11y';
 import { DocsPage } from '@storybook/addon-docs/blocks';
 import { extractSmartProperties } from '@storybook/addon-controls';
 
@@ -27,8 +26,7 @@ addHeadWarning('preview-head-not-loaded', 'Preview head not loaded');
 addHeadWarning('dotenv-file-not-loaded', 'Dotenv file not loaded');
 
 addDecorator(withCssResources);
-// addDecorator(withA11y);
-addDecorator(withNotes);
+addDecorator(withA11y);
 
 addDecorator(storyFn => (
   <ThemeProvider theme={convert(themes.light)}>
