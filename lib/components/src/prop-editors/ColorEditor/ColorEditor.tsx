@@ -19,26 +19,35 @@ interface ColorButtonProps {
 
 const { Button } = Form;
 
-const Swatch = styled.div<{}>(({ theme }) => ({
+const Swatch = styled.div<{ color: string }>(({ theme, color }) => ({
   position: 'absolute',
   top: '50%',
   transform: 'translateY(-50%)',
   left: 6,
   width: 16,
   height: 16,
+  backgroundColor: color,
   boxShadow: `${theme.appBorderColor} 0 0 0 1px inset`,
   borderRadius: '1rem',
 }));
 
 const ColorButton = styled(Button)<ColorButtonProps>(({ active }) => ({
-  zIndex: active ? 3 : 'unset',
+  zIndex: 'unset',
   paddingLeft: '30px',
   minHeight: '36px',
 }));
 
 const Popover = styled.div({
   position: 'absolute',
-  zIndex: 2,
+  zIndex: 3,
+});
+
+const Cover = styled.div({
+  position: 'fixed',
+  top: '0px',
+  right: '0px',
+  bottom: '0px',
+  left: '0px',
 });
 
 interface ColorEditorProps extends PropertyControlProps {
@@ -47,26 +56,9 @@ interface ColorEditorProps extends PropertyControlProps {
 
 export const ColorEditor: PropertyEditor<ColorEditorProps> = ({ prop, name, onChange }) => {
   const [displayColorPicker, setDisplayColorPicker] = React.useState(false);
-  const popoverRef = React.useRef<HTMLDivElement>(null);
-  React.useEffect(() => {
-    const handleWindowMouseDown = (e: MouseEvent) => {
-      if (popoverRef.current && !popoverRef.current.contains(e.target as HTMLElement)) {
-        return;
-      }
-      setDisplayColorPicker(false);
-    };
-    document.addEventListener('mousedown', handleWindowMouseDown);
-    return () => {
-      document.removeEventListener('mousedown', handleWindowMouseDown);
-    };
-  });
 
   const handleChange = (color: ColorResult) => {
     onChange(name, `rgba(${color.rgb.r},${color.rgb.g},${color.rgb.b},${color.rgb.a})`);
-  };
-
-  const colorStyle = {
-    background: prop.value,
   };
 
   return (
@@ -74,14 +66,14 @@ export const ColorEditor: PropertyEditor<ColorEditorProps> = ({ prop, name, onCh
       active={displayColorPicker}
       type="button"
       name={name}
-      onBlur={() => setDisplayColorPicker(false)}
       onClick={() => setDisplayColorPicker(!displayColorPicker)}
       size="flex"
     >
       {prop.value && prop.value.toUpperCase()}
-      <Swatch style={colorStyle} />
+      <Swatch color={prop.value} />
       {displayColorPicker ? (
-        <Popover ref={popoverRef}>
+        <Popover>
+          <Cover onClick={() => setDisplayColorPicker(false)} />
           <SketchPicker color={prop.value} onChange={handleChange} />
         </Popover>
       ) : null}
