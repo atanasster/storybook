@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { isNil } from 'lodash';
 import {
+  PropsTableExtraColumn,
   PropsTableExtraColumns,
   PropsTable,
   PropsTableError,
@@ -22,11 +23,12 @@ interface PropsProps {
     [label: string]: Component;
   };
   slot?: PropsSlot;
+  extraColumns?: PropsTableExtraColumns;
 }
 
 export const getComponentProps = (
   component: Component,
-  { exclude }: PropsProps,
+  { exclude, extraColumns: propsExtra }: PropsProps,
   context: DocsContextProps
 ): PropsTableProps => {
   if (!component) {
@@ -54,7 +56,7 @@ export const getComponentProps = (
         });
       }
     }
-    const extraColumns: PropsTableExtraColumns = [];
+    const extraColumns: PropsTableExtraColumns = propsExtra || [];
     const storyId = context.id;
     const story = context.storyStore.fromId(storyId);
     const addons = getAddons(story.parameters);
@@ -69,7 +71,7 @@ export const getComponentProps = (
     }
     return {
       ...props,
-      extraColumns,
+      extraColumns: extraColumns.filter((e: PropsTableExtraColumn) => e.rows),
     };
   } catch (err) {
     return { error: err.message };

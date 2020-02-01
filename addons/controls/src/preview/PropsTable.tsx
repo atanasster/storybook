@@ -38,31 +38,31 @@ export const createPropsTableControls = ({
       api.clickControl(id, propName);
     }
   };
-  const column: PropsTableExtraColumn = {
+  const rows = controls
+    ? Object.keys(controls)
+        .filter(name => propsTable.find(row => row.name === name) !== undefined)
+        .reduce((acc: ContextStoryControls, name) => {
+          const field = controls[name];
+          const InputType: PropertyEditor = getPropertyEditor(field.type);
+          if (InputType) {
+            return {
+              ...acc,
+              [name]: (
+                <EditorContainer>
+                  <InputType prop={field} name={name} onChange={onChange} onClick={onClick} />
+                </EditorContainer>
+              ),
+            };
+          }
+          return acc;
+        }, {})
+    : null;
+  return {
     title: (
       <EditorContainer>
         <TitleIcon icon="edit" />
       </EditorContainer>
     ),
-    rows: controls
-      ? Object.keys(controls)
-          .filter(name => propsTable.find(row => row.name === name) !== undefined)
-          .reduce((acc: ContextStoryControls, name) => {
-            const field = controls[name];
-            const InputType: PropertyEditor = getPropertyEditor(field.type);
-            if (InputType) {
-              return {
-                ...acc,
-                [name]: (
-                  <EditorContainer>
-                    <InputType prop={field} name={name} onChange={onChange} onClick={onClick} />
-                  </EditorContainer>
-                ),
-              };
-            }
-            return acc;
-          }, {})
-      : {},
+    rows: Object.keys(rows).length ? rows : null,
   };
-  return column;
 };

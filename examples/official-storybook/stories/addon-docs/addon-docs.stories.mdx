@@ -179,3 +179,29 @@ Flow types are not officially supported
     <Button>Click on "Show parameters" below</Button>
   </Story>
 </Preview>
+
+
+## Extra Props columns
+<Props
+  of={DocgenButton}
+  extraColumns={[
+    {
+      name: 'trnslations',
+      title: 'Translations',
+      rows: {
+        disabled: (
+          <>
+            <img alt="" src="https://www.countryflags.io/bg/shiny/24.png" />
+          </>
+        ),
+        label: (
+          <>
+            <img alt="" src="https://www.countryflags.io/be/shiny/24.png" />
+            <img alt="" src="https://www.countryflags.io/bg/shiny/24.png" />
+            <img alt="" src="https://www.countryflags.io/fr/shiny/24.png" />
+          </>
+        ),
+      },
+    },
+  ]}
+/>
