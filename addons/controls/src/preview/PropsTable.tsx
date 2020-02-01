@@ -41,7 +41,7 @@ export const createPropsTableControls = ({
   const rows = controls
     ? Object.keys(controls)
         .filter(name => propsTable.find(row => row.name === name) !== undefined)
-        .reduce((acc: ContextStoryControls, name) => {
+        .reduce((acc: { [name: string]: React.ReactNode }, name) => {
           const field = controls[name];
           const InputType: PropertyEditor = getPropertyEditor(field.type);
           if (InputType) {
@@ -56,7 +56,7 @@ export const createPropsTableControls = ({
           }
           return acc;
         }, {})
-    : null;
+    : {};
   return {
     title: (
       <EditorContainer>
