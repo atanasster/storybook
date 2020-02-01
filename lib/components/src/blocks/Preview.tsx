@@ -21,7 +21,7 @@ export interface PanelItemType {
   disabled?: boolean;
 }
 
-type PreviewPanelCallback = (expanded: PreviewExpandedState) => PanelItemType;
+export type PreviewPanelCallback = (expanded: PreviewExpandedState) => PanelItemType;
 export interface PreviewPanelType {
   name: string;
   callback: PreviewPanelCallback;

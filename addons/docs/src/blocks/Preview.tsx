@@ -52,7 +52,10 @@ const getPreviewProps = (
     const addons = (data.parameters && data.parameters.docs && data.parameters.docs.addons) || {};
     const { preview } = addons;
     if (preview) {
-      panels = Object.keys(preview).map(key => preview[key](storyId, context));
+      panels = Object.keys(preview).map(name => ({
+        name,
+        callback: preview[name](storyId, context),
+      }));
     }
   }
 
