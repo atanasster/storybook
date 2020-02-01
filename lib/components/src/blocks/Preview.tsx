@@ -5,23 +5,38 @@ import { logger } from '@storybook/client-logger';
 
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 import { Source, SourceProps } from './Source';
-import { ControlsEditorsTable, ControlsEditorsTableProps } from '../prop-editors';
-import { ActionBar, ActionItem } from '../ActionBar/ActionBar';
+import { ControlsEditorsTable } from '../prop-editors/index';
+import { ActionBar } from '../ActionBar/ActionBar';
 import { Toolbar } from './Toolbar';
 
-const SOURCE_EXPANDED = 'code';
-const PROPS_EXPANDED = 'props';
+const Table = () => <ControlsEditorsTable />;
 
-type ExpandedState = false | typeof SOURCE_EXPANDED | typeof PROPS_EXPANDED | true;
+const SOURCE_EXPANDED = 'code';
+
+export type PreviewExpandedState = boolean | string;
+
+export interface PanelItemType {
+  node: ReactElement;
+  title?: string;
+  disabled?: boolean;
+}
+
+type PreviewPanelCallback = (expanded: PreviewExpandedState) => PanelItemType;
+export interface PreviewPanelType {
+  name: string;
+  callback: PreviewPanelCallback;
+}
+
+export type PreviewPanelTypes = PreviewPanelType[];
 
 export interface PreviewProps {
   isColumn?: boolean;
   columns?: number;
   withSource?: SourceProps;
-  isExpanded?: ExpandedState;
+  isExpanded?: PreviewExpandedState;
   withToolbar?: boolean;
   className?: string;
-  controlProps?: ControlsEditorsTableProps;
+  panels?: PreviewPanelTypes;
 }
 
 const ChildrenContainer = styled.div<PreviewProps>(({ isColumn, columns }) => ({
@@ -56,81 +71,48 @@ const StyledSource = styled(Source)<{}>(({ theme }) => ({
   },
 }));
 
-const PreviewContainer = styled.div<PreviewProps>(
-  ({ theme, withSource, isExpanded }) => ({
+interface PreviewContainerProps {
+  canExpand: boolean;
+  isExpanded?: PreviewExpandedState;
+  withToolbar?: boolean;
+}
+const PreviewContainer = styled.div<PreviewContainerProps>(
+  ({ theme, canExpand, isExpanded }) => ({
     position: 'relative',
     overflow: 'visible',
     margin: '25px 0 40px',
     ...getBlockBackgroundStyle(theme),
-    borderBottomLeftRadius: withSource && isExpanded && 0,
-    borderBottomRightRadius: withSource && isExpanded && 0,
+    borderBottomLeftRadius: canExpand && isExpanded && 0,
+    borderBottomRightRadius: canExpand && isExpanded && 0,
     borderBottomWidth: isExpanded && 0,
   }),
   ({ withToolbar }) => withToolbar && { paddingTop: 40 }
 );
 
-interface SourceItem {
-  source?: ReactElement;
-  actionItem: ActionItem;
-}
-
-const getSource = (
-  withSource: SourceProps,
-  expanded: ExpandedState,
-  setExpanded: Function
-): SourceItem => {
+const getSource = (withSource: SourceProps, expanded: PreviewExpandedState): PanelItemType => {
   switch (true) {
     case !!(withSource && withSource.error): {
       return {
-        source: null,
-        actionItem: {
-          title: 'No code available',
-          disabled: true,
-          onClick: () => setExpanded(expanded === SOURCE_EXPANDED ? false : expanded),
-        },
+        node: null,
+        title: 'No code available',
+        disabled: true,
       };
     }
     case expanded === SOURCE_EXPANDED || expanded === true: {
       return {
-        source: <StyledSource {...withSource} dark />,
-        actionItem: { title: 'Hide code', onClick: () => setExpanded(false) },
+        node: <StyledSource {...withSource} dark />,
+        title: 'Hide code',
       };
     }
     default: {
       return {
-        source: null,
-        actionItem: { title: 'Show code', onClick: () => setExpanded(SOURCE_EXPANDED) },
+        node: null,
+        title: 'Show code',
       };
     }
   }
 };
 
-const getControls = (
-  props: ControlsEditorsTableProps,
-  expanded: ExpandedState,
-  setExpanded: Function
-): SourceItem => {
-  switch (true) {
-    case !props || !props.controls || !Object.keys(props.controls).length: {
-      return {
-        source: null,
-        actionItem: null,
-      };
-    }
-    case expanded === PROPS_EXPANDED: {
-      return {
-        source: <ControlsEditorsTable {...props} />,
-        actionItem: { title: 'Hide controls', onClick: () => setExpanded(false) },
-      };
-    }
-    default: {
-      return {
-        source: null,
-        actionItem: { title: 'Show controls', onClick: () => setExpanded(PROPS_EXPANDED) },
-      };
-    }
-  }
-};
 function getStoryId(children: ReactNode) {
   if (Children.count(children) === 1) {
     const elt = children as ReactElement;
@@ -158,6 +140,10 @@ const Scale = styled.div<{ scale: number }>(
       : {}
 );
 
+interface TabsInfo {
+  name: string;
+  item: PanelItemType;
+}
 const PositionedToolbar = styled(Toolbar)({
   position: 'absolute',
   top: 0,
@@ -179,17 +165,36 @@ const Preview: FunctionComponent<PreviewProps> = ({
   withToolbar = false,
   isExpanded = false,
   className,
-  controlProps,
+  panels = [],
   ...props
 }) => {
-  const [expanded, setExpanded] = useState(isExpanded);
-  const { source, actionItem: actionSource } = getSource(withSource, expanded, setExpanded);
-  const { source: propsTable, actionItem: actionProps } = getControls(
-    controlProps,
-    expanded,
-    setExpanded
-  );
-  const actions = [actionProps, actionSource].filter(a => a);
+  const [expanded, setExpanded] = useState(isExpanded ? SOURCE_EXPANDED : false);
+  const allPanels: PreviewPanelTypes = [...panels];
+  if (withSource) {
+    allPanels.push({
+      name: SOURCE_EXPANDED,
+      callback: state => getSource(withSource, state),
+    });
+  }
+
+  const tabs: TabsInfo[] = allPanels.map(panel => ({
+    name: panel.name,
+    item: panel.callback(expanded),
+  }));
+  const selected: TabsInfo | undefined = tabs.find(tab => tab.name === expanded);
+  const actionItems =
+    tabs &&
+    tabs.map(tab => {
+      let onClickExpanded: PreviewExpandedState = false;
+      if (expanded !== tab.name) {
+        onClickExpanded = tab.item.disabled ? expanded : tab.name;
+      }
+      return {
+        title: tab.item.title,
+        disabled: tab.item.disabled,
+        onClick: () => setExpanded(onClickExpanded),
+      };
+    });
   const [scale, setScale] = useState(1);
   const previewClasses = className ? `${className} sbdocs sbdocs-preview` : 'sbdocs sbdocs-preview';
 
@@ -199,8 +204,7 @@ const Preview: FunctionComponent<PreviewProps> = ({
   const showToolbar = withToolbar && !Array.isArray(children);
   return (
     <PreviewContainer
-      {...{ withSource, withToolbar: showToolbar }}
-      {...props}
+      {...{ canExpand: actionItems.length > 0, withToolbar: showToolbar, isExpanded }}
       className={previewClasses}
     >
       {showToolbar && (
@@ -220,10 +224,9 @@ const Preview: FunctionComponent<PreviewProps> = ({
             <Scale scale={scale}>{children}</Scale>
           )}
         </ChildrenContainer>
-        {(withSource || propsTable) && <ActionBar actionItems={actions} />}
+        {actionItems.length && <ActionBar actionItems={actionItems} />}
       </Relative>
-      {withSource && source}
-      {controlProps && propsTable}
+      {selected && selected.item && selected.item.node}
     </PreviewContainer>
   );
 };

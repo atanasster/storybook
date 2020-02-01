@@ -3,7 +3,11 @@ import { toId, storyNameFromExport } from '@storybook/csf';
 import {
   Preview as PurePreview,
   PreviewProps as PurePreviewProps,
-  ControlsEditorsTableProps,
+  PreviewPanelType,
+  PreviewPanelTypes,
+  PreviewExpandedState,
+  PanelItemType,
+  ControlsEditorsTable,
 } from '@storybook/components';
 import { getSourceProps } from './Source';
 import { DocsContext, DocsContextProps } from './DocsContext';
@@ -19,6 +23,49 @@ type PreviewProps = PurePreviewProps & {
   mdxSource?: string;
 };
 
+const createControlsPanel = (
+  storyId: string,
+  context: DocsContextProps
+): PreviewPanelType | null => {
+  // @ts-ignore
+  const { storyStore, clientApi: api } = context;
+  console.log(context);
+  const data = storyStore.fromId(storyId);
+  const name = 'controls';
+  if (data && data.controls && Object.keys(data.controls).length) {
+    const { setControlValue, resetControlValue, clickControl } = api;
+    const { controls } = data;
+    return {
+      name,
+      callback: (expanded: PreviewExpandedState): PanelItemType => {
+        switch (true) {
+          case expanded === name: {
+            return {
+              node: (
+                <ControlsEditorsTable
+                  storyId={storyId}
+                  controls={controls}
+                  setControlValue={setControlValue}
+                  resetControlValue={resetControlValue}
+                  clickControl={clickControl}
+                />
+              ),
+              title: `Hide ${name}`,
+            };
+          }
+          default: {
+            return {
+              node: null,
+              title: `Show ${name}`,
+            };
+          }
+        }
+      },
+    };
+  }
+  return null;
+};
+
 const getPreviewProps = (
   {
     withSource = SourceState.CLOSED,
@@ -26,8 +73,9 @@ const getPreviewProps = (
     children,
     ...props
   }: PreviewProps & { children?: ReactNode },
-  { mdxStoryNameToKey, mdxComponentMeta, storyStore, ...rest }: DocsContextProps
+  context: DocsContextProps
 ): PurePreviewProps => {
+  const { mdxStoryNameToKey, mdxComponentMeta, storyStore } = context;
   const childArray: ReactNodeArray = Array.isArray(children) ? children : [children];
   const stories = childArray.filter(
     (c: ReactElement) => c.props && (c.props.id || c.props.name)
@@ -41,22 +89,10 @@ const getPreviewProps = (
       )
   );
   const storyId = targetIds.length && targetIds[0];
-  const data = storyStore.fromId(storyId);
-  // @ts-ignore
-  const api: any = rest.clientApi;
-  const controlProps: ControlsEditorsTableProps = data
-    ? {
-        title: null,
-        storyId,
-        setControlValue: api.setControlValue,
-        resetControlValue: api.resetControlValue,
-        clickControl: api.clickControl,
-        controls: data.controls,
-      }
-    : undefined;
+  const panels: PreviewPanelTypes = [createControlsPanel(storyId, context)];
   const defaultProps = {
     ...props,
-    controlProps,
+    panels: panels.filter((p: PreviewPanelType) => p),
   };
   if (withSource === SourceState.NONE) {
     return defaultProps;
