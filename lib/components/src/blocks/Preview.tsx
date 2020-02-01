@@ -166,7 +166,6 @@ const Preview: FunctionComponent<PreviewProps> = ({
   isExpanded = false,
   className,
   panels = [],
-  ...props
 }) => {
   const [expanded, setExpanded] = useState(isExpanded ? SOURCE_EXPANDED : false);
   const allPanels: PreviewPanelTypes = [...panels];
@@ -224,7 +223,7 @@ const Preview: FunctionComponent<PreviewProps> = ({
             <Scale scale={scale}>{children}</Scale>
           )}
         </ChildrenContainer>
-        {actionItems.length && <ActionBar actionItems={actionItems} />}
+        {actionItems.length > 0 && <ActionBar actionItems={actionItems} />}
       </Relative>
       {selected && selected.item && selected.item.node}
     </PreviewContainer>

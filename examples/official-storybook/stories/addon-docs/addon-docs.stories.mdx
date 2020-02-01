@@ -149,3 +149,33 @@ Flow types are not officially supported
 <Story name="docs disable" parameters={{ docs: { disable: true } }}>
   <Button>This souldn't show up in docs page</Button>
 </Story>
+
+## Preview panels
+
+<Preview>
+  <Story name="add custom panel" parameters={{ docs: {
+    addons: {
+      preview: {
+        parameters: (storyId, context) => {
+          return expanded => expanded ? {
+            node: (
+              <div style={{ padding: '10px'}}>
+                <ul>
+                  {Object.keys(context.parameters).map(key => (
+                    <li wordWrap="break-word" key={key}>
+                      {`${key}: ${JSON.stringify(context.parameters[key], undefined, 2)}`}
+                    </li>  
+                  ))}
+                </ul>
+              </div>
+            ),
+            title: 'Hide parameters',
+            } : {
+            node: null,
+            title: 'Show parameters',
+          };},
+      },
+    }}}}>
+    <Button>This souldn't show up in docs page</Button>
+  </Story>
+</Preview>

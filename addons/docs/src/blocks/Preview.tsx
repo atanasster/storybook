@@ -61,7 +61,7 @@ const getPreviewProps = (
 
   const defaultProps = {
     ...props,
-    panels: panels.filter((p: PreviewPanelType) => p),
+    panels: panels.filter((p: PreviewPanelType) => p.callback),
   };
   if (withSource === SourceState.NONE) {
     return defaultProps;
