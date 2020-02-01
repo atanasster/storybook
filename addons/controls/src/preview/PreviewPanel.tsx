@@ -1,19 +1,12 @@
 import React from 'react';
 import {
-  Preview as PurePreview,
-  PreviewProps as PurePreviewProps,
   PreviewPanelType,
-  PreviewPanelTypes,
   PreviewExpandedState,
   PanelItemType,
   ControlsEditorsTable,
 } from '@storybook/components';
-import { DocsContextProps } from '@storybook/addon-docs';
 
-export const createControlsPanel = (
-  storyId: string,
-  context: DocsContextProps
-): PreviewPanelType | null => {
+export const createControlsPanel = (storyId: string, context: any): PreviewPanelType | null => {
   // @ts-ignore
   const { storyStore, clientApi: api } = context;
   const data = storyStore.fromId(storyId);

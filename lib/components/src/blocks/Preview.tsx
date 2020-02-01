@@ -16,7 +16,7 @@ const SOURCE_EXPANDED = 'code';
 export type PreviewExpandedState = boolean | string;
 
 export interface PanelItemType {
-  node: ReactElement;
+  node: React.ReactNode;
   title?: string;
   disabled?: boolean;
 }
