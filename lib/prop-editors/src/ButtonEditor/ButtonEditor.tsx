@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { StoryControlButton } from '@storybook/common';
-import { Form } from '../../form';
+import { Form } from '@storybook/components';
 import { PropertyControlProps, PropertyEditor, PropertyOnClick } from '../types';
 
 const FlexButton = styled(Form.Button)({

@@ -1,10 +1,6 @@
 import React from 'react';
-import {
-  PreviewPanelCallback,
-  PreviewExpandedState,
-  PanelItemType,
-  ControlsEditorsTable,
-} from '@storybook/components';
+import { PreviewPanelCallback, PreviewExpandedState, PanelItemType } from '@storybook/components';
+import { ControlsEditorsTable } from '@storybook/prop-editors';
 
 export const createControlsPanel = ({
   storyId,

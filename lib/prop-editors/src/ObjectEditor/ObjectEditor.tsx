@@ -2,7 +2,7 @@ import React, { ChangeEvent } from 'react';
 import { styled } from '@storybook/theming';
 import deepEqual from 'fast-deep-equal';
 import { StoryControlObject } from '@storybook/common';
-import { Form } from '../../form';
+import { Form } from '@storybook/components';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 const StyledFlexArea = styled(Form.Textarea)({

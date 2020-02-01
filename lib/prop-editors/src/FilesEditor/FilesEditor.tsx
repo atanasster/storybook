@@ -1,8 +1,8 @@
 import { FileReader } from 'global';
 import React, { ChangeEvent } from 'react';
 import { styled } from '@storybook/theming';
-import { StoryControlFiles, StoryControl } from '@storybook/common';
-import { Form } from '../../form';
+import { StoryControlFiles } from '@storybook/common';
+import { Form } from '@storybook/components';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 const FileInput = styled(Form.Input)({

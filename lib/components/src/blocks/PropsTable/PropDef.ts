@@ -37,10 +37,13 @@ export interface PropDef {
   jsDocTags?: JsDocTags;
 }
 
+export interface PropsTableExtraRows {
+  [name: string]: React.ReactNode | null;
+}
 export interface PropsTableExtraColumn {
   name?: string;
   title?: React.ReactNode;
-  rows: { [name: string]: React.ReactNode };
+  rows: PropsTableExtraRows | null;
 }
 
 export type PropsTableExtraColumns = PropsTableExtraColumn[];

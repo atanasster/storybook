@@ -4,7 +4,7 @@ import { SketchPicker, ColorResult } from 'react-color';
 import { StoryControlColor } from '@storybook/common';
 
 import { styled } from '@storybook/theming';
-import { Form } from '../../form';
+import { Form } from '@storybook/components';
 
 import { PropertyControlProps, PropertyEditor } from '../types';
 

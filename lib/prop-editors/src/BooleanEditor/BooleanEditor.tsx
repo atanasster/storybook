@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { styled } from '@storybook/theming';
 import { StoryControlBoolean } from '@storybook/common';
 import { PropertyControlProps, PropertyEditor } from '../types';

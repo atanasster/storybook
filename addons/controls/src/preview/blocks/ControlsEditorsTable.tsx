@@ -1,6 +1,6 @@
 import React from 'react';
 import { toId, storyNameFromExport } from '@storybook/csf';
-import { ControlsEditorsTable as PureControlsEditorsTable } from '@storybook/components';
+import { ControlsEditorsTable as PureControlsEditorsTable } from '@storybook/prop-editors';
 import { ContextStoryControls } from '@storybook/common';
 import { CURRENT_SELECTION, DocsContext } from '@storybook/addon-docs/blocks';
 

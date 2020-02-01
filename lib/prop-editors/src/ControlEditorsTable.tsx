@@ -2,11 +2,14 @@ import React, { MouseEvent } from 'react';
 import { window } from 'global';
 import { styled } from '@storybook/theming';
 import { ContextStoryControls, ContextStoryControl } from '@storybook/common';
-import { ResetWrapper } from '../typography/index';
-import { getSectionTitleStyle, getBlockBackgroundStyle } from '../blocks';
-import { Table } from '../blocks/PropsTable/PropsTable';
-import { ActionBar } from '../ActionBar/ActionBar';
-import { TabsState } from '../tabs/tabs';
+import {
+  Table,
+  TabsState,
+  ResetWrapper,
+  ActionBar,
+  getSectionTitleStyle,
+  getBlockBackgroundStyle,
+} from '@storybook/components';
 import { ControlsEditorsTableProps } from './types';
 
 import { PropertyEditorRow } from './PropEditorRow';

@@ -1,15 +1,7 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { ContextStoryControls } from '@storybook/common';
-
-import {
-  PropDef,
-  PropsTableExtraColumn,
-  PropertyEditor,
-  getPropertyEditor,
-  EditorContainer,
-  Icons,
-} from '@storybook/components';
+import { PropDef, PropsTableExtraColumn, PropsTableExtraRows, Icons } from '@storybook/components';
+import { EditorContainer, PropertyEditor, getPropertyEditor } from '@storybook/prop-editors';
 
 const TitleIcon = styled(Icons)({
   height: 18,
@@ -41,7 +33,7 @@ export const createPropsTableControls = ({
   const rows = controls
     ? Object.keys(controls)
         .filter(name => propsTable.find(row => row.name === name) !== undefined)
-        .reduce((acc: { [name: string]: React.ReactNode }, name) => {
+        .reduce((acc: PropsTableExtraRows, name) => {
           const field = controls[name];
           const InputType: PropertyEditor = getPropertyEditor(field.type);
           if (InputType) {

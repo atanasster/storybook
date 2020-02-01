@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { StoryControlText } from '@storybook/common';
-import { Form } from '../../form';
+import { Form } from '@storybook/components';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 interface TextEditorProps extends PropertyControlProps {

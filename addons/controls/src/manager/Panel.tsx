@@ -1,6 +1,7 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { Subtitle, ControlsEditorsTable as PureControlsEditorsTable } from '@storybook/components';
+import { Subtitle } from '@storybook/components';
+import { ControlsEditorsTable as PureControlsEditorsTable } from '@storybook/prop-editors';
 import { ContextStoryControls } from '@storybook/common';
 import { Combo, Consumer, API, StoryInput } from '@storybook/api';
 

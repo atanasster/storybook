@@ -5,11 +5,8 @@ import { logger } from '@storybook/client-logger';
 
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 import { Source, SourceProps } from './Source';
-import { ControlsEditorsTable } from '../prop-editors/index';
 import { ActionBar } from '../ActionBar/ActionBar';
 import { Toolbar } from './Toolbar';
-
-const Table = () => <ControlsEditorsTable />;
 
 const SOURCE_EXPANDED = 'code';
 
