@@ -3,3 +3,4 @@ export * from './PropRow';
 export * from './PropsTable';
 export * from './PropValue';
 export * from './SectionTitleStyles';
+export { PropsTableExtraColumn, PropsTableExtraColumns } from './PropDef';

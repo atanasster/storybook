@@ -7,12 +7,16 @@ import { PropDef } from './PropDef';
 import { PropJsDoc } from './PropJsDoc';
 import { PropValue } from './PropValue';
 import { codeCommon } from '../../typography/shared';
-import { EditorContainer } from '../../prop-editors/PropEditorRow';
+
+interface ExtraField {
+  node?: React.ReactNode;
+  name: string;
+}
+export type ExtraFields = ExtraField[];
 
 export interface PropRowProps {
   row: PropDef;
-  control?: React.ReactNode;
-  hasSmartControls?: boolean;
+  extra?: ExtraFields;
 }
 
 const Name = styled.span({ fontWeight: 'bold' });
@@ -57,8 +61,7 @@ const TypeWithJsDoc = styled.div<{ hasDescription: boolean }>(({ theme, hasDescr
 
 export const PropRow: FC<PropRowProps> = ({
   row: { name, type, required, description, defaultValue, jsDocTags },
-  control,
-  hasSmartControls,
+  extra,
 }) => {
   const hasDescription = !isNil(description) && description !== '';
   return (
@@ -89,11 +92,9 @@ export const PropRow: FC<PropRowProps> = ({
       <td>
         <PropValue value={defaultValue} />
       </td>
-      {hasSmartControls && (
-        <td align="center">
-          <EditorContainer>{control}</EditorContainer>
-        </td>
-      )}
+      {extra.map(control => (
+        <td key={`${control.name}-${name}`}>{control.node}</td>
+      ))}
     </tr>
   );
 };

@@ -16,12 +16,3 @@ export interface PropertyControlProps {
 }
 
 export type PropertyEditor<T extends PropertyControlProps = any> = React.FC<T>;
-
-export interface ControlsEditorsTableProps {
-  title?: string;
-  storyId?: string;
-  controls?: ContextStoryControls;
-  setControlValue?: SetControlValueFn;
-  resetControlValue?: ResetControlValueFn;
-  clickControl?: ClickControlFn;
-}

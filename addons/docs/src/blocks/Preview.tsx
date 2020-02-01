@@ -5,12 +5,10 @@ import {
   PreviewProps as PurePreviewProps,
   PreviewPanelType,
   PreviewPanelTypes,
-  PreviewExpandedState,
-  PanelItemType,
-  ControlsEditorsTable,
 } from '@storybook/components';
 import { getSourceProps } from './Source';
 import { DocsContext, DocsContextProps } from './DocsContext';
+import { getAddons } from './utils';
 
 export enum SourceState {
   OPEN = 'open',
@@ -47,9 +45,9 @@ const getPreviewProps = (
   );
   const storyId = targetIds.length && targetIds[0];
   let panels: PreviewPanelTypes = [];
-  const data = storyStore.fromId(storyId);
-  if (data) {
-    const addons = (data.parameters && data.parameters.docs && data.parameters.docs.addons) || {};
+  const story = storyStore.fromId(storyId);
+  if (story) {
+    const addons = getAddons(story.parameters);
     const { preview } = addons;
     if (preview) {
       panels = Object.keys(preview).map(name => ({

@@ -1,14 +1,17 @@
 import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
-import { ContextStoryControls, ContextStoryControl } from '@storybook/common';
 import { opacify, transparentize, darken, lighten } from 'polished';
-import { PropRow, PropRowProps } from './PropRow';
+import { PropRow, PropRowProps, ExtraFields } from './PropRow';
 import { SectionRow, SectionRowProps } from './SectionRow';
-import { PropDef, PropType, PropDefaultValue, PropSummaryValue } from './PropDef';
+import {
+  PropDef,
+  PropType,
+  PropDefaultValue,
+  PropSummaryValue,
+  PropsTableExtraColumns,
+} from './PropDef';
 import { EmptyBlock } from '../EmptyBlock';
 import { ResetWrapper } from '../../typography/DocumentFormatting';
-import { Icons } from '../../icon/icon';
-import { ControlsEditorsTableProps, PropertyEditor, getPropertyEditor } from '../../prop-editors';
 
 export const Table = styled.table<{}>(({ theme }) => ({
   '&&': {
@@ -131,10 +134,6 @@ export const Table = styled.table<{}>(({ theme }) => ({
   },
 }));
 
-const TitleIcon = styled(Icons)({
-  height: 18,
-  width: 18,
-});
 export enum PropsTableError {
   NO_COMPONENT = 'No component found',
   PROPS_UNSUPPORTED = 'Props unsupported. See Props documentation for your framework.',
@@ -142,7 +141,7 @@ export enum PropsTableError {
 
 export interface PropsTableRowsProps {
   rows: PropDef[];
-  controlProps?: ControlsEditorsTableProps;
+  extraColumns?: PropsTableExtraColumns;
 }
 
 export interface PropsTableSectionsProps {
@@ -156,37 +155,16 @@ export interface PropsTableErrorProps {
 export type PropsTableProps = PropsTableRowsProps | PropsTableSectionsProps | PropsTableErrorProps;
 
 type PropsTableRowProps = PropRowProps & {
-  controlProps?: ControlsEditorsTableProps;
-  field?: ContextStoryControl;
-  hasSmartControls: boolean;
+  extra?: ExtraFields;
 };
 const PropsTableRow: FC<SectionRowProps | PropsTableRowProps> = props => {
   const { section } = props as SectionRowProps;
   if (section) {
     return <SectionRow section={section} />;
   }
-  const { row, controlProps, field, hasSmartControls } = props as PropsTableRowProps;
+  const { row, extra } = props as PropsTableRowProps;
 
-  const { setControlValue, clickControl, storyId } = controlProps || {};
-
-  const onChange = (propName: string, value: any) => {
-    if (setControlValue && storyId) {
-      setControlValue(storyId, propName, value);
-    }
-  };
-  const onClick = () => {
-    if (clickControl && storyId) {
-      clickControl(storyId, row.name);
-    }
-  };
-  let control: React.ReactNode | undefined;
-  if (field) {
-    const InputType: PropertyEditor = getPropertyEditor(field.type);
-    if (InputType) {
-      control = <InputType prop={field} name={row.name} onChange={onChange} onClick={onClick} />;
-    }
-  }
-  return <PropRow row={row} control={control} hasSmartControls={hasSmartControls} />;
+  return <PropRow row={row} extra={extra} />;
 };
 
 /**
@@ -201,7 +179,7 @@ const PropsTable: FC<PropsTableProps> = props => {
 
   let allRows: any[] = [];
   const { sections } = props as PropsTableSectionsProps;
-  const { rows, controlProps } = props as PropsTableRowsProps;
+  const { rows, extraColumns = [] } = props as PropsTableRowsProps;
   if (sections) {
     Object.keys(sections).forEach(section => {
       const sectionRows = sections[section];
@@ -226,16 +204,6 @@ const PropsTable: FC<PropsTableProps> = props => {
     return <EmptyBlock>No props found for this component</EmptyBlock>;
   }
 
-  const smartControls =
-    controlProps && controlProps.controls
-      ? Object.keys(controlProps.controls)
-          .filter(name => allRows.find(row => row.key === name) !== undefined)
-          .reduce(
-            (acc: ContextStoryControls, name) => ({ ...acc, [name]: controlProps.controls[name] }),
-            {}
-          )
-      : {};
-  const hasSmartControls = Object.keys(smartControls).length > 0;
   return (
     <ResetWrapper>
       <Table className="docblock-propstable">
@@ -244,23 +212,21 @@ const PropsTable: FC<PropsTableProps> = props => {
             <th>Name</th>
             <th>Description</th>
             <th>Default</th>
-            {hasSmartControls && (
-              <th align="center">
-                <TitleIcon icon="edit" />
-              </th>
-            )}
+            {extraColumns.map(col => (
+              <th key={`columns_${col.name}`}>{col.title}</th>
+            ))}
           </tr>
         </thead>
         <tbody className="docblock-propstable-body">
           {allRows.map(row => {
-            const field = smartControls[row.key];
             return (
               <PropsTableRow
                 key={row.key}
                 {...row.value}
-                controlProps={controlProps}
-                field={field}
-                hasSmartControls={hasSmartControls}
+                extra={extraColumns.map(col => ({
+                  name: col.name,
+                  node: col.rows[row.key],
+                }))}
               />
             );
           })}

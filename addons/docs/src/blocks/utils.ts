@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import { Parameters } from '@storybook/addons';
 import { DocsContextProps } from './DocsContext';
 import { StoryData, Component } from './shared';
 
@@ -45,3 +46,6 @@ export function scrollToElement(element: any, block = 'start') {
     inline: 'nearest',
   });
 }
+
+export const getAddons = (parameters: Parameters) =>
+  (parameters && parameters.docs && parameters.docs.addons) || {};

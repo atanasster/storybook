@@ -36,3 +36,11 @@ export interface PropDef {
   defaultValue?: PropDefaultValue;
   jsDocTags?: JsDocTags;
 }
+
+export interface PropsTableExtraColumn {
+  name?: string;
+  title?: React.ReactNode;
+  rows: { [name: string]: React.ReactNode };
+}
+
+export type PropsTableExtraColumns = PropsTableExtraColumn[];

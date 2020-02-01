@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { isNil } from 'lodash';
 import {
+  PropsTableExtraColumns,
   PropsTable,
   PropsTableError,
   PropsTableProps,
@@ -12,7 +13,7 @@ import { PropsExtractor } from '../lib/docgen/types';
 import { inferPropsExtractor, filterRows } from './propExtract';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { Component, PropsSlot, CURRENT_SELECTION } from './shared';
-import { getComponentName } from './utils';
+import { getAddons, getComponentName } from './utils';
 
 interface PropsProps {
   exclude?: string[];
@@ -52,18 +53,21 @@ export const getComponentProps = (
         });
       }
     }
-    const api: any = (context as any).clientApi;
-    const story = context.storyStore.fromId(context.id) || {};
-
+    const extraColumns: PropsTableExtraColumns = [];
+    const story = context.storyStore.fromId(context.id);
+    const addons = getAddons(story.parameters);
+    const { propsTable } = addons;
+    if (propsTable) {
+      Object.keys(propsTable).forEach(name => {
+        extraColumns.push({
+          name,
+          ...propsTable[name](context.id, rows, context),
+        });
+      });
+    }
     return {
       ...props,
-      controlProps: {
-        storyId: story.id,
-        controls: story.controls,
-        setControlValue: api.setControlValue,
-        resetControlValue: api.resetControlValue,
-        clickControl: api.clickControl,
-      },
+      extraColumns,
     };
   } catch (err) {
     return { error: err.message };
