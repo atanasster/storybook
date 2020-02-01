@@ -156,7 +156,7 @@ Flow types are not officially supported
   <Story name="add custom panel" parameters={{ docs: {
     addons: {
       preview: {
-        parameters: (storyId, context) => {
+        parameters: ({ storyId, context }) => {
           return expanded => expanded ? {
             node: (
               <div style={{ padding: '10px'}}>
