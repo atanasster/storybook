@@ -114,3 +114,15 @@ export const arrayOf = () => <PropRow row={arrayDef} />;
 export const complexObject = () => <PropRow row={complexDef} />;
 export const func = () => <PropRow row={funcDef} />;
 export const markdown = () => <PropRow row={markdownDef} />;
+
+export const extraColums = () => (
+  <PropRow
+    row={stringDef}
+    extra={[
+      {
+        name: 'flag',
+        node: <img alt="" src="https://www.countryflags.io/be/shiny/24.png" />,
+      },
+    ]}
+  />
+);

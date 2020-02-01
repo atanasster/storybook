@@ -92,9 +92,8 @@ export const PropRow: FC<PropRowProps> = ({
       <td>
         <PropValue value={defaultValue} />
       </td>
-      {extra.map(control => (
-        <td key={`${control.name}-${name}`}>{control.node}</td>
-      ))}
+      {Array.isArray(extra) &&
+        extra.map(control => <td key={`${control.name}-${name}`}>{control.node}</td>)}
     </tr>
   );
 };
