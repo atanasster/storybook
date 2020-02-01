@@ -110,3 +110,32 @@ export const withToolbarMulti = () => (
     <Story inline storyFn={buttonFn} title="story2" />
   </Preview>
 );
+
+export const panels = () => (
+  <Preview
+    withSource={sourceStories.jsx().props}
+    panels={[
+      {
+        name: 'extra',
+        callback: expanded => {
+          switch (true) {
+            case expanded === 'extra': {
+              return {
+                node: <div>Hello second panel</div>,
+                title: `Hide extra`,
+              };
+            }
+            default: {
+              return {
+                node: null,
+                title: `Show extra`,
+              };
+            }
+          }
+        },
+      },
+    ]}
+  >
+    <Button secondary>Button 1</Button>
+  </Preview>
+);
