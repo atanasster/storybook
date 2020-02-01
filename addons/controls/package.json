@@ -43,7 +43,7 @@
     "qs": "^6.6.0"
   },
   "devDependencies": {
-    "@types/webpack-env": "^1.15.0"
+    "@types/node": "^13.7.0"
   },
   "peerDependencies": {
     "react": "*"

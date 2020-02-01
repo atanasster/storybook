@@ -7,7 +7,6 @@ module.exports = {
   ],
   addons: [
     '@storybook/addon-docs',
-    '@storybook/addon-controls',
     '@storybook/addon-storysource',
     '@storybook/addon-design-assets',
     '@storybook/addon-actions',
@@ -15,6 +14,7 @@ module.exports = {
     '@storybook/addon-events',
     '@storybook/addon-options',
     '@storybook/addon-knobs',
+    '@storybook/addon-controls',
     '@storybook/addon-cssresources',
     '@storybook/addon-backgrounds',
     '@storybook/addon-a11y',
