@@ -16,11 +16,15 @@ const TitleIcon = styled(Icons)({
   width: 18,
 });
 
-export const createPropsTableControls = (
-  storyId: string,
-  propsTable: PropDef[],
-  context: any
-): PropsTableExtraColumn => {
+export const createPropsTableControls = ({
+  storyId,
+  rows: propsTable,
+  context,
+}: {
+  storyId: string;
+  rows: PropDef[];
+  context: any;
+}): PropsTableExtraColumn => {
   const api: any = (context as any).clientApi;
   const story = context.storyStore.fromId(storyId) || {};
   const { controls } = story;

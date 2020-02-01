@@ -6,7 +6,13 @@ import {
   ControlsEditorsTable,
 } from '@storybook/components';
 
-export const createControlsPanel = (storyId: string, context: any): PreviewPanelCallback | null => {
+export const createControlsPanel = ({
+  storyId,
+  context,
+}: {
+  storyId: string;
+  context: any;
+}): PreviewPanelCallback | null => {
   // @ts-ignore
   const { storyStore, clientApi: api } = context;
   const data = storyStore.fromId(storyId);

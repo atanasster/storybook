@@ -52,7 +52,7 @@ const getPreviewProps = (
     if (preview) {
       panels = Object.keys(preview).map(name => ({
         name,
-        callback: preview[name](storyId, context),
+        callback: preview[name]({ storyId, context }),
       }));
     }
   }

@@ -27,11 +27,12 @@ interface PropsProps {
 export const getComponentProps = (
   component: Component,
   { exclude }: PropsProps,
-  { parameters, ...context }: DocsContextProps
+  context: DocsContextProps
 ): PropsTableProps => {
   if (!component) {
     return null;
   }
+  const { parameters } = context;
   try {
     const params = parameters || {};
     const { framework = null } = params;
@@ -54,14 +55,15 @@ export const getComponentProps = (
       }
     }
     const extraColumns: PropsTableExtraColumns = [];
-    const story = context.storyStore.fromId(context.id);
+    const storyId = context.id;
+    const story = context.storyStore.fromId(storyId);
     const addons = getAddons(story.parameters);
     const { propsTable } = addons;
     if (propsTable) {
       Object.keys(propsTable).forEach(name => {
         extraColumns.push({
           name,
-          ...propsTable[name](context.id, rows, context),
+          ...propsTable[name]({ storyId, rows, context }),
         });
       });
     }
