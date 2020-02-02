@@ -5,7 +5,6 @@ export default {
   title: 'Addons/Controls/smart',
   parameters: {
     component: Button,
-    smartControls: true,
   },
 };
 
@@ -15,8 +14,10 @@ export const onlyColors = props => <Button label="Choose colors" {...props} />;
 
 onlyColors.story = {
   parameters: {
-    smartControls: {
-      include: ['color', 'backgroundColor'],
+    controls: {
+      smart: {
+        include: ['color', 'backgroundColor'],
+      },
     },
   },
 };
@@ -25,8 +26,13 @@ export const noColors = props => <Button label="Choose colors" {...props} />;
 
 noColors.story = {
   parameters: {
-    smartControls: {
-      exclude: ['color', 'backgroundColor'],
+    controls: {
+      smart: {
+        exclude: ['color', 'backgroundColor'],
+      },
     },
   },
 };
+
+// this story does not have parameters, and smart controls will be disabled for it
+export const noProps = () => <Button label="No properties" />;

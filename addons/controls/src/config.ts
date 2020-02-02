@@ -17,4 +17,7 @@ addParameters({
       },
     },
   },
+  controls: {
+    smart: true,
+  },
 });

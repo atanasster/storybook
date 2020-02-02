@@ -109,13 +109,31 @@ export const createFieldFromProps = (
   }
 };
 
-export const extractSmartProperties = (parameters: Parameters): StoryControls | null => {
+export const extractSmartProperties = (
+  storyId: string,
+  parameters: Parameters
+): StoryControls | null => {
   const params = parameters || {};
-  const { component, framework = null, smartControls } = params;
+  console.log(params);
+  const { component, framework = null, controls } = params;
+  const { smart: smartControls } = controls || {};
   if (!smartControls) {
     return null;
   }
   if (!component) {
+    return null;
+  }
+  // check if mdx has parameters from mdx-compiler
+  const mdxStoryHasParameters = params && params.mdxParams && params.mdxParams.length > 0;
+  // check if story has parameters from source-loader
+  const storyHasParameters =
+    params &&
+    params.storySource &&
+    params.storySource.locationsMap &&
+    params.storySource.locationsMap[storyId] &&
+    params.storySource.locationsMap[storyId].params &&
+    params.storySource.locationsMap[storyId].params.length > 0;
+  if (!mdxStoryHasParameters && !storyHasParameters) {
     return null;
   }
   const { extractProps = inferPropsExtractor(framework) }: { extractProps: any } =

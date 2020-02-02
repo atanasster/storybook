@@ -11,7 +11,7 @@ import Button from '../../components/BaseButton';
 
 <Meta title="Addons/Controls/mdx" parameters={{component: Button}} />
 
-# Main story with "smart" controls
+# Smart controls
 
 <Story id="." />
 
@@ -19,7 +19,7 @@ import Button from '../../components/BaseButton';
 
 
 <Preview>
-  <Story name="smart story" parameters={{ smartControls: true }}>
+  <Story name="smart story">
     {(props) => (
       <Button label="default" {...props}/>
     )}  
@@ -30,9 +30,15 @@ import Button from '../../components/BaseButton';
 # Small story with custom controls
 
 <Preview>
-  <Story name="small story" controls={{
-    text: {type: 'text', value: 'Hello'},
-  }}>
+  <Story name="small story" 
+    controls={{
+      text: {type: 'text', value: 'Hello'},
+    }}
+    parameters={{
+      controls: {
+        smart: false
+      }
+    }}>
     {({ text }) => (
       <Button label={text}/>
     )}  
@@ -41,7 +47,7 @@ import Button from '../../components/BaseButton';
 
 <ControlsEditorsTable name="small story" />
 
-# Story with no controls
+# Story with no parameters == no smart controls
 
 <Preview>
   <Story name="no controls" >

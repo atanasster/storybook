@@ -328,7 +328,7 @@ export default class StoryStore extends EventEmitter {
     const { legacyContextProp, propExtractor } = parameters.options || {};
     let controls: StoryControls;
     if (typeof propExtractor === 'function') {
-      controls = { ...propExtractor(parameters), ...storyProps };
+      controls = { ...propExtractor(id, parameters), ...storyProps };
     } else {
       controls = storyProps;
     }

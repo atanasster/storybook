@@ -69,6 +69,7 @@ function genStoryExport(ast, context) {
   }
 
   let storyVal = null;
+  let storyParameters = '';
   switch (body && body.type) {
     // We don't know what type the identifier is, but this code
     // assumes it's a function from CSF. Let's see who complains!
@@ -76,6 +77,22 @@ function genStoryExport(ast, context) {
       storyVal = `assertIsFn(${storyCode})`;
       break;
     case 'ArrowFunctionExpression':
+      if (body.params && body.params.length) {
+        const params = body.params.map(p => ({
+          name: p.name,
+          loc: {
+            start: {
+              col: p.loc.start.column,
+              line: p.loc.start.line,
+            },
+            end: {
+              col: p.loc.end.column,
+              line: p.loc.end.line,
+            },
+          },
+        }));
+        storyParameters = `, mdxParams: ${JSON.stringify(params)}`;
+      }
       storyVal = `(${storyCode})`;
       break;
     default:
@@ -97,11 +114,12 @@ function genStoryExport(ast, context) {
   if (parameters) {
     const { code: params } = generate(parameters, {});
     // FIXME: hack in the story's source as a parameter
-    statements.push(`${storyKey}.story.parameters = { mdxSource: '${source}', ...${params} };`);
+    statements.push(
+      `${storyKey}.story.parameters = { mdxSource: '${source}' ${storyParameters}, ...${params} };`
+    );
   } else {
-    statements.push(`${storyKey}.story.parameters = { mdxSource: '${source}' };`);
+    statements.push(`${storyKey}.story.parameters = { mdxSource: '${source}' ${storyParameters}};`);
   }
-
   let decorators = getAttr(ast.openingElement, 'decorators');
   decorators = decorators && decorators.expression;
   if (decorators) {
