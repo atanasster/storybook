@@ -1,4 +1,4 @@
-import { ContextStoryControls, ControlTypes } from '@storybook/common';
+import { ContextStoryControls, ControlTypes, StoryControlOptions } from '@storybook/common';
 import faker from 'faker';
 
 export const randomizeData = (constrols: ContextStoryControls) => {
@@ -6,7 +6,6 @@ export const randomizeData = (constrols: ContextStoryControls) => {
     .map(name => {
       const control = constrols[name];
       const { type } = control;
-
       switch (type) {
         case ControlTypes.TEXT:
           return {
@@ -27,9 +26,42 @@ export const randomizeData = (constrols: ContextStoryControls) => {
         case ControlTypes.NUMBER:
           return {
             name,
-            value: Math.floor(Math.random() * (control.value as number) || 10),
+            value: faker.random.boolean({
+              min: (control.value as number) / 2,
+              max: (control.value as number) * 2,
+            }),
           };
-
+        case ControlTypes.OPTIONS: {
+          const optionsControl = control as StoryControlOptions;
+          let value;
+          if (Array.isArray(optionsControl.options)) {
+            if (
+              optionsControl.display === 'multi-select' ||
+              optionsControl.display === 'check' ||
+              optionsControl.display === 'inline-check'
+            ) {
+              value = faker.random.arrayElements(optionsControl.options);
+            } else {
+              value = faker.random.arrayElement(optionsControl.options);
+            }
+          } else if (typeof optionsControl.options === 'object') {
+            if (
+              optionsControl.display === 'multi-select' ||
+              optionsControl.display === 'check' ||
+              optionsControl.display === 'inline-check'
+            ) {
+              value = faker.random.arrayElements(Object.keys(optionsControl.options));
+            } else {
+              value = faker.random.objectElement(optionsControl.options);
+            }
+          } else {
+            return null;
+          }
+          return {
+            name,
+            value,
+          };
+        }
         default:
           return null;
       }

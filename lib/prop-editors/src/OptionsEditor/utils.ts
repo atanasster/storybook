@@ -23,7 +23,7 @@ export const normalizeOptions = (
 
     const val = value.value || value;
     if (typeof value !== 'object' || value === null) return { label: label || val, value: val };
-    const vLabel: string = value.label || val || label;
+    const vLabel: string = value.label || label || val;
     return {
       label: vLabel,
       value: val,
