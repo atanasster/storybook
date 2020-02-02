@@ -34,5 +34,5 @@ export const randomizeData = (constrols: ContextStoryControls) => {
           return null;
       }
     })
-    .reduce((acc, f) => (f ? { ...acc, [f.name]: { value: f.value } } : acc), {});
+    .reduce((acc, f) => (f ? { ...acc, [f.name]: f.value } : acc), {});
 };

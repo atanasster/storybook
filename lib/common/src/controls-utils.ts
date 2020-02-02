@@ -20,10 +20,7 @@ export const mergeControlValues = (
           ...acc,
           [key]: {
             ...properties[key],
-            value:
-              value[key] === undefined || value[key].value === undefined
-                ? properties[key].value
-                : value[key].value,
+            value: value[key] === undefined ? properties[key].value : value[key],
           },
         }),
         {}
