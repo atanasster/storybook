@@ -3,7 +3,7 @@ import faker from 'faker';
 
 const arrayElements = (arr: any[], c?: number) => {
   const array = arr || ['a', 'b', 'c'];
-  let count;
+  let count = 0;
   if (typeof c !== 'number') {
     count = faker.random.number({ min: 1, max: array.length });
   } else if (c > array.length) {
@@ -46,7 +46,7 @@ export const randomizeData = (constrols: ContextStoryControls) => {
         case ControlTypes.NUMBER:
           return {
             name,
-            value: faker.random.boolean({
+            value: faker.random.number({
               min: (control.value as number) / 2,
               max: (control.value as number) * 2,
             }),
