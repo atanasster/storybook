@@ -1,6 +1,6 @@
 {
   "name": "@storybook/prop-editors",
-  "version": "6.0.0-alpha.2",
+  "version": "6.0.0-alpha.3",
   "description": "Storybook Property Editors",
   "keywords": [
     "storybook"
@@ -27,9 +27,9 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/common": "6.0.0-alpha.2",
-    "@storybook/components": "6.0.0-alpha.2",
-    "@storybook/theming": "6.0.0-alpha.2",
+    "@storybook/common": "6.0.0-alpha.3",
+    "@storybook/components": "6.0.0-alpha.3",
+    "@storybook/theming": "6.0.0-alpha.3",
     "fast-deep-equal": "^3.1.1",
     "global": "^4.3.2",
     "react": "^16.8.3",
