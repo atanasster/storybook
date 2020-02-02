@@ -40,10 +40,12 @@
     "@storybook/theming": "6.0.0-alpha.2",
     "copy-to-clipboard": "^3.0.8",
     "core-js": "^3.0.1",
+    "faker": "^4.1.0",
     "global": "^4.3.2",
     "qs": "^6.6.0"
   },
   "devDependencies": {
+    "@types/faker": "^4.1.9",
     "@types/node": "^13.7.0"
   },
   "peerDependencies": {

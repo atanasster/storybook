@@ -1,6 +1,6 @@
 import React from 'react';
 import { PreviewPanelCallback, PreviewExpandedState, PanelItemType } from '@storybook/components';
-import { ControlsEditorsTable } from '@storybook/prop-editors';
+import { ControlsTable } from '../shared/ControlsTable';
 
 export const createControlsPanel = ({
   storyId,
@@ -21,7 +21,7 @@ export const createControlsPanel = ({
         case expanded === name: {
           return {
             node: (
-              <ControlsEditorsTable
+              <ControlsTable
                 storyId={storyId}
                 controls={controls}
                 setControlValue={setControlValue}

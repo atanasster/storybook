@@ -1,10 +1,9 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { Subtitle } from '@storybook/components';
-import { ControlsEditorsTable as PureControlsEditorsTable } from '@storybook/prop-editors';
 import { ContextStoryControls } from '@storybook/common';
 import { Combo, Consumer, API, StoryInput } from '@storybook/api';
-
+import { ControlsTable } from '../shared/ControlsTable';
 import { NoControls } from './NoControls';
 
 const Wrapper = styled.div(() => ({
@@ -51,7 +50,7 @@ export const PropsPanel: React.FC<PropsPanelProps> = ({
           <Wrapper className="addon-controls-panel">
             <Subtitle>enter new property values below:</Subtitle>
             <Container>
-              <PureControlsEditorsTable
+              <ControlsTable
                 controls={controls}
                 storyId={story.id}
                 setControlValue={api.setControlValue}

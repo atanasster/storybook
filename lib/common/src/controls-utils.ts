@@ -22,7 +22,7 @@ export const mergeControlValues = (
             ...properties[key],
             value:
               value[key] === undefined || value[key].value === undefined
-                ? value[key]
+                ? properties[key].value
                 : value[key].value,
           },
         }),

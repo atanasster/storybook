@@ -89,7 +89,7 @@ export const ControlsEditorsTable: React.FC<ControlsEditorsTableProps & {
   title?: string;
 }> = props => {
   const [copied, setCopied] = React.useState(false);
-  const { controls, title, storyId, resetControlValue } = props;
+  const { controls, title, storyId, resetControlValue, extraActions = [] } = props;
   if (controls && Object.keys(controls).length) {
     const onReset = (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
@@ -136,6 +136,13 @@ export const ControlsEditorsTable: React.FC<ControlsEditorsTableProps & {
         <ActionBar
           zIndex={0}
           actionItems={[
+            ...extraActions.map(item => ({
+              title: item.title,
+              onClick: (e: MouseEvent<HTMLButtonElement>) => {
+                e.preventDefault();
+                item.onAction(props);
+              },
+            })),
             { title: 'Reset', onClick: onReset },
             { title: copied ? 'Copied' : 'Copy', onClick: onCopy },
           ]}

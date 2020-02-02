@@ -17,6 +17,13 @@ export interface PropertyControlProps {
 
 export type PropertyEditor<T extends PropertyControlProps = any> = React.FC<T>;
 
+export interface ExtraControlAction {
+  title: string;
+  onAction: (props: ControlsEditorsTableProps) => void;
+}
+
+export type ExtraControlActions = ExtraControlAction[];
+
 export interface ControlsEditorsTableProps {
   title?: string;
   storyId?: string;
@@ -24,4 +31,5 @@ export interface ControlsEditorsTableProps {
   setControlValue?: SetControlValueFn;
   resetControlValue?: ResetControlValueFn;
   clickControl?: ClickControlFn;
+  extraActions?: ExtraControlActions;
 }

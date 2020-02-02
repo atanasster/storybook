@@ -1,8 +1,8 @@
 import React from 'react';
 import { toId, storyNameFromExport } from '@storybook/csf';
-import { ControlsEditorsTable as PureControlsEditorsTable } from '@storybook/prop-editors';
 import { ContextStoryControls } from '@storybook/common';
 import { CURRENT_SELECTION, DocsContext } from '@storybook/addon-docs/blocks';
+import { ControlsTable } from '../../shared/ControlsTable';
 
 interface ControlsEditorsTableProps {
   title?: string;
@@ -49,7 +49,7 @@ export const ControlsEditorsTable: React.FC<ControlsEditorsTableProps> = ({
       const { controls, id } = getPropertyProps(rest, context) || {};
       const api: any = (context as any).clientApi;
       return id ? (
-        <PureControlsEditorsTable
+        <ControlsTable
           title={title}
           controls={controls}
           storyId={id}
