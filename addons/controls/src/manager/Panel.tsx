@@ -1,6 +1,5 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { Subtitle } from '@storybook/components';
 import { ContextStoryControls } from '@storybook/common';
 import { Combo, Consumer, API, StoryInput } from '@storybook/api';
 import { ControlsTable } from '../shared/ControlsTable';
@@ -48,7 +47,6 @@ export const PropsPanel: React.FC<PropsPanelProps> = ({
         const { controls, story } = p as MapperReturnProps;
         return story && controls && Object.keys(controls).length ? (
           <Wrapper className="addon-controls-panel">
-            <Subtitle>enter new property values below:</Subtitle>
             <Container>
               <ControlsTable
                 controls={controls}

@@ -4,7 +4,7 @@ import { Title, Subtitle, Description, Story, Props, Stories } from '@storybook/
 import { ControlsEditorsTable } from '@storybook/addon-controls/blocks';
 
 export default {
-  title: 'Addons/Controls/examples',
+  title: 'Addons/Controls/controls',
   parameters: {
     docs: {
       page: () => (

@@ -15,9 +15,12 @@ describe('Controls utils', () => {
     expect(mergeControlValues(controls, 'name', 'today')).toMatchObject(modifiedControls);
   });
   it('Should merge property object', () => {
-    expect(mergeControlValues(controls, undefined, modifiedControls)).toMatchObject(
-      modifiedControls
-    );
+    expect(
+      mergeControlValues(controls, undefined, {
+        name: modifiedControls.name.value,
+        age: modifiedControls.age.value,
+      })
+    ).toMatchObject(modifiedControls);
   });
 
   it('Should reset property value', () => {
