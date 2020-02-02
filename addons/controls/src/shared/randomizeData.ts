@@ -1,6 +1,26 @@
 import { ContextStoryControls, ControlTypes, StoryControlOptions } from '@storybook/common';
 import faker from 'faker';
 
+const arrayElements = (arr: any[], c?: number) => {
+  const array = arr || ['a', 'b', 'c'];
+  let count;
+  if (typeof c !== 'number') {
+    count = faker.random.number({ min: 1, max: array.length });
+  } else if (c > array.length) {
+    count = array.length;
+  } else if (c < 0) {
+    count = 0;
+  }
+
+  const arrayCopy = array.slice();
+  const countToRemove = arrayCopy.length - count;
+  for (let i = 0; i < countToRemove; i += 1) {
+    const indexToRemove = faker.random.number({ max: arrayCopy.length - 1 });
+    arrayCopy.splice(indexToRemove, 1);
+  }
+
+  return arrayCopy;
+};
 export const randomizeData = (constrols: ContextStoryControls) => {
   return Object.keys(constrols)
     .map(name => {
@@ -40,7 +60,7 @@ export const randomizeData = (constrols: ContextStoryControls) => {
               optionsControl.display === 'check' ||
               optionsControl.display === 'inline-check'
             ) {
-              value = faker.random.arrayElements(optionsControl.options);
+              value = arrayElements(optionsControl.options);
             } else {
               value = faker.random.arrayElement(optionsControl.options);
             }
@@ -50,7 +70,7 @@ export const randomizeData = (constrols: ContextStoryControls) => {
               optionsControl.display === 'check' ||
               optionsControl.display === 'inline-check'
             ) {
-              value = faker.random.arrayElements(Object.keys(optionsControl.options));
+              value = arrayElements(Object.values(optionsControl.options));
             } else {
               value = faker.random.objectElement(optionsControl.options);
             }
