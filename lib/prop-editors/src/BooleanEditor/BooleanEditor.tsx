@@ -1,6 +1,7 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { StoryControlBoolean } from '@storybook/common';
+import { Form } from '@storybook/components';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 const Input = styled.input({
@@ -19,11 +20,10 @@ interface BooleanEditorProps extends PropertyControlProps {
 }
 
 export const BooleanEditor: PropertyEditor<BooleanEditorProps> = ({ prop, name, onChange }) => (
-  <Input
+  <Form.Toggle
     id={name}
     name={name}
-    type="checkbox"
-    onChange={e => onChange(name, e.target.checked)}
+    onChange={checked => onChange(name, checked)}
     checked={prop.value}
   />
 );

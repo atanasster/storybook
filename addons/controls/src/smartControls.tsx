@@ -114,7 +114,6 @@ export const extractSmartProperties = (
   parameters: Parameters
 ): StoryControls | null => {
   const params = parameters || {};
-  console.log(params);
   const { component, framework = null, controls } = params;
   const { smart: smartControls } = controls || {};
   if (!smartControls) {
