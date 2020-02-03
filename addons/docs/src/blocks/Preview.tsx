@@ -44,18 +44,13 @@ const getPreviewProps = (
       )
   );
   const storyId = targetIds.length && targetIds[0];
-  let panels: PreviewPanelTypes = [];
   const story = storyStore.fromId(storyId);
-  if (story) {
-    const addons = getAddons(story.parameters);
-    const { preview } = addons;
-    if (preview) {
-      panels = Object.keys(preview).map(name => ({
-        name,
-        callback: preview[name]({ storyId, context }),
-      }));
-    }
-  }
+  const panels: PreviewPanelTypes = story
+    ? getAddons(story.parameters, 'preview', { storyId, context }).map(addon => ({
+        name: addon.name,
+        callback: addon.addon,
+      }))
+    : [];
 
   const defaultProps = {
     ...props,

@@ -47,5 +47,31 @@ export function scrollToElement(element: any, block = 'start') {
   });
 }
 
-export const getAddons = (parameters: Parameters) =>
-  (parameters && parameters.docs && parameters.docs.addons) || {};
+export interface DocAddonsCallbackProps {
+  storyId: string;
+  context: DocsContextProps;
+  [key: string]: any;
+}
+
+export type DocAddonsCallbackFn = (props: DocAddonsCallbackProps) => any;
+
+export interface DocAddonProps {
+  name: string;
+  addon: any;
+}
+
+export const getAddons = (
+  parameters: Parameters,
+  section: string,
+  props: DocAddonsCallbackProps
+): DocAddonProps[] => {
+  const addons =
+    parameters && parameters.docs && parameters.docs.addons && parameters.docs.addons[section];
+  if (addons) {
+    return Object.keys(addons).map(name => ({
+      name,
+      addon: addons[name](props),
+    }));
+  }
+  return [];
+};

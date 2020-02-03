@@ -59,16 +59,13 @@ export const getComponentProps = (
     const extraColumns: PropsTableExtraColumns = propsExtra || [];
     const storyId = context.id;
     const story = context.storyStore.fromId(storyId);
-    const addons = getAddons(story.parameters);
-    const { propsTable } = addons;
-    if (propsTable) {
-      Object.keys(propsTable).forEach(name => {
-        extraColumns.push({
-          name,
-          ...propsTable[name]({ storyId, rows, context }),
-        });
+    const addons = getAddons(story.parameters, 'propsTable', { storyId, rows, context });
+    addons.forEach(addon => {
+      extraColumns.push({
+        name: addon.name,
+        ...addon.addon,
       });
-    }
+    });
     return {
       ...props,
       extraColumns: extraColumns.filter((e: PropsTableExtraColumn) => e.rows),
