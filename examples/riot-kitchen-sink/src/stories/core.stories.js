@@ -15,7 +15,7 @@ export default {
   },
 };
 
-export const PassedToStory = (props, { parameters: { fileName, ...parameters } }) =>
+export const PassedToStory = ({ parameters: { fileName, ...parameters } }) =>
   mount('parameters', { ...parameters, storyParameter });
 
 PassedToStory.story = {

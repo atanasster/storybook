@@ -13,7 +13,7 @@ export default {
   },
 };
 
-export const PassedToStory = (props, { parameters: { fileName, ...parameters } }) => ({
+export const PassedToStory = ({ parameters: { fileName, ...parameters } }) => ({
   template: `<div>Parameters are ${JSON.stringify(parameters)}</div>`,
 });
 
