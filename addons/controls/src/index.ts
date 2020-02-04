@@ -1,1 +1,1 @@
-export { extractSmartProperties } from './smartControls';
+export { extractSmartControls } from './smartControls';

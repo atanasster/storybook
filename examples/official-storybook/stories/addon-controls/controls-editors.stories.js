@@ -514,3 +514,17 @@ XssSafety.story = {
     },
   },
 };
+
+export const generateRandomData = ({ street }) => street;
+
+generateRandomData.story = {
+  controls: {
+    street: {
+      type: 'text',
+      label: 'Street',
+      value: '30333 Atlantic Ave.',
+      // reference: https://github.com/marak/Faker.js/
+      data: { name: 'address.streetAddress' },
+    },
+  },
+};

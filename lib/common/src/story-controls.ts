@@ -111,6 +111,28 @@ export enum ControlTypes {
   FILES = 'files',
 }
 
+export interface StoryControlData {
+  /**
+   * 'name' for generating random data from faker.js
+   *  usually comprised of two parts, separated by a dot
+   *  example 'internet.avatar'
+   */
+  name: string;
+
+  /**
+   * options to be passe to the random data generators
+   * example {
+   *  min: 10, max: 20
+   * }
+   */
+  options?: { [key: string]: any };
+}
+
+/**
+ * Base inteface for creating control types
+ * All new property typs should extend this interface and support
+ *
+ */
 export interface StoryControlBase<T> {
   type: ControlTypes;
 
@@ -149,6 +171,12 @@ export interface StoryControlBase<T> {
    * will be sorted by the order/key of the object (unreliable)
    */
   order?: number;
+
+  /**
+   * helper information to generate random data
+   * can be used in conjunction with faker.js
+   */
+  data?: StoryControlData;
 }
 
 export interface StoryControlText extends StoryControlBase<string> {

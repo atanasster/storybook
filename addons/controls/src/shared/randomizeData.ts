@@ -25,6 +25,19 @@ export const randomizeData = (controls: ContextStoryControls) => {
   return Object.keys(controls)
     .map(name => {
       const control = controls[name];
+      const { data } = control;
+      // check if control has custom settings for generating data
+      if (data && data.name) {
+        const fakerType = data.name.split('.');
+        const fakerRecurse = (f: any, sig: string): any => (f ? f[sig] : f);
+        const fakrFn = fakerType.reduce((acc: any, f: string) => fakerRecurse(acc, f), faker);
+        if (typeof fakrFn === 'function') {
+          return {
+            name,
+            value: fakrFn(data.options),
+          };
+        }
+      }
       const { type } = control;
       switch (type) {
         case ControlTypes.TEXT: {
