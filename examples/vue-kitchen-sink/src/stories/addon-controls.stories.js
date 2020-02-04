@@ -91,7 +91,7 @@ AllControls.story = {
   controls: {
     name: { type: 'text', label: 'Name', value: 'Jane' },
     stock: { type: 'number', label: 'Stock', value: 20, range: true, min: 0, max: 30, stpe: 5 },
-    button: { type: 'button', label: 'Arbitrary action', value: action('You clicked it!') },
+    button: { type: 'button', label: 'Arbitrary action', onClick: action('You clicked it!') },
     fruit: {
       type: 'options',
       label: 'Fruit',
