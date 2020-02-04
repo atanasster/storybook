@@ -42,7 +42,9 @@ export const AllControls = ({ name, stock, fruit, price, colour, today, items, n
       fruit: { default: fruit },
       price: { default: price },
       colour: { default: colour },
-      today: { default: today },
+      // [Vue warn]: Invalid default value for prop "today":
+      // Props with type Object/Array must use a factory function to return the default value.
+      today: { default: (i => () => i)(today) },
       // this is necessary, because we cant use arrays/objects directly in vue prop default values
       // a factory function is required, but we need to make sure the knob is only called once
       items: { default: (i => () => i)(items) },
