@@ -66,8 +66,6 @@ AllControls.story = {
     price: { type: 'number', label: 'Price', value: 2.25 },
     colour: { type: 'color', label: 'Border', value: 'deeppink' },
     today: { type: 'date', label: 'Today', value: new Date('Jan 20 2017 GMT+0') },
-    // this is necessary, because we cant use arrays/objects directly in vue prop default values
-    // a factory function is required, but we need to make sure the knob is only called once
     items: { type: 'array', label: 'Items', value: ['Laptop', 'Book', 'Whiskey'] },
     nice: { type: 'boolean', abel: 'Nice', value: true },
   },

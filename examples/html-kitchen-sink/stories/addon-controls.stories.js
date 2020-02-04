@@ -1,15 +1,15 @@
 import { action } from '@storybook/addon-actions';
+import { document } from 'global';
+
+const cachedContainer = document.createElement('p');
 
 export default {
-  title: 'Addon/Controls',
+  title: 'Addons/Controls',
 };
 
 export const Simple = ({ name, age }) => {
   const content = `I am ${name} and I'm ${age} years old.`;
-
-  return {
-    tags: [`<div>${content}</div>`],
-  };
+  return `<div>${content}</div>`;
 };
 
 Simple.story = {
@@ -18,30 +18,52 @@ Simple.story = {
     age: { type: 'number', label: 'Age', value: 44 },
   },
 };
+export const DOM = ({ name }) => {
+  const container = document.createElement('p');
+  container.textContent = name;
+  return container;
+};
+
+DOM.story = {
+  controls: {
+    name: { type: 'text', label: 'Name', value: 'John Doe' },
+  },
+};
+
+export const Story3 = ({ name, textColor }) => {
+  cachedContainer.textContent = name;
+  cachedContainer.style.transition = 'color 0.5s ease-out';
+  cachedContainer.style.color = textColor;
+  return cachedContainer;
+};
+
+Story3.story = {
+  name: 'CSS transitions',
+  controls: {
+    name: { type: 'text', label: 'Name', value: 'John Doe' },
+    textColor: { type: 'color', label: 'Text color', value: 'orangered' },
+  },
+};
 
 export const AllControls = ({ name, stock, fruit, price, colour, today, items, nice }) => {
   const stockMessage = stock
     ? `I have a stock of ${stock} ${fruit}, costing &dollar;${price} each.`
     : `I'm out of ${fruit}${nice ? ', Sorry!' : '.'}`;
+
   const salutation = nice ? 'Nice to meet you!' : 'Leave me alone!';
   const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
 
-  return {
-    tags: [
-      `
-          <WhatIGot><div style="border:2px dotted ${colour}; padding: 8px 22px; border-radius: 8px">
-            <h1>My name is ${name},</h1>
-            <h3>today is ${new Date(today).toLocaleDateString('en-US', dateOptions)}</h3>
-            <p>${stockMessage}</p>
-            <p>Also, I have:</p>
-            <ul>
-              ${items.map(item => `<li key="${item}">${item}</li>`).join('')}
-            </ul>
-            <p>${salutation}</p>
-          </div></WhatIGot>
-        `,
-    ],
-  };
+  const style = `border: 2px dotted ${colour}; padding: 8px 22px; border-radius: 8px`;
+
+  return `<div style="${style}">
+        <h1>My name is ${name},</h1>
+        <h3>today is ${new Date(today).toLocaleDateString('en-US', dateOptions)}</h3>
+        <p>${stockMessage}</p>
+        <p>Also, I have:</p>
+        <ul>${items.map(item => `<li>${item}</li>`).join('')}</ul>
+        <p>${salutation}</p>
+      </div>
+    `;
 };
 
 AllControls.story = {
@@ -68,18 +90,9 @@ AllControls.story = {
   },
 };
 
-export const XssSafety = ({ content }) => ({
-  tags: [
-    `
-      <div>
-        ${content}
-      </div>
-    `,
-  ],
-});
+export const XssSafety = ({ content }) => content;
 
 XssSafety.story = {
-  name: 'XSS safety',
   controls: {
     content: { type: 'text', value: '<img src=x onerror="alert(\'XSS Attack\')" >' },
   },
