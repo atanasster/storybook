@@ -1,8 +1,6 @@
-/* eslint-disable react/prop-types */
-/** @jsx h */
+/** @jsx m */
 
-import { h } from 'preact';
-
+import m from 'mithril';
 import { action } from '@storybook/addon-actions';
 
 export default {
@@ -11,7 +9,10 @@ export default {
 
 export const Simple = ({ name, age }) => {
   const content = `I am ${name} and I'm ${age} years old.`;
-  return <div>{content}</div>;
+
+  return {
+    view: () => <div>{content}</div>,
+  };
 };
 
 Simple.story = {
@@ -28,20 +29,22 @@ export const AllControls = ({ name, stock, fruit, price, colour, today, items, n
   const salutation = nice ? 'Nice to meet you!' : 'Leave me alone!';
   const dateOptions = { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' };
 
-  return (
-    <div style={`border:2px dotted ${colour}; padding: 8px 22px; border-radius: 8px`}>
-      <h1>My name is {name},</h1>
-      <h3>today is {new Date(today).toLocaleDateString('en-US', dateOptions)}</h3>
-      <p>{stockMessage}</p>
-      <p>Also, I have:</p>
-      <ul>
-        {items.map(item => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-      <p>{salutation}</p>
-    </div>
-  );
+  return {
+    view: () => (
+      <div style={`border:2px dotted ${colour}; padding: 8px 22px; border-radius: 8px`}>
+        <h1>My name is {name},</h1>
+        <h3>today is {new Date(today).toLocaleDateString('en-US', dateOptions)}</h3>
+        <p>{stockMessage}</p>
+        <p>Also, I have:</p>
+        <ul>
+          {items.map(item => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+        <p>{salutation}</p>
+      </div>
+    ),
+  };
 };
 
 AllControls.story = {
@@ -67,5 +70,15 @@ AllControls.story = {
     // a factory function is required, but we need to make sure the knob is only called once
     items: { type: 'array', label: 'Items', value: ['Laptop', 'Book', 'Whiskey'] },
     nice: { type: 'boolean', abel: 'Nice', value: true },
+  },
+};
+
+export const XssSafety = ({ content }) => ({
+  view: () => content,
+});
+
+XssSafety.story = {
+  controls: {
+    content: { type: 'text', value: '<img src=x onerror="alert(\'XSS Attack\')" >' },
   },
 };
