@@ -5,9 +5,13 @@ export default {
   component: MyButton,
 };
 
-export const Rounded = () => ({
+export const Rounded = ({ rounded, color }) => ({
   components: { MyButton },
-  template: '<my-button :rounded="true">A Button with rounded edges</my-button>',
+  props: {
+    rounded: { default: rounded },
+    color: { default: color },
+  },
+  template: '<my-button :rounded="rounded" :color="color">A Button with rounded edges</my-button>',
 });
 
 export const Square = () => ({

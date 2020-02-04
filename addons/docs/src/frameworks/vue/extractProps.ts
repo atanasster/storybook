@@ -11,5 +11,11 @@ export const extractProps: PropsExtractor = component => {
   SECTIONS.forEach(section => {
     sections[section] = extractComponentProps(component, section).map(x => x.propDef);
   });
+  if (sections.props) {
+    sections.props = sections.props.map(prop => ({
+      ...prop,
+      isInput: true,
+    }));
+  }
   return { sections };
 };

@@ -28,7 +28,8 @@ export const createFieldFromProps = (
   if (!propDef) {
     return null;
   }
-  switch (propDef.type.type) {
+  const type = propDef.type.type || propDef.type.summary;
+  switch (type) {
     case 'string': {
       let value: string | undefined;
       if (typeof propDef.defaultValue === 'string') {
@@ -46,6 +47,7 @@ export const createFieldFromProps = (
         value,
       };
     }
+    case 'boolean':
     case 'bool': {
       let value;
       if (propDef.defaultValue) {
