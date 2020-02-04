@@ -1,19 +1,31 @@
 # Storybook Addon Controls
 
-Storybook Addon Controls allow you to edit props dynamically using the Storybook UI.
-You can also use Knobs as a dynamic variable inside stories in [Storybook](https://storybook.js.org).
+Storybook Addon Controls allow you to edit story properties dynamically in the Storybook UI with property editors. 
+The values from the controls are passed down as parameters to the stories in [Storybook](https://storybook.js.org). 
+
+The definitions of the control properties have been contributed to the [CSF](https://github.com/storybookjs/csf) so they can be used by the entire industry in the hppe of generating a rich eco-system. 
+
+Additional functionality out of the box with Addon Controls are the "smart controls" - useing the CSF Components property tables to automatically create editable controls for the stories.
+
+Another unique facet of Addon Controls is the one-click generation of random data, using under the hood [faker.js](https://github.com/marak/Faker.js/).
+
+Addon Controls is a successor of [addon-knobs](https://github.com/storybookjs/storybook/tree/next/addons/knobs) and tries to keep compatibility where possible.
+
+Addon controls and the  bundled "smart-controls" can work with all frameworks supported by Storybook 
 
 [Framework Support](https://github.com/storybookjs/storybook/blob/master/ADDONS_SUPPORT.md).
 
-This is what Knobs looks like:
+## A short introduction writing custom controls with react:
 
-[![Storybook Knobs Demo](docs/storybook-knobs-example.png)](https://storybooks-official.netlify.com/?knob-Dollars=12.5&knob-Name=Storyteller&knob-Years%20in%20NY=9&knob-background=%23ffff00&knob-Age=70&knob-Items%5B0%5D=Laptop&knob-Items%5B1%5D=Book&knob-Items%5B2%5D=Whiskey&knob-Other%20Fruit=lime&knob-Birthday=1484870400000&knob-Nice=true&knob-Styles=%7B%22border%22%3A%223px%20solid%20%23ff00ff%22%2C%22padding%22%3A%2210px%22%7D&knob-Fruit=apple&selectedKind=Addons%7CKnobs.withKnobs&selectedStory=tweaks%20static%20values&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybooks%2Fstorybook-addon-knobs)
+![Addon Controls Demo](./docs/controls-react-starter.gif)
 
-> Checkout the above [Live Storybook](https://storybooks-official.netlify.com/?knob-Dollars=12.5&knob-Name=Storyteller&knob-Years%20in%20NY=9&knob-background=%23ffff00&knob-Age=70&knob-Items%5B0%5D=Laptop&knob-Items%5B1%5D=Book&knob-Items%5B2%5D=Whiskey&knob-Other%20Fruit=lime&knob-Birthday=1484870400000&knob-Nice=true&knob-Styles=%7B%22border%22%3A%223px%20solid%20%23ff00ff%22%2C%22padding%22%3A%2210px%22%7D&knob-Fruit=apple&selectedKind=Addons%7CKnobs.withKnobs&selectedStory=tweaks%20static%20values&full=0&addons=1&stories=1&panelRight=0&addonPanel=storybooks%2Fstorybook-addon-knobs) or [watch this video](https://www.youtube.com/watch?v=kopW6vzs9dg&feature=youtu.be).
+## A short using smart-controls with react
+
+![Smat Controls Demo](./docs/intro-smart-controls.gif)
 
 ## Getting Started
 
-First of all, you need to install Controls into your project as a dev dependency.
+First of all, you need to install Addon Controls into your project as a dev dependency.
 
 ```sh
 yarn add @storybook/addon-controls --dev
@@ -23,71 +35,85 @@ within `.storybook/main.js`:
 
 ```js
 module.exports = {
-  addons: ['@storybook/addon-knobs/register']
+  addons: ['@storybook/addon-controls']
 }
 ```
 
-Now, write your stories with Knobs.
+That's it, you can now use controls inside your stories
 
 ### With React
 ```js
 import React from "react";
-import { withKnobs, text, boolean, number } from "@storybook/addon-knobs";
 
 export default {
-  title: "Storybook Knobs",
-  decorators: [withKnobs]
+  title: "Storybook Controls",
 };
-// Add the `withKnobs` decorator to add knobs support to your stories.
-// You can also configure `withKnobs` as a global decorator.
 
-// Knobs for React props
-export const withAButton = () => (
-  <button disabled={boolean("Disabled", false)}>
-    {text("Label", "Hello Storybook")}
+export const controlsStory = ({ disabled, text }) => (
+  <button disabled={disabled}>
+    {text}
   </button>
 );
 
-// Knobs as dynamic variables.
-export const asDynamicVariables = () => {
-  const name = text("Name", "James");
-  const age = number("Age", 35);
-  const content = `I am ${name} and I'm ${age} years old.`;
+controlsStory.story = {
+  controls: {
+    disabled: { type: 'boolean', value: false },
+    text: { type: 'text', value: 'Hello Storybook' },
+  }
+}
+```
 
-  return <div>{content}</div>;
-};
+### With MDX
+```md
+import { Story, Preview, Meta } from '@storybook/addon-docs/blocks';
+import { ControlsEditorsTable } from '@storybook/addon-controls/blocks';
+
+<Meta title="Storybook controls" />
+
+<Preview>
+  <Story name="controlsStory" 
+    controls={{
+      disabled: { type: 'boolean', value: false },
+      text: { type: 'text', value: 'Hello Storybook' },
+    }}
+  >
+    {({ disabled, text }) => (
+     <button disabled={disabled}>
+      {text}
+      </button>
+    )}  
+  </Story>
+</Preview>
 ```
 
 ### With Vue.js
-MyButton.story.js:
 ```js
-import { storiesOf } from '@storybook/vue';
-import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 
 import MyButton from './MyButton.vue';
 
 export default {
-  title: "Storybook Knobs",
-  decorators: [withKnobs]
+  title: "Storybook Controls",
 };
 
-// Assign `props` to the story's component, calling
-// knob methods within the `default` property of each prop,
-// then pass the story's prop data to the component’s prop in
-// the template with `v-bind:` or by placing the prop within
-// the component’s slot.
-export const withKnobs = () => ({
+export const controlsStory = ({ disabled, text }) => ({
   components: { MyButton },
   props: {
     isDisabled: {
-      default: boolean('Disabled', false)
+      default: disabled
     },
     text: {
-      default: text('Text', 'Hello Storybook')
+      default: text
     }
   },
   template: `<MyButton :isDisabled="isDisabled">{{ text }}</MyButton>`
 });
+
+controlsStory.story = {
+  controls: {
+    disabled: { type: 'boolean', value: false },
+    text: { type: 'text', value: 'Hello Storybook' },
+  }
+}
 ```
 
 MyButton.vue:
@@ -112,57 +138,56 @@ export default {
 
 ### With Angular
 ```js
-import { storiesOf } from '@storybook/angular';
-import { boolean, number, text, withKnobs } from '@storybook/addon-knobs';
 
 import { Button } from '@storybook/angular/demo';
 
 export default {
-  title: "Storybook Knobs",
-  decorators: [withKnobs]
+  title: "Storybook Controls",
 };
 
-export const withKnobs = () => ({
+export const controlsStory = props => ({
   component: Button,
-  props: {
-    text: text('text', 'Hello Storybook'), // The first param of the knob function has to be exactly the same as the component input.
-  },
+  props,
 });
+
+controlsStory.story = {
+  controls: {
+    disabled: { type: 'boolean', value: false },
+    text: { type: 'text', value: 'Hello Storybook' },
+  }
+}
 ```
 
 ### With Ember
 ```js
-import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 import hbs from 'htmlbars-inline-precompile';
 
 export default {
-  title: 'StoryBook with Knobs',
-  decorators: [withKnobs],
+  title: 'StoryBook Controls',
 };
 
-export const button = () => ({
+export const controlsStory = context => ({
   template: hbs`
-    <button disabled={{disabled}}>{{label}}</button>
+    <button disabled={{disabled}}>{{text}}</button>
   `,
-  context: {
-    label: text('label', 'Hello Storybook'),
-    disabled: boolean('disabled', false),
-  },
+  context,
 });
+
+controlsStory.story = {
+  controls: {
+    disabled: { type: 'boolean', value: false },
+    text: { type: 'text', value: 'Hello Storybook' },
+  }
+}
 ```
 
 ## Categorization
 
-Categorize your Knobs by assigning them a `groupId`. When a `groupId` exists, tabs will appear in the Knobs storybook panel to filter between the groups. Knobs without a `groupId` are automatically categorized into the `ALL` group.
+This is very similar to the categorization concept in [addon-knobs](https://github.com/storybookjs/storybook/tree/next/addons/knobs) 
+Categorize your controls by assigning them a `groupId`. When a `groupId` exists, tabs will appear in the Controls storybook panel or in the docs blocks on the Docs page to filter between the groups. Controls without a `groupId` are automatically categorized into the `OTHER` group.
 
 ```js
-export const inGroups = () => {
-  const personalGroupId = 'personal info';
-  const generalGroupId = 'general info';
-
-  const name = text("Name", "James", personalGroupId);
-  const age = number("Age", 35, personalGroupId);
-  const message = text("Hello!", 35, generalGroupId);
+export const groupedControls = ({ age, name, message }) => {
   const content = `
     I am ${name} and I'm ${age} years old.
     ${message}
@@ -170,357 +195,193 @@ export const inGroups = () => {
 
   return <div>{content}</div>;
 };
-```
 
-You can see your Knobs in a Storybook panel as shown below.
+const personalGroupId = 'personal info';
+const generalGroupId = 'general info';
 
-![](docs/demo.png)
-
-## Available Knobs
-
-These are the Knobs available for you to use. You can import these Knobs from the `@storybook/addon-knobs` module.
-Here's how to import the **text** Knob.
-
-```js
-import { text } from '@storybook/addon-knobs';
-```
-
-Just like that, you can import any other following Knobs:
-
-### text
-
-Allows you to get some text from the user.
-
-```js
-import { text } from '@storybook/addon-knobs';
-
-const label = 'Your Name';
-const defaultValue = 'James';
-const groupId = 'GROUP-ID1';
-
-const value = text(label, defaultValue, groupId);
-```
-
-### boolean
-
-Allows you to get a boolean value from the user.
-
-```js
-import { boolean } from '@storybook/addon-knobs';
-
-const label = 'Agree?';
-const defaultValue = false;
-const groupId = 'GROUP-ID1';
-
-const value = boolean(label, defaultValue, groupId);
-```
-
-### number
-
-Allows you to get a number from the user.
-
-```js
-import { number } from '@storybook/addon-knobs';
-
-const label = 'Age';
-const defaultValue = 78;
-const groupId = 'GROUP-ID1';
-
-const value = number(label, defaultValue);
-```
-
-For use with `groupId`, pass the default `options` as the third argument.
-
-```js
-const value = number(label, defaultValue, {}, groupId);
-```
-
-### number bound by range
-
-Allows you to get a number from the user using a range slider.
-
-```js
-import { number } from '@storybook/addon-knobs';
-
-const label = 'Temperature';
-const defaultValue = 73;
-const options = {
-   range: true,
-   min: 60,
-   max: 90,
-   step: 1,
-};
-const groupId = 'GROUP-ID1';
-
-const value = number(label, defaultValue, options, groupId);
-```
-
-### color
-
-Allows you to get a colour from the user.
-
-```js
-import { color } from '@storybook/addon-knobs';
-
-const label = 'Color';
-const defaultValue = '#ff00ff';
-const groupId = 'GROUP-ID1';
-
-const value = color(label, defaultValue, groupId);
-```
-
-### object
-
-Allows you to get a JSON object or array from the user.
-
-```js
-import { object } from '@storybook/addon-knobs';
-
-const label = 'Styles';
-const defaultValue = {
-  backgroundColor: 'red',
-};
-const groupId = 'GROUP-ID1';
-
-const value = object(label, defaultValue, groupId);
-```
-
-> Make sure to enter valid JSON syntax while editing values inside the knob.
-
-### array
-
-Allows you to get an array of strings from the user.
-
-```js
-import { array } from '@storybook/addon-knobs';
-
-const label = 'Styles';
-const defaultValue = ['Red'];
-const groupId = 'GROUP-ID1';
-
-const value = array(label, defaultValue);
-```
-
-> While editing values inside the knob, you will need to use a separator.
-> By default it is a comma, but this can be overridden by passing a separator variable.
->
-> ```js
-> import { array } from '@storybook/addon-knobs';
->
-> const label = 'Styles';
-> const defaultValue = ['Red'];
-> const separator = ':';
-> const value = array(label, defaultValue, separator);
-> ```
-
-For use with `groupId`, pass the default `separator` as the third argument.
-
-```js
-const value = array(label, defaultValue, ',', groupId);
-```
-
-### select
-
-It allows you to get a value from a select box from the user.
-
-```js
-import { select } from '@storybook/addon-knobs';
-
-const label = 'Colors';
-const options = {
-  Red: 'red',
-  Blue: 'blue',
-  Yellow: 'yellow',
-  Rainbow: ['red', 'orange', 'etc'],
-  None: null,
-};
-const defaultValue = 'red';
-const groupId = 'GROUP-ID1';
-
-const value = select(label, options, defaultValue, groupId);
-```
-
-Options can also be an array:
-
-```js
-import { select } from '@storybook/addon-knobs';
-const label = 'Cats';
-const options = ['linus', 'eleanor', 'lover']
-const defaultValue = 'eleanor';
-const groupId = 'GROUP-ID2';
-const value = select(label, options, defaultValue, groupId);
-```
-
-Options can also be an array OF objects:
-
-```js
-const label = 'Dogs';
-const arrayOfObjects = [
-  {
-    label: 'Sparky',
-    dogParent: 'Matthew',
-    location: 'Austin',
+groupedControls.story = {
+  controls: {
+    name: { type: 'text', label: 'Name', value: 'James', groupId: personalGroupId },
+    age: { type: 'number', label: 'Age', value: 35, groupId: personalGroupId },
+    message: { type: 'text', label: 'Mesage', value: 'Hello!', groupId: generalGroupId },
   },
-  {
-    label: 'Juniper',
-    dogParent: 'Joshua',
-    location: 'Austin',
-  },
-];
-const defaultValue = arrayOfObjects[0];
-const groupId = 'GROUP-ID3';
-const value = select(label, options, defaultValue, groupId);
-```
-
-### radio buttons
-
-It allows you to get a value from a list of radio buttons from the user.
-
-```js
-import { radios } from '@storybook/addon-knobs';
-
-const label = 'Fruits';
-const options = {
-  Kiwi: 'kiwi',
-  Guava: 'guava',
-  Watermelon: 'watermelon',
 };
-const defaultValue = 'kiwi';
-const groupId = 'GROUP-ID1';
-
-const value = radios(label, options, defaultValue, groupId);
 ```
 
-### options
+You can see Controls in separate tabs as shown below.
 
-Configurable UI for selecting a value from a set of options. 
+![](./docs/grouped-controls.jpg)
 
-```js
-import { optionsKnob as options } from '@storybook/addon-knobs';
+## Available Controls
 
-const label = 'Fruits';
-const valuesObj = {
-  Kiwi: 'kiwi',
-  Guava: 'guava',
-  Watermelon: 'watermelon',
-};
-const defaultValue = 'kiwi';
-const optionsObj = {
-  display: 'inline-radio'
-};
-const groupId = 'GROUP-ID1';
+The list of available controls and their documented properties is available on the [Component Story Format](https://github.com/storybookjs/csf) site.
 
-const value = options(label, valuesObj, defaultValue, optionsObj, groupId);
-```
-> The display property for `optionsObj` accepts:
-> - `radio`
-> - `inline-radio`
-> - `check`
-> - `inline-check`
-> - `select`
-> - `multi-select`
 
-### files
+## Smart Controls
 
-It allows you to get a value from a file input from the user.
+Smart Controls ive the ability to use component's propeties table type information to generate automatically controls for a story. 
+
+By default, Addon Controls enables the smart-controls option for your storybook an there are 2 requirements for the story to display smart controls: 
+1. It needs to have a component assigned, and this component needs to have a valid properties table
+2. The story needs to accept some parameters, which informs internally Addon Controls that the story can use the control values
 
 ```js
-import { files } from '@storybook/addon-knobs';
-
-const label = 'Images';
-const accept = '.xlsx, .pdf';
-const defaultValue = [];
-const groupId = 'GROUP-ID1';
-
-const value = files(label, accept, defaultValue, groupId);
-```
-
-> You can optionally specify a [list of file types](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#accept) which the file input should accept.
-> Multiple files can be selected, and will be returned as an array of [Data URLs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs).
-
-### date
-
-Allows you to get date (and time) from the user.
-
-```js
-import { date } from '@storybook/addon-knobs';
-
-const label = 'Event Date';
-const defaultValue = new Date('Jan 20 2017');
-const groupId = 'GROUP-ID1';
-
-const value = date(label, defaultValue, groupId);
-```
-
-> Note: the default value must not change - e.g., do not do `date('Label', new Date())` or `date('Label')`.
-
-The `date` knob returns the selected date as stringified Unix timestamp (e.g. `"1510913096516"`).
-If your component needs the date in a different form you can wrap the `date` function:
-
-```js
-function myDateKnob(name, defaultValue) {
-  const stringTimestamp = date(name, defaultValue)
-  return new Date(stringTimestamp)
-}
-```
-
-### button
-
-It allows you to include a button and associated handler.
-
-```js
-import { button } from '@storybook/addon-knobs';
-
-const label = 'Do Something';
-const handler = () => doSomething('foobar');
-const groupId = 'GROUP-ID1';
-
-button(label, handler, groupId);
-```
-
-Button knobs cause the story to re-render after the handler fires.
-You can prevent this by having the handler return `false`.
-
-### withKnobs options
-
-withKnobs also accepts two optional options as story parameters.
-Usage:
-
-```js
-import { withKnobs } from '@storybook/addon-knobs';
+import React from 'react';
+import Button from '../../components/BaseButton';
 
 export default {
-  title: 'Storybook Knobs',
-  decorators: [withKnobs],
-};
-
-export const defaultView = () => (
-  <div />
-);
-defaultView.story = {
+  title: 'Storybook smart controls',
   parameters: {
-    knobs: {
-      // Doesn't emit events while user is typing.
-      timestamps: true,
+    component: Button,
+  },
+};
 
-      // Escapes strings to be safe for inserting as innerHTML. This option is true by default. It's safe to set it to `false` with frameworks like React which do escaping on their side.
-      // You can still set it to false, but it's strongly discouraged to set to true in cases when you host your storybook on some route of your main site or web app.
-      escapeHTML: true,
-    }
-  }
+export const smartControls = props => <Button {...props} />;
+```
+
+A screenshot of smart controls in action.
+
+![](./docs/smart-controls.jpg)
+
+
+### Smart controls options
+- **include** an array of property names that allows you to select only a subset of the smart control properties to be displayd
+
+```js
+onlyColors.story = {
+  parameters: {
+    controls: {
+      smart: {
+        include: ['color', 'backgroundColor'],
+      },
+    },
+  },
 };
 ```
 
-## Typescript
+- **exclude** an array of property names that allows you to exclude a subset of the smart control properties to be displayd
 
-If you are using Typescript, make sure you have the type definitions installed for the following libs:
-
-- node
-- react
-
-You can install them using: (*assuming you are using Typescript >2.0.*)
-
-```sh
-yarn add @types/node @types/react --dev
+```js
+noColors.story = {
+  parameters: {
+    controls: {
+      smart: {
+        exclude: ['color', 'backgroundColor'],
+      },
+    },
+  },
+};
 ```
+
+## Testing with random data generators
+
+This is one of our favorite features, basically allowing 1-line function component testing out of the box.
+
+Addon Controls also allows you to specify the [faker.js](https://github.com/marak/Faker.js/) data generator and options to use. For example you can be specifc that a field will need only astreet address, or zip code. In the example below, we will generate random numbers between 50 and 100.
+
+```js
+export const randomNumber = ({ number }) => number;
+
+randomNumber.story = {
+  controls: {
+    number: {
+      type: 'number',
+      label: 'A number',
+      value: 10,
+      data: { name: 'random.number', options: { min: 50, max: 100 } },
+    },
+  },
+};
+```
+
+## Doc blocks
+
+By default, Addon Controls integrates in the addon panels, in the `<Props />` table on the StoryBook DocsPage and well as in the `<Preview />` component on the DocsPage. You can also add a specifc docs block with story controls by either changing the default DocsPage or directly in your `mdx` stories:
+
+```js
+import { Title, Subtitle, Description, Story, Props, Stories } from '@storybook/addon-docs/blocks';
+import { ControlsEditorsTable } from '@storybook/addon-controls/blocks';
+
+
+export default {
+  title: 'Addons/Controls/controls',
+  parameters: {
+    docs: {
+      page: () => (
+        <>
+          <Title />
+          <Subtitle />
+          <Description />
+          <Story id="." />
+          <ControlsEditorsTable id="." />
+          <Props />
+          <Stories />
+        </>
+      ),
+    },
+  },
+```
+
+```md
+import { Story, Meta } from '@storybook/addon-docs/blocks';
+import { ControlsEditorsTable } from '@storybook/addon-controls/blocks';
+
+<Meta title="Storybook controls" parameters={{component: Button}} />
+
+
+<Story name="small story">
+  {props => (
+    <Button {...props} />
+  )}  
+</Story>
+
+<ControlsEditorsTable name="small story" />
+
+```
+## Options
+
+Addon Controls accepts several parameters to customize the default functionality. By default, all the following options are enabled, so you only need a custom configuration if you need to disable a feature:
+
+within `.storybook/main.js`:
+
+```js
+  addons: [
+    ...
+    {
+      name: '@storybook/addon-controls',
+      options: {
+        addonPanel: false,
+        docsPreview: false,
+        docsProps: false,
+        smart: false,        
+      },
+    },
+  ],
+```
+
+### smart
+
+Setting this option to `false` will disable auto-generating of controls for stories with component.
+
+
+### addonPanel
+
+Setting this option to `false` will disable showing the Controls panel in the addons section within the Storybook Canvas page:
+
+![](./docs/option-addonPanel.jpg)
+
+
+### docsPreview
+
+Setting this option to `false` will disable showing an additional tab and panel with Controls in the `<Preview />` component within the Storybopok DocsPage:
+
+![](./docs/option-docsPreview.jpg)
+
+### docsProps
+
+Setting this option to `false` will disable showing an additional columns with Controls in the `<Props />` component within the Storybopok DocsPage:
+
+![](./docs/option-docsProps.jpg)
+
+
 

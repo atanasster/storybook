@@ -542,3 +542,29 @@ randomNumber.story = {
     },
   },
 };
+
+export const groupedControls = ({ age, name, message }) => {
+  const content = `
+    I am ${name} and I'm ${age} years old.
+    ${message}
+  `;
+
+  return <div>{content}</div>;
+};
+
+const personalGroupId = 'personal info';
+const generalGroupId = 'general info';
+
+groupedControls.story = {
+  controls: {
+    name: { type: 'text', label: 'Name', value: 'James', groupId: personalGroupId },
+    age: { type: 'number', label: 'Age', value: 35, groupId: personalGroupId },
+    message: { type: 'text', label: 'Mesage', value: 'Hello!', groupId: generalGroupId },
+  },
+};
+
+groupedControls.propTypes = {
+  name: PropTypes.string.isRequired,
+  age: PropTypes.number.isRequired,
+  message: PropTypes.string.isRequired,
+};
