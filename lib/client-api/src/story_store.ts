@@ -325,10 +325,10 @@ export default class StoryStore extends EventEmitter {
       story: name, // legacy
     };
 
-    const { legacyContextProp, propExtractor } = parameters.options || {};
+    const { legacyContextProp, enhanceControls } = parameters.options || {};
     let controls: StoryControls;
-    if (typeof propExtractor === 'function') {
-      controls = { ...propExtractor(id, parameters), ...storyProps };
+    if (typeof enhanceControls === 'function') {
+      controls = { ...enhanceControls(id, parameters), ...storyProps };
     } else {
       controls = storyProps;
     }

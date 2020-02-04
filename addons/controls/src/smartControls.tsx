@@ -111,7 +111,7 @@ export const createFieldFromProps = (
   }
 };
 
-export const extractSmartProperties = (
+export const extractSmartControls = (
   storyId: string,
   parameters: Parameters
 ): StoryControls | null => {
