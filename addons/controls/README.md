@@ -221,9 +221,9 @@ The list of available controls and their documented properties is available on t
 
 Smart Controls ive the ability to use component's propeties table type information to generate automatically controls for a story. 
 
-By default, Addon Controls enables the smart-controls option for your storybook an there are 2 requirements for the story to display smart controls: 
-1. It needs to have a component assigned, and this component needs to have a valid properties table
-2. The story needs to accept some parameters, which informs internally Addon Controls that the story can use the control values
+By default, Addon Controls enables the smart-controls option for your storybook, but there are 2 requirements for a story to display smart controls: 
+1. The story needs to have a component assigned, and this component needs to have a valid properties table.
+2. The story needs to accept "some" parameters /internally detected by Addon Controls within the source loaders/, enabling the story to use the passed control values.
 
 ```js
 import React from 'react';
