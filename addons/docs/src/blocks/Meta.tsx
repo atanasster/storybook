@@ -1,8 +1,8 @@
 import React, { FC, useContext } from 'react';
 import { document } from 'global';
 import { Anchor } from './Anchor';
-import { DocsContext, DocsContextProps } from './DocsContext';
-import { getDocsStories } from './utils';
+import { DocsContext } from './DocsContext';
+import { getFirstStoryId } from './utils';
 
 type Decorator = (...args: any) => any;
 
@@ -11,12 +11,6 @@ interface MetaProps {
   component?: any;
   decorators?: [Decorator];
   parameters?: any;
-}
-
-function getFirstStoryId(docsContext: DocsContextProps): string {
-  const stories = getDocsStories(docsContext);
-
-  return stories.length > 0 ? stories[0].id : null;
 }
 
 function renderAnchor() {

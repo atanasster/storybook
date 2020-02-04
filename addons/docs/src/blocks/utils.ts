@@ -15,6 +15,11 @@ export const getDocsStories = (context: DocsContextProps): StoryData[] => {
     .filter((s: any) => !(s.parameters && s.parameters.docs && s.parameters.docs.disable));
 };
 
+export const getFirstStoryId = (docsContext: DocsContextProps): string => {
+  const stories = getDocsStories(docsContext);
+  return stories.length > 0 ? stories[0].id : null;
+};
+
 const titleCase = (str: string): string =>
   str
     .split('-')

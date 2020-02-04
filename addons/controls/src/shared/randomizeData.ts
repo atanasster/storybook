@@ -21,18 +21,24 @@ const arrayElements = (arr: any[], c?: number) => {
 
   return arrayCopy;
 };
-export const randomizeData = (constrols: ContextStoryControls) => {
-  return Object.keys(constrols)
+export const randomizeData = (controls: ContextStoryControls) => {
+  return Object.keys(controls)
     .map(name => {
-      const control = constrols[name];
+      const control = controls[name];
       const { type } = control;
       switch (type) {
-        case ControlTypes.TEXT:
+        case ControlTypes.TEXT: {
+          if (name.startsWith('src')) {
+            return {
+              name,
+              value: faker.internet.avatar(),
+            };
+          }
           return {
             name,
             value: faker.name.findName(),
           };
-
+        }
         case ControlTypes.COLOR:
           return {
             name,

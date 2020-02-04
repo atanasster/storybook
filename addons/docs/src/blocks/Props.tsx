@@ -14,7 +14,7 @@ import { PropsExtractor } from '../lib/docgen/types';
 import { inferPropsExtractor, filterRows } from './propExtract';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { Component, PropsSlot, CURRENT_SELECTION } from './shared';
-import { getAddons, getComponentName } from './utils';
+import { getAddons, getComponentName, getFirstStoryId } from './utils';
 
 interface PropsProps {
   exclude?: string[];
@@ -57,15 +57,19 @@ export const getComponentProps = (
       }
     }
     const extraColumns: PropsTableExtraColumns = propsExtra || [];
-    const storyId = context.id;
-    const story = context.storyStore.fromId(storyId);
-    const addons = getAddons(story.parameters, 'propsTable', { storyId, rows, context });
-    addons.forEach(addon => {
-      extraColumns.push({
-        name: addon.name,
-        ...addon.addon,
-      });
-    });
+    const storyId = getFirstStoryId(context);
+    if (storyId) {
+      const story = context.storyStore.fromId(storyId);
+      if (story) {
+        const addons = getAddons(story.parameters, 'propsTable', { storyId, rows, context });
+        addons.forEach(addon => {
+          extraColumns.push({
+            name: addon.name,
+            ...addon.addon,
+          });
+        });
+      }
+    }
     return {
       ...props,
       extraColumns: extraColumns.filter((e: PropsTableExtraColumn) => e.rows),
