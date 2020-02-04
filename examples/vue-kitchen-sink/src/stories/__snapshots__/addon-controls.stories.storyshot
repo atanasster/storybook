@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Addon/Controls Simple 1`] = `
+<div>
+  I am John Doe and I'm 40 years old.
+</div>
+`;
+
+exports[`Storyshots Addon/Controls XSS safety 1`] = `
+<div>
+  <img
+    onerror="alert('XSS Attack')"
+    src="x"
+  />
+</div>
+`;
