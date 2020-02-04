@@ -19,6 +19,7 @@
     "@storybook/addon-backgrounds": "6.0.0-alpha.4",
     "@storybook/addon-centered": "6.0.0-alpha.4",
     "@storybook/addon-contexts": "6.0.0-alpha.4",
+    "@storybook/addon-controls": "6.0.0-alpha.4",
     "@storybook/addon-docs": "6.0.0-alpha.4",
     "@storybook/addon-knobs": "6.0.0-alpha.4",
     "@storybook/addon-links": "6.0.0-alpha.4",
