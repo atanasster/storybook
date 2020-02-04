@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { StoryControls, StoryControl, ControlTypes } from '@storybook/common';
 import { Parameters } from '@storybook/addons';
-import { PropsTableRowsProps, PropsTableSectionsProps, PropDef } from '@storybook/components';
+import { PropDef } from '@storybook/components';
 import { inferPropsExtractor, getInputRows } from '@storybook/addon-docs/blocks';
 
 export interface SmartControlsConfig {
