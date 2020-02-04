@@ -15,11 +15,11 @@ Addon controls and the  bundled "smart-controls" can work with all frameworks su
 
 [Framework Support](https://github.com/storybookjs/storybook/blob/master/ADDONS_SUPPORT.md).
 
-## A short introduction writing custom controls with react:
+## Intro writing custom controls with react:
 
 ![Addon Controls Demo](./docs/controls-react-starter.gif)
 
-## A short using smart-controls with react
+## Intro using smart-controls with react
 
 ![Smat Controls Demo](./docs/intro-smart-controls.gif)
 
