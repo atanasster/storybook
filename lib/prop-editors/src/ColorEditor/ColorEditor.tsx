@@ -12,7 +12,6 @@ interface ColorButtonProps {
   name: string;
   type: string;
   size: string;
-  active: boolean;
   width: string;
   onClick: () => any;
 }
@@ -31,10 +30,12 @@ const Swatch = styled.div<{ color: string }>(({ theme, color }) => ({
   borderRadius: '1rem',
 }));
 
-const ColorButton = styled(Button)<ColorButtonProps>(({ active }) => ({
+const ColorButton = styled(Button)<ColorButtonProps>(() => ({
   zIndex: 'unset',
-  paddingLeft: '30px',
+  paddingLeft: '40px',
   minHeight: '36px',
+  display: 'flex',
+  flexBasis: '100%',
 }));
 
 const Popover = styled.div({

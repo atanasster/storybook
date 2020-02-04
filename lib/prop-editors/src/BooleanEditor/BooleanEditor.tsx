@@ -2,6 +2,7 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import { StoryControlBoolean } from '@storybook/common';
 import { Form } from '@storybook/components';
+import { FlexContainer } from '../FlexContainer';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 const Input = styled.input({
@@ -20,10 +21,12 @@ interface BooleanEditorProps extends PropertyControlProps {
 }
 
 export const BooleanEditor: PropertyEditor<BooleanEditorProps> = ({ prop, name, onChange }) => (
-  <Form.Toggle
-    id={name}
-    name={name}
-    onChange={checked => onChange(name, checked)}
-    checked={prop.value}
-  />
+  <FlexContainer>
+    <Form.Toggle
+      id={name}
+      name={name}
+      onChange={checked => onChange(name, checked)}
+      checked={prop.value}
+    />
+  </FlexContainer>
 );

@@ -1,7 +1,7 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { PropDef, PropsTableExtraColumn, PropsTableExtraRows, Icons } from '@storybook/components';
-import { EditorContainer, PropertyEditor, getPropertyEditor } from '@storybook/prop-editors';
+import { FlexContainer, PropertyEditor, getPropertyEditor } from '@storybook/prop-editors';
 
 const TitleIcon = styled(Icons)({
   height: 18,
@@ -40,9 +40,9 @@ export const createPropsTableControls = ({
             return {
               ...acc,
               [name]: (
-                <EditorContainer>
+                <FlexContainer align="left">
                   <InputType prop={field} name={name} onChange={onChange} onClick={onClick} />
-                </EditorContainer>
+                </FlexContainer>
               ),
             };
           }
@@ -51,9 +51,9 @@ export const createPropsTableControls = ({
     : {};
   return {
     title: (
-      <EditorContainer>
+      <FlexContainer>
         <TitleIcon icon="edit" />
-      </EditorContainer>
+      </FlexContainer>
     ),
     rows: Object.keys(rows).length ? rows : null,
   };
