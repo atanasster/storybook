@@ -35,6 +35,11 @@ export interface PropDef {
   description?: string;
   defaultValue?: PropDefaultValue;
   jsDocTags?: JsDocTags;
+  /** used for smart-controls
+   * for example in angular section 'inputs' will have
+   * smart controls
+   */
+  isInput?: boolean;
 }
 
 export interface PropsTableExtraRows {

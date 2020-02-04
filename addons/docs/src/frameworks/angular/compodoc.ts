@@ -107,12 +107,15 @@ export const extractProps = (component: Component | Directive) => {
     data.forEach((item: Method | Property) => {
       const sectionItem: PropDef = {
         name: item.name,
-        type: { summary: isMethod(item) ? displaySignature(item) : item.type },
+        type: {
+          summary: isMethod(item) ? displaySignature(item) : item.type,
+          type: isMethod(item) ? undefined : item.type,
+        },
         required: isMethod(item) ? false : !item.optional,
         description: item.description,
         defaultValue: { summary: isMethod(item) ? '' : item.defaultValue },
+        isInput: key === 'inputsClass',
       };
-
       const section = mapItemToSection(key, item);
       if (!sectionToItems[section]) {
         sectionToItems[section] = [];

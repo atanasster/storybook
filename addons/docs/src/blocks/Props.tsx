@@ -11,7 +11,7 @@ import {
   TabsState,
 } from '@storybook/components';
 import { PropsExtractor } from '../lib/docgen/types';
-import { inferPropsExtractor, filterRows } from './propExtract';
+import { inferPropsExtractor, getInputRows, filterRows } from './propExtract';
 import { DocsContext, DocsContextProps } from './DocsContext';
 import { Component, PropsSlot, CURRENT_SELECTION } from './shared';
 import { getAddons, getComponentName, getFirstStoryId } from './utils';
@@ -45,8 +45,8 @@ export const getComponentProps = (
       throw new Error(PropsTableError.PROPS_UNSUPPORTED);
     }
     let props = extractProps(component);
-    const { rows } = props as PropsTableRowsProps;
     if (!isNil(exclude)) {
+      const { rows } = props as PropsTableRowsProps;
       const { sections } = props as PropsTableSectionsProps;
       if (rows) {
         props = { rows: filterRows(rows, exclude) };
@@ -60,8 +60,14 @@ export const getComponentProps = (
     const storyId = getFirstStoryId(context);
     if (storyId) {
       const story = context.storyStore.fromId(storyId);
-      if (story) {
-        const addons = getAddons(story.parameters, 'propsTable', { storyId, rows, context });
+      const propItems = getInputRows(props);
+
+      if (story && propItems) {
+        const addons = getAddons(story.parameters, 'propsTable', {
+          storyId,
+          rows: propItems,
+          context,
+        });
         addons.forEach(addon => {
           extraColumns.push({
             name: addon.name,

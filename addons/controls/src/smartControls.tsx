@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { StoryControls, StoryControl, ControlTypes } from '@storybook/common';
 import { Parameters } from '@storybook/addons';
-import { PropsTableRowsProps, PropDef } from '@storybook/components';
-import { inferPropsExtractor } from '@storybook/addon-docs/blocks';
+import { PropsTableRowsProps, PropsTableSectionsProps, PropDef } from '@storybook/components';
+import { inferPropsExtractor, getInputRows } from '@storybook/addon-docs/blocks';
 
 export interface SmartControlsConfig {
   include?: string[];
@@ -141,8 +141,7 @@ export const extractSmartProperties = (
     return null;
   }
   const props = extractProps(component);
-  const { rows } = props as PropsTableRowsProps;
-
+  const rows = getInputRows(props);
   const smartProps = rows
     ? rows.reduce((acc: StoryControls, row: PropDef) => {
         const field = createFieldFromProps(row, smartControls);

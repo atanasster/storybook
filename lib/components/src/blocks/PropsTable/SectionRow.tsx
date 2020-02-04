@@ -4,14 +4,15 @@ import { getSectionTitleStyle } from './SectionTitleStyles';
 
 export interface SectionRowProps {
   section: string;
+  colSpan?: number;
 }
 
 const SectionTh = styled.th<{}>(({ theme }) => ({
   ...getSectionTitleStyle(theme),
 }));
 
-export const SectionRow: FC<SectionRowProps> = ({ section }) => (
+export const SectionRow: FC<SectionRowProps> = ({ section, colSpan = 3 }) => (
   <tr>
-    <SectionTh colSpan={3}>{section}</SectionTh>
+    <SectionTh colSpan={colSpan}>{section}</SectionTh>
   </tr>
 );

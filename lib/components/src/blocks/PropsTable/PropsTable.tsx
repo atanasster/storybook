@@ -159,11 +159,11 @@ type PropsTableRowProps = PropRowProps & {
 };
 const PropsTableRow: FC<SectionRowProps | PropsTableRowProps> = props => {
   const { section } = props as SectionRowProps;
-  if (section) {
-    return <SectionRow section={section} />;
-  }
   const { row, extra } = props as PropsTableRowProps;
-
+  if (section) {
+    const colSpan = 3 + extra.length;
+    return <SectionRow section={section} colSpan={colSpan} />;
+  }
   return <PropRow row={row} extra={extra} />;
 };
 
@@ -203,7 +203,6 @@ const PropsTable: FC<PropsTableProps> = props => {
   if (allRows.length === 0) {
     return <EmptyBlock>No props found for this component</EmptyBlock>;
   }
-
   return (
     <ResetWrapper>
       <Table className="docblock-propstable">
@@ -225,7 +224,7 @@ const PropsTable: FC<PropsTableProps> = props => {
                 {...row.value}
                 extra={extraColumns.map(col => ({
                   name: col.name,
-                  node: col.rows[row.key],
+                  node: row.value.row ? col.rows[row.value.row.name] : undefined,
                 }))}
               />
             );

@@ -23,4 +23,4 @@ export * from './shared';
 export * from './mdx';
 
 export { PropsExtractor } from '../lib/docgen/types';
-export { inferPropsExtractor } from './propExtract';
+export { inferPropsExtractor, getInputRows } from './propExtract';
