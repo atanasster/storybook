@@ -219,10 +219,10 @@ The list of available controls and their documented properties is available on t
 
 ## Smart Controls
 
-Smart Controls ive the ability to use component's propeties table type information to generate automatically controls for a story. 
+Smart Controls use a story component's propeties table type information to generate automatically controls for the story. 
 
-By default, Addon Controls enables the smart-controls option for your storybook, but there are 2 requirements for a story to display smart controls: 
-1. The story needs to have a component assigned, and this component needs to have a valid properties table.
+By default, Addon Controls enables the smart-controls option for your storybook  site, but there are 2 basic requirements for a story to use smart controls: 
+1. The story needs to have a component assigned, and this component needs to have a valid properties table (it can be typescript, or prop-types or any other format supported by Storybook).
 2. The story needs to accept "some" parameters /internally detected by Addon Controls within the source loaders/, enabling the story to use the passed control values.
 
 ```js
@@ -245,7 +245,7 @@ A screenshot of smart controls in action.
 
 
 ### Smart controls options
-- **include** an array of property names that allows you to select only a subset of the smart control properties to be displayd
+- **include** an array of property names that allows you to select only a subset of the smart control properties to be displayed
 
 ```js
 onlyColors.story = {
@@ -259,7 +259,7 @@ onlyColors.story = {
 };
 ```
 
-- **exclude** an array of property names that allows you to exclude a subset of the smart control properties to be displayd
+- **exclude** an array of property names that allows you to exclude a subset of the smart control properties to be displayed
 
 ```js
 noColors.story = {
@@ -277,7 +277,9 @@ noColors.story = {
 
 This is one of our favorite features, basically allowing 1-line function component testing out of the box.
 
-Addon Controls also allows you to specify the [faker.js](https://github.com/marak/Faker.js/) data generator and options to use. For example you can be specifc that a field will need only astreet address, or zip code. In the example below, we will generate random numbers between 50 and 100.
+By default., Addon Controls selects somebasic random data generator for your field type.
+
+Additionally, Addon Controls allows you to specify the [faker.js](https://github.com/marak/Faker.js/) data generator and options to use. For example you can be specifc that a field will need to be a street address, or a zip code. In the example below, we will generate random numbers between 50 and 100.
 
 ```js
 export const randomNumber = ({ number }) => number;
@@ -340,7 +342,7 @@ import { ControlsEditorsTable } from '@storybook/addon-controls/blocks';
 ```
 ## Options
 
-Addon Controls accepts several parameters to customize the default functionality. By default, all the following options are enabled, so you only need a custom configuration if you need to disable a feature:
+Addon Controls accepts several option parameters to customize the default functionality. By default, all the following options are enabled, so you only need a custom configuration if you need to disable a feature:
 
 within `.storybook/main.js`:
 
