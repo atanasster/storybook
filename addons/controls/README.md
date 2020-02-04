@@ -1,6 +1,6 @@
 # Storybook Addon Controls
 
-Storybook Addon Controls allow you to edit story properties dynamically in the Storybook UI with property editors. 
+Storybook Addon Controls allows you to define and then edit story properties dynamically in the Storybook UI with a set of property editors. 
 The values from the controls are passed down as parameters to the stories in [Storybook](https://storybook.js.org). 
 
 The definitions of the control properties have been contributed to the [CSF](https://github.com/storybookjs/csf) so they can be used by the entire industry in the hppe of generating a rich eco-system. 
