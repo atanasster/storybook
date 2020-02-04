@@ -26,6 +26,9 @@
   "scripts": {
     "prepare": "node ../../scripts/prepare.js"
   },
+  "dependencies": {
+    "escape-html": "^1.0.3"
+  },
   "publishConfig": {
     "access": "public"
   }

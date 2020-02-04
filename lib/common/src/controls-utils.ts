@@ -1,4 +1,5 @@
-import { StoryControl } from '.';
+import escape from 'escape-html';
+import { StoryControl, ControlTypes } from '.';
 
 export type ContextStoryControl = StoryControl & { defaultValue: any };
 export interface ContextStoryControls {
@@ -6,41 +7,53 @@ export interface ContextStoryControls {
 }
 
 export const mergeControlValues = (
-  properties: ContextStoryControls,
-  propertyName: string | undefined,
+  controls: ContextStoryControls,
+  controlName: string | undefined,
   value: any
 ): ContextStoryControls => {
-  return propertyName
+  return controlName
     ? {
-        ...properties,
-        [propertyName]: { ...properties[propertyName], value },
+        ...controls,
+        [controlName]: { ...controls[controlName], value },
       }
-    : Object.keys(properties).reduce(
+    : Object.keys(controls).reduce(
         (acc, key) => ({
           ...acc,
           [key]: {
-            ...properties[key],
-            value: value[key] === undefined ? properties[key].value : value[key],
+            ...controls[key],
+            value: value[key] === undefined ? controls[key].value : value[key],
           },
         }),
         {}
       );
 };
 
-export const resetControlValues = (properties: ContextStoryControls, propertyName?: string) => {
-  return propertyName
+export const resetControlValues = (controls: ContextStoryControls, controlName?: string) => {
+  return controlName
     ? {
-        ...properties,
-        [propertyName]: {
-          ...properties[propertyName],
-          value: properties[propertyName].defaultValue,
+        ...controls,
+        [controlName]: {
+          ...controls[controlName],
+          value: controls[controlName].defaultValue,
         },
       }
-    : Object.keys(properties).reduce(
+    : Object.keys(controls).reduce(
         (acc, key) => ({
           ...acc,
-          [key]: { ...properties[key], value: properties[key].defaultValue },
+          [key]: { ...controls[key], value: controls[key].defaultValue },
         }),
         {}
       );
 };
+
+export const getControlValues = (controls: ContextStoryControls) =>
+  Object.keys(controls).reduce((acc, key) => {
+    const control: StoryControl = controls[key];
+    let { value } = control;
+    if (control.type === ControlTypes.TEXT && control.escapeValue) {
+      if (typeof value === 'string') {
+        value = escape(value);
+      }
+    }
+    return { ...acc, [key]: value };
+  }, {});

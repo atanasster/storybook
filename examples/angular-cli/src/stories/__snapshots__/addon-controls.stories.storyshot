@@ -75,10 +75,7 @@ exports[`Storyshots Addon/Controls XSS safety 1`] = `
   target={[Function ViewContainerRef_]}
 >
   <ng-component>
-    <img
-      onerror="alert('XSS Attack')"
-      src="x"
-    />
+    &lt;img src=x onerror="alert('XSS Attack')" &gt;
   </ng-component>
 </storybook-dynamic-app-root>
 `;

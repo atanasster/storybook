@@ -77,6 +77,10 @@ export const XssSafety = ({ content }) => ({
 
 XssSafety.story = {
   controls: {
-    content: { type: 'text', value: '<img src=x onerror="alert(\'XSS Attack\')" >' },
+    content: {
+      type: 'text',
+      value: '<img src=x onerror="alert(\'XSS Attack\')" >',
+      escapeValue: true,
+    },
   },
 };

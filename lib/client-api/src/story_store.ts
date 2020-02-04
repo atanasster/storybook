@@ -8,11 +8,11 @@ import stable from 'stable';
 import { Channel } from '@storybook/channels';
 import Events from '@storybook/core-events';
 import {
-  StoryControl,
   StoryControls,
   StoryControlButton,
   mergeControlValues,
   resetControlValues,
+  getControlValues,
   ContextStoryControls,
 } from '@storybook/common';
 
@@ -335,10 +335,7 @@ export default class StoryStore extends EventEmitter {
 
     // immutable original storyFn
     const getOriginal = () => (context: StoryContext) => {
-      const values = Object.keys(this._data[id].controls).reduce(
-        (acc, key) => ({ ...acc, [key]: this._data[id].controls[key].value }),
-        {}
-      );
+      const values = getControlValues(this._data[id].controls);
       return legacyContextProp ? original({ ...values, ...context }) : original(values, context);
     };
 

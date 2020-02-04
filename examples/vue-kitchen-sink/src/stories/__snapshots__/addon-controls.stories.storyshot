@@ -46,9 +46,6 @@ exports[`Storyshots Addon/Controls Simple 1`] = `
 
 exports[`Storyshots Addon/Controls XSS safety 1`] = `
 <div>
-  <img
-    onerror="alert('XSS Attack')"
-    src="x"
-  />
+  &lt;img src=x onerror="alert('XSS Attack')" &gt;
 </div>
 `;

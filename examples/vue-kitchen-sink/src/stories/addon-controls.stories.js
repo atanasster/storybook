@@ -126,6 +126,7 @@ XssSafety.story = {
       type: 'text',
       label: 'Rendered string',
       value: '<img src=x onerror="alert(\'XSS Attack\')" >',
+      escapeValue: true,
     },
   },
 };

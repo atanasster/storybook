@@ -171,6 +171,13 @@ export interface StoryControlText extends StoryControlBase<string> {
    * number of rows in a TextArea field
    */
   maxRows?: number;
+
+  /**
+   * allows to receive escaped string values
+   * to help prevent XSS attacks
+   * by default - false
+   */
+  escapeValue?: boolean;
 }
 
 export interface StoryControlBoolean extends StoryControlBase<boolean> {

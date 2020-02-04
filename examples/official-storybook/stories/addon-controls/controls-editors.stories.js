@@ -489,3 +489,28 @@ reservedKeyword.story = {
     name: { type: 'text', label: 'Text', value: 'Hello' },
   },
 };
+
+export const XssSafety = ({ content }) => (
+  <div
+    // eslint-disable-next-line react/no-danger
+    dangerouslySetInnerHTML={{
+      __html: content,
+    }}
+  />
+);
+
+XssSafety.propTypes = {
+  content: PropTypes.string.isRequired,
+};
+
+XssSafety.story = {
+  name: 'XSS safety',
+  controls: {
+    content: {
+      type: 'text',
+      label: 'Rendered string',
+      value: '<img src="x" onerror="alert(\'XSS Attack\')" >',
+      escapeValue: true,
+    },
+  },
+};
