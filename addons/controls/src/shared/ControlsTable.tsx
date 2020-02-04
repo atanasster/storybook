@@ -7,7 +7,7 @@ export const ControlsTable: React.FC<ControlsEditorsTableProps> = props => (
     {...props}
     extraActions={[
       {
-        title: 'randomize',
+        title: 'Randomize',
         onAction: (state: ControlsEditorsTableProps) => {
           if (state.setControlValue && state.controls && state.storyId) {
             state.setControlValue(state.storyId, undefined, randomizeData(state.controls));

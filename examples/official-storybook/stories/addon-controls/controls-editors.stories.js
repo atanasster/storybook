@@ -528,3 +528,17 @@ generateRandomData.story = {
     },
   },
 };
+
+export const randomNumber = ({ number }) => number;
+
+randomNumber.story = {
+  controls: {
+    number: {
+      type: 'number',
+      label: 'A number',
+      value: 10,
+      // reference: https://github.com/marak/Faker.js/
+      data: { name: 'random.number', options: { min: 50, max: 100 } },
+    },
+  },
+};
