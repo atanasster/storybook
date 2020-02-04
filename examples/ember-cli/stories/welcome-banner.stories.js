@@ -26,3 +26,15 @@ export const Basic = () => ({
     onClick: action('clicked'),
   },
 });
+
+export const Smart = props => ({
+  template: hbs`
+      {{welcome-banner
+        backgroundColor=backgroundColor
+        subTitleColor=subTitleColor
+        title=title
+        subtitle=subtitle
+      }}
+    `,
+  context: props,
+});

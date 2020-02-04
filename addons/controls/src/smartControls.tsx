@@ -28,7 +28,7 @@ export const createFieldFromProps = (
   if (!propDef) {
     return null;
   }
-  const type = propDef.type.type || propDef.type.summary;
+  const type = propDef.type.type || propDef.type.summary || propDef.type;
   switch (type) {
     case 'string': {
       let value: string | undefined;
