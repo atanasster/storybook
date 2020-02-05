@@ -275,9 +275,9 @@ noColors.story = {
 
 ## Testing with random data generators
 
-This is one of our favorite features, basically allowing 1-line function component testing out of the box.
+This is one of our favorite features, basically allowing 1-line functional component testing out of the box.
 
-By default., Addon Controls selects somebasic random data generator for your field type.
+By default, Addon Controls selects some basic random data generator for your field type.
 
 Additionally, Addon Controls allows you to specify the [faker.js](https://github.com/marak/Faker.js/) data generator and options to use. For example you can be specifc that a field will need to be a street address, or a zip code. In the example below, we will generate random numbers between 50 and 100.
 
