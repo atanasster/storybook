@@ -1,0 +1,74 @@
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
+import { ButtonFn, ButtonReactComponent, ButtonComponent, ButtonStaticProps } from './DocgenJS';
+import { ButtonReactFC, ButtonFC, ButtonFunctionComponent} from './DocgenTS';
+
+<Meta title="Docgen/smart-controls" />
+
+# React Docgen Test Cases
+
+## ButtonFn
+<Preview>
+    <Story name="ButtonFn" parameters={{ component: ButtonFn}}>
+      {(props) => (<ButtonFn {...props} />)}
+    </Story>
+</Preview>  
+
+<Props of={ButtonFn} />
+
+
+## ButtonReactComponent
+<Preview>
+    <Story name="ButtonReactComponent" parameters={{ component: ButtonReactComponent}}>
+      {(props) => (<ButtonReactComponent {...props} />)}
+    </Story>
+</Preview>  
+
+<Props of={ButtonReactComponent} />
+
+
+## ButtonComponent
+<Preview>
+    <Story name="ButtonComponent" parameters={{ component: ButtonComponent}}>
+      {(props) => (<ButtonComponent {...props} />)}
+    </Story>
+</Preview>  
+
+<Props of={ButtonComponent} />
+
+## ButtonStaticProps
+<Preview>
+    <Story name="ButtonStaticProps" parameters={{ component: ButtonStaticProps}}>
+      {(props) => (<ButtonStaticProps {...props} />)}
+    </Story>
+</Preview>  
+
+<Props of={ButtonStaticProps} />
+
+# React Docgen Test Cases
+
+## ButtonReactFC
+<Preview>
+    <Story name="ButtonReactFC" parameters={{ component: ButtonReactFC}}>
+      {(props) => (<ButtonReactFC {...props} />)}
+    </Story>
+</Preview>  
+
+<Props of={ButtonReactFC} />
+
+## ButtonFC
+<Preview>
+    <Story name="ButtonFC" parameters={{ component: ButtonFC}}>
+      {(props) => (<ButtonFC {...props} />)}
+    </Story>
+</Preview>  
+
+<Props of={ButtonFC} />
+
+## ButtonFunctionComponent
+<Preview>
+    <Story name="ButtonFunctionComponent" parameters={{ component: ButtonFunctionComponent}}>
+      {(props) => (<ButtonFunctionComponent {...props} />)}
+    </Story>
+</Preview>  
+
+<Props of={ButtonFunctionComponent} />

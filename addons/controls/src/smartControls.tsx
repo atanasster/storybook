@@ -12,6 +12,7 @@ export type SmartControls = boolean | SmartControlsConfig;
 
 const cleanQuotes = (txt?: string) => (txt ? txt.replace(/['"]+/g, '') : txt);
 
+const handledTypes = ['boolean', 'bool', 'string', 'number', 'enum', 'func', 'shape'];
 export const createFieldFromProps = (
   propDef: PropDef,
   smartControls: SmartControls
@@ -28,7 +29,23 @@ export const createFieldFromProps = (
   if (!propDef) {
     return null;
   }
-  const type = propDef.type.type || propDef.type.summary || propDef.type;
+  let type = propDef.type.type || propDef.type.summary || propDef.type;
+
+  // docgen typescript are ie "boolean | undefined"
+  if (typeof type === 'string') {
+    const splitType = type.split(' | ');
+    if (splitType.length > 1) {
+      // we have a typescrpit type definitio of "|" type
+      for (let i = 0; i < splitType.length; i += 1) {
+        const found = handledTypes.find(a => a === splitType[i]);
+        if (found !== undefined) {
+          type = found;
+          break;
+        }
+      }
+    }
+  }
+
   switch (type) {
     case 'string': {
       let value: string | undefined;
@@ -51,10 +68,17 @@ export const createFieldFromProps = (
     case 'bool': {
       let value;
       if (propDef.defaultValue) {
-        if (propDef.defaultValue.summary === 'false') {
+        // docgen typescript defaultValue.summary is actually a boolean type, not a string
+        if (
+          propDef.defaultValue.summary === 'false' ||
+          (propDef.defaultValue.summary as unknown) === false
+        ) {
           value = false;
         }
-        if (propDef.defaultValue.summary === 'true') {
+        if (
+          propDef.defaultValue.summary === 'true' ||
+          (propDef.defaultValue.summary as unknown) === true
+        ) {
           value = true;
         }
       }
