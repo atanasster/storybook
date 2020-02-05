@@ -12,7 +12,16 @@ export type SmartControls = boolean | SmartControlsConfig;
 
 const cleanQuotes = (txt?: string) => (txt ? txt.replace(/['"]+/g, '') : txt);
 
-const handledTypes = ['boolean', 'bool', 'string', 'number', 'enum', 'func', 'shape'];
+const handledTypes = [
+  'boolean',
+  'bool',
+  'string',
+  'number',
+  'enum',
+  'func',
+  'shape',
+  '(() => void)',
+];
 export const createFieldFromProps = (
   propDef: PropDef,
   smartControls: SmartControls
@@ -44,6 +53,10 @@ export const createFieldFromProps = (
         }
       }
     }
+  }
+  function onClick() {
+    // eslint-disable-next-line prefer-rest-params
+    console.info(`${propDef.name}: `, arguments);
   }
 
   switch (type) {
@@ -105,14 +118,14 @@ export const createFieldFromProps = (
         value,
       };
     }
+    // typescript callback function signature
+    case '(() => void)':
     case 'func': {
       return {
         type: ControlTypes.BUTTON,
         label: propDef.name,
-        onClick() {
-          // eslint-disable-next-line prefer-rest-params
-          console.info(`${propDef.name}: `, arguments);
-        },
+        onClick,
+        value: onClick,
       };
     }
     case 'shape': {
