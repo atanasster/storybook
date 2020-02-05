@@ -3,15 +3,15 @@ import ReactSelect from 'react-select';
 import { styled } from '@storybook/theming';
 import { StoryControlOptions } from '@storybook/common';
 import { normalizeOptions } from './utils';
+import { FlexContainer } from '../FlexContainer';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 import { RadiosEditor } from './RadiosEditor';
 import { CheckboxEditor } from './CheckboxEditor';
 
 const OptionsSelect = styled(ReactSelect)({
-  width: '100%',
-  maxWidth: '300px',
   color: 'black',
+  flexBasis: '100%',
 });
 
 type ReactSelectOnChangeFn =
