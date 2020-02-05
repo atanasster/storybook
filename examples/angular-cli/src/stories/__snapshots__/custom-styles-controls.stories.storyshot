@@ -8,11 +8,11 @@ exports[`Storyshots Custom/Style/Controls Controls 1`] = `
 >
   <ng-component>
     <storybook-button-component
-      _nghost-a-c30=""
+      _nghost-a-c22=""
       ng-reflect-text="Button with custom styles"
     >
       <button
-        _ngcontent-a-c30=""
+        _ngcontent-a-c22=""
       >
         Button with custom styles
       </button>
@@ -29,11 +29,11 @@ exports[`Storyshots Custom/Style/Controls Default 1`] = `
 >
   <ng-component>
     <storybook-button-component
-      _nghost-a-c29=""
+      _nghost-a-c21=""
       ng-reflect-text="Button with custom styles"
     >
       <button
-        _ngcontent-a-c29=""
+        _ngcontent-a-c21=""
       >
         Button with custom styles
       </button>

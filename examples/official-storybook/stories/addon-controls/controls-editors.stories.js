@@ -216,9 +216,9 @@ tweaksStaticValues.story = {
       type: 'object',
       label: 'Styles',
       value: {
-        border: '2px dashed silver',
-        borderRadius: 10,
-        padding: 10,
+        border: { type: 'text', value: '2px dashed silver' },
+        borderRadius: { type: 'number', value: 10 },
+        padding: { type: 'number', value: 10 },
       },
       groupId: GROUP_IDS.DISPLAY,
     },

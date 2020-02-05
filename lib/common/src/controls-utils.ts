@@ -55,6 +55,8 @@ export const getControlValues = (controls: ContextStoryControls): { [name: strin
       if (typeof value === 'string') {
         value = escape(value);
       }
+    } else if (control.type === ControlTypes.OBJECT && typeof value === 'object') {
+      return { ...acc, [key]: getControlValues(value as ContextStoryControls) };
     }
     return { ...acc, [key]: value };
   }, {});

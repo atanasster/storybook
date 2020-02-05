@@ -129,19 +129,16 @@ export const createFieldFromProps = (
       };
     }
     case 'shape': {
-      let value;
+      /* let value;
       try {
-        if (propDef.defaultValue) {
+        if (propDef.defaultValue && typeof propDef.defaultValue.summary === 'object') {
           value = JSON.parse(propDef.defaultValue.summary);
         }
       } catch (e) {
         // eat exception
       }
-      return {
-        type: ControlTypes.OBJECT,
-        maxRows: 10,
-        value,
-      };
+      */
+      return null;
     }
     default:
       return null;

@@ -1,77 +1,85 @@
-import React, { ChangeEvent } from 'react';
+import React from 'react';
+import { darken } from 'polished';
 import { styled } from '@storybook/theming';
-import deepEqual from 'fast-deep-equal';
-import { StoryControlObject } from '@storybook/common';
-import { Form } from '@storybook/components';
+import { WithTooltipPure, Button, Icons } from '@storybook/components';
+import { StoryControl, StoryControlObject, mergeControlValues } from '@storybook/common';
 import { PropertyControlProps, PropertyEditor } from '../types';
-
-const StyledFlexArea = styled(Form.Textarea)({
-  flexGrow: 1,
-});
-
-interface ObjectEditorState {
-  string: string;
-  valid: boolean;
-  json?: object;
-}
+import { FlexContainer } from '../FlexContainer';
+import { getPropertyEditor } from '../prop-factory';
 
 interface ObjectEditorProps extends PropertyControlProps {
   prop: StoryControlObject;
 }
 
-const serialize = (o: object): ObjectEditorState => {
-  try {
-    return {
-      json: o,
-      string: JSON.stringify(o),
-      valid: true,
-    };
-  } catch (e) {
-    return {
-      json: o,
-      string: 'Object cannot be stringified',
-      valid: false,
-    };
-  }
-};
+const StyledButton = styled(Button)(({ theme }) => ({
+  color: theme.color.defaultText,
+  backgroundColor: darken(0.1, theme.color.light),
+}));
+
+const StyledIcon = styled(Icons)(({ theme }) => ({
+  marginLeft: '10px',
+}));
+
+const ChildContainer = styled.div(() => ({
+  minWidth: 200,
+  maxWidth: 800,
+  padding: 15,
+  boxSizing: 'content-box',
+}));
 
 export const ObjectEditor: PropertyEditor<ObjectEditorProps> = ({ prop, name, onChange }) => {
-  const [state, setState] = React.useState<ObjectEditorState>(serialize(prop.value));
-  React.useEffect(() => {
-    setState(serialize(prop.value));
-  }, [prop.value]);
-
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const { value } = e.target;
-    const { json: stateJson } = state;
-    try {
-      const json = JSON.parse(value.trim());
-      setState({
-        string: value,
-        json,
-        valid: true,
-      });
-      if (deepEqual(prop.value, stateJson)) {
-        onChange(name, json);
-      }
-    } catch (err) {
-      setState({
-        string: value,
-        valid: false,
-      });
-    }
+  const [isOpen, setIsOpen] = React.useState(false);
+  const handleChange = (childName: string, value: any) => {
+    onChange(name, mergeControlValues(prop.value as any, childName, value));
   };
-  const { string, valid } = state;
-  const { maxRows, minRows = 5 } = prop;
+  let children;
+  if (typeof prop.value === 'object') {
+    children = Object.keys(prop.value)
+      .map(key => {
+        const childProp: StoryControl = prop.value[key] as any;
+        if (!childProp) {
+          return null;
+        }
+        return {
+          name: key,
+          prop: childProp,
+          node: getPropertyEditor(childProp.type),
+        };
+      })
+      .filter(p => p && p.node);
+  }
   return (
-    <StyledFlexArea
-      name={name}
-      valid={valid ? undefined : 'error'}
-      value={string}
-      maxRows={maxRows}
-      minRows={minRows}
-      onChange={handleChange}
-      size="100%"
-    />
+    <WithTooltipPure
+      closeOnClick
+      trigger="click"
+      placement="bottom"
+      tooltipShown={isOpen}
+      onVisibilityChange={isVisible => {
+        setIsOpen(isVisible);
+      }}
+      tooltip={
+        <ChildContainer>
+          <table>
+            <tbody>
+              {children.map(child => (
+                <tr key={`editor_${child.name}`}>
+                  <td>{child.prop.label || child.name}</td>
+                  <td>
+                    <child.node name={child.name} prop={child.prop} onChange={handleChange} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </ChildContainer>
+      }
+    >
+      <FlexContainer>
+        <StyledButton>
+          Edit object
+          <StyledIcon icon={isOpen ? 'arrowup' : 'arrowdown'} />
+        </StyledButton>
+      </FlexContainer>
+    </WithTooltipPure>
   );
 };

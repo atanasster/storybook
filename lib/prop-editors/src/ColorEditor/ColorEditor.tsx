@@ -1,4 +1,3 @@
-import { document } from 'global';
 import React from 'react';
 import { SketchPicker, ColorResult } from 'react-color';
 import { StoryControlColor } from '@storybook/common';

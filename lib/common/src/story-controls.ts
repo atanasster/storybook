@@ -249,17 +249,8 @@ export interface StoryControlArray extends StoryControlBase<string[]> {
   separator?: string;
 }
 
-export interface StoryControlObject extends StoryControlBase<object> {
+export interface StoryControlObject extends StoryControlBase<StoryControls> {
   type: ControlTypes.OBJECT;
-  /**
-   * minimum number of rows in a TextArea field
-   */
-  minRows?: number;
-
-  /**
-   * maximun number of rows in a TextArea field
-   */
-  maxRows?: number;
 }
 
 export interface StoryControlButton<ClickEvent = () => void> extends StoryControlBase<ClickEvent> {
