@@ -183,7 +183,7 @@ controlsStory.story = {
 
 ## Categorization
 
-This is very similar to the categorization concept in [addon-knobs](https://github.com/storybookjs/storybook/tree/next/addons/knobs) 
+This is very similar to the categorization concept in [addon-knobs](https://github.com/storybookjs/storybook/tree/next/addons/knobs).
 Categorize your controls by assigning them a `groupId`. When a `groupId` exists, tabs will appear in the Controls storybook panel or in the docs blocks on the Docs page to filter between the groups. Controls without a `groupId` are automatically categorized into the `OTHER` group.
 
 ```js
@@ -223,7 +223,7 @@ Smart Controls use a story component's properties table type information to gene
 
 By default, Addon Controls enables the smart-controls option for your storybook  site, but there are 2 basic requirements for a story to use smart controls: 
 1. The story needs to have a component assigned, and this component needs to have a valid properties table (it can be typescript, or prop-types or any other format supported by Storybook).
-2. The story needs to accept "some" parameters /internally detected by Addon Controls within the source loaders/, enabling the story to use the passed control values.
+2. The story needs to accept "some" parameters / internally detected by Addon Controls within the source loaders / enabling the story to use the passed control values.
 
 ```js
 import React from 'react';
@@ -279,7 +279,7 @@ This is one of our favorite features, basically allowing 1-line functional compo
 
 By default, Addon Controls selects some basic random data generator for your field type.
 
-Additionally, Addon Controls allows you to specify the [faker.js](https://github.com/marak/Faker.js/) data generator and options to use. For example you can be specifc that a field will need to be a street address, or a zip code. In the example below, we will generate random numbers between 50 and 100.
+Additionally, Addon Controls allows you to specify the [faker.js](https://github.com/marak/Faker.js/) data generator and options to use. For example you can be specific that a field will need to be a street address, or a zip code. In the example below, we will generate random numbers between 50 and 100.
 
 ```js
 export const randomNumber = ({ number }) => number;
