@@ -219,7 +219,7 @@ The list of available controls and their documented properties is available on t
 
 ## Smart Controls
 
-Smart Controls use a story component's propeties table type information to generate automatically controls for the story. 
+Smart Controls use a story component's properties table type information to generate automatically controls for the story. 
 
 By default, Addon Controls enables the smart-controls option for your storybook  site, but there are 2 basic requirements for a story to use smart controls: 
 1. The story needs to have a component assigned, and this component needs to have a valid properties table (it can be typescript, or prop-types or any other format supported by Storybook).
