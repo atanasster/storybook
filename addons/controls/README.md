@@ -5,7 +5,7 @@ The values from the controls are passed down as parameters to the stories in [St
 
 The definitions of the control properties have been contributed to the [CSF](https://github.com/storybookjs/csf) so they can be used by the entire industry and create a rich eco-system. 
 
-Additional functionality out of the box with Addon Controls are the "smart controls" - useing the CSF Components property tables to automatically create editable controls for the stories.
+Additional functionality out of the box with Addon Controls are the "smart controls" - using the story's component property table to automatically create editable controls for the stories.
 
 Another unique facet of Addon Controls is the one-click generation of random data, using under the hood [faker.js](https://github.com/marak/Faker.js/).
 
