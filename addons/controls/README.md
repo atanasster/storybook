@@ -363,7 +363,7 @@ within `.storybook/main.js`:
 
 ### smart
 
-Setting this option to `false` will disable auto-generating of controls for stories with component.
+Setting this option to `false` will disable auto-generating of controls for stories with a component assigned.
 
 
 ### addonPanel

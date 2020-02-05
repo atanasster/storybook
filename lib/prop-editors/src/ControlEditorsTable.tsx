@@ -1,7 +1,10 @@
 import React, { MouseEvent } from 'react';
-import { window } from 'global';
+import { window, document } from 'global';
 import { styled } from '@storybook/theming';
-import { ContextStoryControls, ContextStoryControl } from '@storybook/common';
+import qs from 'qs';
+import copy from 'copy-to-clipboard';
+
+import { ContextStoryControls, ContextStoryControl, getControlValues } from '@storybook/common';
 import {
   Table,
   TabsState,
@@ -98,6 +101,14 @@ export const ControlsEditorsTable: React.FC<ControlsEditorsTableProps & {
     const onCopy = (e: MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       setCopied(true);
+      const { location } = document;
+      const query = qs.parse(location.search, { ignoreQueryPrefix: true });
+      const values = getControlValues(controls);
+      Object.keys(values).forEach(key => {
+        query[`controls-${key}`] = values[key];
+      });
+
+      copy(`${location.origin + location.pathname}?${qs.stringify(query, { encode: false })}`);
       window.setTimeout(() => setCopied(false), 1500);
     };
     const groupped: GroupedControlsType = Object.keys(controls)

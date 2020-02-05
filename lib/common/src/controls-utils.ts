@@ -1,4 +1,5 @@
 import escape from 'escape-html';
+
 import { StoryControl, ControlTypes } from '.';
 
 export type ContextStoryControl = StoryControl & { defaultValue: any };
@@ -46,7 +47,7 @@ export const resetControlValues = (controls: ContextStoryControls, controlName?:
       );
 };
 
-export const getControlValues = (controls: ContextStoryControls) =>
+export const getControlValues = (controls: ContextStoryControls): { [name: string]: any } =>
   Object.keys(controls).reduce((acc, key) => {
     const control: StoryControl = controls[key];
     let { value } = control;
