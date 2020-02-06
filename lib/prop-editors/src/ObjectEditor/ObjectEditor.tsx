@@ -2,7 +2,12 @@ import React from 'react';
 import { darken } from 'polished';
 import { styled } from '@storybook/theming';
 import { WithTooltipPure, Button, Icons } from '@storybook/components';
-import { StoryControl, StoryControlObject, mergeControlValues } from '@storybook/common';
+import {
+  StoryControl,
+  StoryControlObject,
+  mergeControlValues,
+  getControlValues,
+} from '@storybook/common';
 import { PropertyControlProps, PropertyEditor } from '../types';
 import { FlexContainer } from '../FlexContainer';
 import { getPropertyEditor } from '../prop-factory';
@@ -30,7 +35,7 @@ const ChildContainer = styled.div(() => ({
 export const ObjectEditor: PropertyEditor<ObjectEditorProps> = ({ prop, name, onChange }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const handleChange = (childName: string, value: any) => {
-    onChange(name, mergeControlValues(prop.value as any, childName, value));
+    onChange(name, getControlValues(mergeControlValues(prop.value as any, childName, value)));
   };
   let children;
   if (typeof prop.value === 'object') {

@@ -21,11 +21,19 @@ const arrayElements = (arr: any[], c?: number) => {
 
   return arrayCopy;
 };
-export const randomizeData = (controls: ContextStoryControls) => {
+
+interface RandomizedData {
+  [key: string]: any;
+}
+
+export const randomizeData = (controls: ContextStoryControls): RandomizedData => {
   return Object.keys(controls)
     .map(name => {
       const control = controls[name];
       const { data } = control;
+      if (data === null) {
+        return null;
+      }
       // check if control has custom settings for generating data
       if (data && data.name) {
         const fakerType = data.name.split('.');
@@ -70,6 +78,15 @@ export const randomizeData = (controls: ContextStoryControls) => {
               max: (control.value as number) * 2,
             }),
           };
+        case ControlTypes.OBJECT: {
+          if (typeof control.value === 'object') {
+            return {
+              name,
+              value: { ...randomizeData(control.value as ContextStoryControls) },
+            };
+          }
+          return null;
+        }
         case ControlTypes.OPTIONS: {
           const optionsControl = control as StoryControlOptions;
           let value;

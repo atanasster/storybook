@@ -7,6 +7,16 @@ export interface ContextStoryControls {
   [name: string]: ContextStoryControl;
 }
 
+const mergeValue = (control: StoryControl, value: any): any => {
+  if (control && control.type === ControlTypes.OBJECT) {
+    return {
+      ...control,
+      value: mergeControlValues(control.value as ContextStoryControls, null, value),
+    };
+  }
+  return { ...control, value };
+};
+
 export const mergeControlValues = (
   controls: ContextStoryControls,
   controlName: string | undefined,
@@ -15,15 +25,15 @@ export const mergeControlValues = (
   return controlName
     ? {
         ...controls,
-        [controlName]: { ...controls[controlName], value },
+        [controlName]: mergeValue(controls[controlName], value),
       }
     : Object.keys(controls).reduce(
         (acc, key) => ({
           ...acc,
-          [key]: {
-            ...controls[key],
-            value: value[key] === undefined ? controls[key].value : value[key],
-          },
+          [key]: mergeValue(
+            controls[key],
+            value[key] === undefined ? controls[key].value : value[key]
+          ),
         }),
         {}
       );

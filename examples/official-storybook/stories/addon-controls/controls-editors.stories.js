@@ -216,7 +216,8 @@ tweaksStaticValues.story = {
       type: 'object',
       label: 'Styles',
       value: {
-        border: { type: 'text', value: '2px dashed silver' },
+        // do not randomize the border style
+        border: { type: 'text', value: '2px dashed silver', data: null },
         borderRadius: { type: 'number', value: 10 },
         padding: { type: 'number', value: 10 },
       },
