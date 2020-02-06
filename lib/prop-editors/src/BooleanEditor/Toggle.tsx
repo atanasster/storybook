@@ -7,6 +7,7 @@ import { Button } from '@storybook/components';
 interface ToggleButtonProps {
   active: boolean;
   left: boolean;
+  onClick: (e: any) => void;
 }
 const ToggleButton = styled(Button)<ToggleButtonProps>(({ theme, active, left }) => {
   const activeColor = darken(0.1, theme.color.light);
@@ -52,11 +53,9 @@ export const Toggle = forwardRef<HTMLDivElement, ToggleProps>(
     ref
   ) => (
     <div ref={ref} {...rest}>
-      //@ts-ignore
       <ToggleButton active={checked} left onClick={() => onChange(true)}>
         {labels.true}
       </ToggleButton>
-      //@ts-ignore
       <ToggleButton active={!checked} left={false} onClick={() => onChange(false)}>
         {labels.false}
       </ToggleButton>
