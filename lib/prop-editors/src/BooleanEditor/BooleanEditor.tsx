@@ -1,20 +1,8 @@
 import React from 'react';
-import { styled } from '@storybook/theming';
 import { StoryControlBoolean } from '@storybook/common';
-import { Form } from '@storybook/components';
+import { Toggle } from './Toggle';
 import { FlexContainer } from '../FlexContainer';
 import { PropertyControlProps, PropertyEditor } from '../types';
-
-const Input = styled.input({
-  display: 'table-cell',
-  boxSizing: 'border-box',
-  verticalAlign: 'top',
-  height: 21,
-  outline: 'none',
-  border: '1px solid #ececec',
-  fontSize: '12px',
-  color: '#555',
-});
 
 interface BooleanEditorProps extends PropertyControlProps {
   prop: StoryControlBoolean;
@@ -22,7 +10,7 @@ interface BooleanEditorProps extends PropertyControlProps {
 
 export const BooleanEditor: PropertyEditor<BooleanEditorProps> = ({ prop, name, onChange }) => (
   <FlexContainer>
-    <Form.Toggle
+    <Toggle
       id={name}
       name={name}
       onChange={checked => onChange(name, checked)}

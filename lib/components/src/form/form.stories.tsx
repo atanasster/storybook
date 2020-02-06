@@ -6,7 +6,6 @@ import { action } from '@storybook/addon-actions';
 import { Input, Button, Select, Textarea } from './input/input';
 import { Field } from './field/field';
 import { Spaced } from '../spaced/Spaced';
-import { Toggle } from './toggle/Toggle';
 
 const Flexed = styled(Field)({ display: 'flex' });
 
@@ -140,16 +139,5 @@ storiesOf('Basics/Form/Input', module)
           <Input defaultValue="text" size="100%" align={align} />
         </Flexed>
       ))}
-    </Spaced>
-  ));
-storiesOf('Basics/Form/Toggle', module)
-  .add('default', () => (
-    <Spaced>
-      <Toggle />
-    </Spaced>
-  ))
-  .add('labels', () => (
-    <Spaced>
-      <Toggle labels={{ true: 'YES', false: 'NO' }} />
     </Spaced>
   ));

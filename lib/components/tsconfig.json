@@ -8,7 +8,7 @@
     ]
   },
   "include": [
-    "src/**/*"
+    "src/**/*", "../prop-editors/src/BooleanEditor/toggle", "../prop-editors/src/BooleanEditor/Toggle.tsx", "../prop-editors/src/BooleanEditor/Toggle.stories.tsx"
   ],
   "exclude": [
     "src/**/__tests__/**/*",

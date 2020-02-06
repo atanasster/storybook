@@ -2,7 +2,6 @@ import { styled } from '@storybook/theming';
 import { Field } from './field/field';
 // InputStyleProps import is for TS
 import { InputStyleProps, Input, Select, Textarea, Button } from './input/input';
-import { Toggle } from './toggle/Toggle';
 
 export const Form = Object.assign(
   styled.form({
@@ -15,6 +14,5 @@ export const Form = Object.assign(
     Select,
     Textarea,
     Button,
-    Toggle,
   }
 );

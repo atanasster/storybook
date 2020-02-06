@@ -2,7 +2,7 @@ import React, { forwardRef, HTMLProps } from 'react';
 import { styled } from '@storybook/theming';
 import { transparentize, darken } from 'polished';
 
-import { Button } from '../input/input';
+import { Button } from '@storybook/components';
 
 interface ToggleButtonProps {
   active: boolean;
@@ -52,9 +52,11 @@ export const Toggle = forwardRef<HTMLDivElement, ToggleProps>(
     ref
   ) => (
     <div ref={ref} {...rest}>
+      //@ts-ignore
       <ToggleButton active={checked} left onClick={() => onChange(true)}>
         {labels.true}
       </ToggleButton>
+      //@ts-ignore
       <ToggleButton active={!checked} left={false} onClick={() => onChange(false)}>
         {labels.false}
       </ToggleButton>

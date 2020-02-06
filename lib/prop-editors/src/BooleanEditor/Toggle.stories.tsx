@@ -1,9 +1,6 @@
 import React from 'react';
+import { Icons } from '@storybook/components';
 import { Toggle } from './Toggle';
-import { Icons } from '../../icon/icon';
-import { Form } from '../index';
-
-const { Toggle: FormToggle } = Form;
 
 export default {
   title: 'Basics/Toggle',
@@ -17,7 +14,6 @@ export const allToggles = () => {
       <Toggle checked={checked} onChange={check => setChecked(check)} />
       <br />
       <p>Toggle on a Form</p>
-      <FormToggle checked={checked} onChange={check => setChecked(check)} />
       <br />
       <p>Custom labels</p>
       <Toggle
