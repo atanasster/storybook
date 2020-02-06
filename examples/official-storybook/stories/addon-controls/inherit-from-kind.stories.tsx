@@ -1,5 +1,6 @@
 import React from 'react';
 import { ControlTypes } from '@storybook/common';
+import { action } from '@storybook/addon-actions';
 import { ControlsEditorsTable } from '@storybook/addon-controls/blocks';
 
 export default {
@@ -25,11 +26,5 @@ export const docsControlsEditorsTable = ({ name, age }: DocsControlsEditorsTable
 docsControlsEditorsTable.story = {
   controls: {
     age: { type: ControlTypes.NUMBER, label: 'Age', value: 19, order: 2 },
-    clickMe: {
-      type: ControlTypes.BUTTON,
-      label: '+1',
-      onClick: () => {},
-      order: 1,
-    },
   },
 };
