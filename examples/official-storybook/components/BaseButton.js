@@ -1,4 +1,5 @@
 import React from 'react';
+import { lighten } from 'polished';
 import PropTypes from 'prop-types';
 
 /** BaseButton component description imported from comments inside the component file */
@@ -8,7 +9,7 @@ const BaseButton = ({ disabled, label, onClick, style, backgroundColor, color, t
     type={type}
     disabled={disabled}
     onClick={onClick}
-    style={{ ...style, backgroundColor, color, padding }}
+    style={{ ...style, backgroundColor, color: lighten(disabled ? 0.3 : 0, color), padding }}
   >
     {label}
   </button>
