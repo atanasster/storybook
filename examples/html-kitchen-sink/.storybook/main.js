@@ -8,7 +8,7 @@ module.exports = {
     '@storybook/addon-backgrounds',
     '@storybook/addon-events',
     '@storybook/addon-jest',
-    '@storybook/addon-controls',
+    'storybook-addon-controls',
     '@storybook/addon-knobs',
     '@storybook/addon-links',
     '@storybook/addon-options',

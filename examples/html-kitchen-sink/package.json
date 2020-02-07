@@ -17,7 +17,6 @@
     "@storybook/addon-actions": "6.0.0-alpha.6",
     "@storybook/addon-backgrounds": "6.0.0-alpha.6",
     "@storybook/addon-centered": "6.0.0-alpha.6",
-    "@storybook/addon-controls": "6.0.0-alpha.6",
     "@storybook/addon-docs": "6.0.0-alpha.6",
     "@storybook/addon-events": "6.0.0-alpha.6",
     "@storybook/addon-jest": "6.0.0-alpha.6",
@@ -36,6 +35,7 @@
     "eventemitter3": "^4.0.0",
     "format-json": "^1.0.3",
     "global": "^4.3.2",
-    "postcss-color-rebeccapurple": "^5.0.0"
+    "postcss-color-rebeccapurple": "^5.0.0",
+    "storybook-addon-controls": "6.0.0-alpha.6"
   }
 }
