@@ -1,18 +1,18 @@
 {
-  "name": "@storybook/common",
+  "name": "@component-controls/specification",
   "version": "6.0.0-alpha.6",
-  "description": "Common storybook types and routines",
+  "description": "Component controls specification and utility routines",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/common",
+  "homepage": "https://github.com/atanasster/component-controls",
   "bugs": {
-    "url": "https://github.com/storybookjs/storybook/issues"
+    "url": "https://github.com/atanasster/component-controls/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/common"
+    "url": "https://github.com/atanasster/component-controls.git",
+    "directory": "core/specification"
   },
   "license": "MIT",
   "main": "dist/index.js",
@@ -31,5 +31,8 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "authors": [
+    "Atanas Stoyanov"
+  ]
 }

@@ -1,18 +1,19 @@
 {
-  "name": "storybook-addon-controls",
+  "name": "@component-controls/storybook-addon-controls",
   "version": "6.0.0-alpha.6",
-  "description": "Storybook Addon For Live Editing of Story Props",
+  "description": "Storybook Addon For live editing of component controls",
   "keywords": [
     "addon",
     "storybook"
   ],
-  "homepage": "https://github.com/atanasster/storybook-addon-controls",
+  "homepage": "https://github.com/atanasster/component-controls",
   "bugs": {
-    "url": "https://github.com/atanasster/storybook-addon-controls/issues"
+    "url": "https://github.com/atanasster/component-controls/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/atanasster/storybook-addon-controls.git"
+    "url": "https://github.com/atanasster/component-controls.git",
+    "directory": "integrations/storybook-addon-controls"
   },
   "license": "MIT",
   "main": "dist/index.js",
@@ -28,11 +29,11 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
+    "@component-controls/specification": "6.0.0-alpha.6",
     "@storybook/addon-docs": "6.0.0-alpha.6",
     "@storybook/addons": "6.0.0-alpha.6",
     "@storybook/api": "6.0.0-alpha.6",
     "@storybook/client-api": "6.0.0-alpha.6",
-    "@storybook/common": "6.0.0-alpha.6",
     "@storybook/components": "6.0.0-alpha.6",
     "@storybook/csf": "0.0.1",
     "@storybook/prop-editors": "6.0.0-alpha.6",

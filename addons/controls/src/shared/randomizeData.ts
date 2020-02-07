@@ -1,4 +1,8 @@
-import { LoadedComponentControls, ControlTypes, ComponentControlOptions } from '@storybook/common';
+import {
+  LoadedComponentControls,
+  ControlTypes,
+  ComponentControlOptions,
+} from '@component-controls/specification';
 import faker from 'faker';
 
 const arrayElements = (arr: any[], c?: number) => {

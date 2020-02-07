@@ -26,10 +26,10 @@
     "prepare": "node ./scripts/generateVersion.js && node ../../scripts/prepare.js"
   },
   "dependencies": {
+    "@component-controls/specification": "6.0.0-alpha.6",
     "@reach/router": "^1.2.1",
     "@storybook/channels": "6.0.0-alpha.6",
     "@storybook/client-logger": "6.0.0-alpha.6",
-    "@storybook/common": "6.0.0-alpha.6",
     "@storybook/core-events": "6.0.0-alpha.6",
     "@storybook/csf": "0.0.1",
     "@storybook/router": "6.0.0-alpha.6",

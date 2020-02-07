@@ -8,7 +8,7 @@ import {
   LoadedComponentControls,
   LoadedComponentControl,
   getControlValues,
-} from '@storybook/common';
+} from '@component-controls/specification';
 import {
   Table,
   TabsState,

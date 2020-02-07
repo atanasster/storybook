@@ -1,4 +1,4 @@
-import { OptionsListType, OptionsValueType } from '@storybook/common';
+import { OptionsListType, OptionsValueType } from '@component-controls/specification';
 
 export interface NormalizedOption {
   label: string;

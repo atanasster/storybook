@@ -2,7 +2,7 @@ import {
   LoadedComponentControl,
   ComponentControls,
   LoadedComponentControls,
-} from '@storybook/common';
+} from '@component-controls/specification';
 import { HooksContext } from './hooks';
 import { Addon } from './index';
 

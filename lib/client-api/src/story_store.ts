@@ -15,7 +15,7 @@ import {
   resetControlValues,
   getControlValues,
   LoadedComponentControls,
-} from '@storybook/common';
+} from '@component-controls/specification';
 
 import { logger } from '@storybook/client-logger';
 import { Comparator, Parameters, StoryFn, StoryContext } from '@storybook/addons';

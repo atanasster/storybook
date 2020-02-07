@@ -5,7 +5,7 @@ import {
   SetControlValueFn,
   ResetControlValueFn,
   ClickControlFn,
-} from '@storybook/common';
+} from '@component-controls/specification';
 
 export type PropertyOnClick = (prop: ComponentControl) => any;
 export interface PropertyControlProps {

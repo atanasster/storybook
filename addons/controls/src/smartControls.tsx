@@ -1,5 +1,9 @@
 /* eslint-disable no-console */
-import { ComponentControls, ComponentControl, ControlTypes } from '@storybook/common';
+import {
+  ComponentControls,
+  ComponentControl,
+  ControlTypes,
+} from '@component-controls/specification';
 import { Parameters } from '@storybook/addons';
 import { PropDef } from '@storybook/components';
 import { inferPropsExtractor, getInputRows } from '@storybook/addon-docs/blocks';

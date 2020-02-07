@@ -1,5 +1,5 @@
 import React from 'react';
-import { ControlTypes, LoadedComponentControls } from '@storybook/common';
+import { ControlTypes, LoadedComponentControls } from '@component-controls/specification';
 import { ControlsEditorsTable } from './ControlEditorsTable';
 
 export default {

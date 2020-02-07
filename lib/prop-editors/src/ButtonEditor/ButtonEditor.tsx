@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { ComponentControlButton } from '@storybook/common';
+import { ComponentControlButton } from '@component-controls/specification';
 import { Form } from '@storybook/components';
 import { PropertyControlProps, PropertyEditor, PropertyOnClick } from '../types';
 

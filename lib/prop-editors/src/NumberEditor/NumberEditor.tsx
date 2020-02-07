@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { styled } from '@storybook/theming';
-import { ComponentControlNumber } from '@storybook/common';
+import { ComponentControlNumber } from '@component-controls/specification';
 import { Form } from '@storybook/components';
 import { PropertyControlProps, PropertyEditor } from '../types';
 

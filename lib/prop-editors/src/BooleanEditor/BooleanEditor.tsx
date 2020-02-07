@@ -1,5 +1,5 @@
 import React from 'react';
-import { ComponentControlBoolean } from '@storybook/common';
+import { ComponentControlBoolean } from '@component-controls/specification';
 import { Toggle } from './Toggle';
 import { FlexContainer } from '../FlexContainer';
 import { PropertyControlProps, PropertyEditor } from '../types';

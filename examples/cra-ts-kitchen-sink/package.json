@@ -34,6 +34,7 @@
     "typescript": "3.7.5"
   },
   "devDependencies": {
+    "@component-controls/storybook-addon-controls": "6.0.0-alpha.6",
     "@storybook/addon-a11y": "6.0.0-alpha.6",
     "@storybook/addon-actions": "6.0.0-alpha.6",
     "@storybook/addon-knobs": "6.0.0-alpha.6",
@@ -52,7 +53,6 @@
     "react-docgen-typescript-loader": "^3.3.0",
     "react-moment-proptypes": "^1.7.0",
     "react-scripts": "^3.0.1",
-    "storybook-addon-controls": "6.0.0-alpha.6",
     "tslint": "^6.0.0",
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.4.0"

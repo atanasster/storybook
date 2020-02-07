@@ -7,7 +7,7 @@ import {
   ComponentControlObject,
   mergeControlValues,
   getControlValues,
-} from '@storybook/common';
+} from '@component-controls/specification';
 import { PropertyControlProps, PropertyEditor } from '../types';
 import { FlexContainer } from '../FlexContainer';
 import { getPropertyEditor } from '../prop-factory';

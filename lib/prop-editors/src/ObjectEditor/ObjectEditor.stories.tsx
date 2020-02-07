@@ -1,5 +1,5 @@
 import React from 'react';
-import { ControlTypes, ComponentControls } from '@storybook/common';
+import { ControlTypes, ComponentControls } from '@component-controls/specification';
 import { ObjectEditor } from './ObjectEditor';
 
 export default {

@@ -13,7 +13,7 @@ import {
   SetControlValueFn,
   ClickControlFn,
   ResetControlValueFn,
-} from '@storybook/common';
+} from '@component-controls/specification';
 
 import { Module } from '../index';
 import merge from '../lib/merge';

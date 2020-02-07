@@ -1,4 +1,4 @@
-import { ControlTypes } from '@storybook/common';
+import { ControlTypes } from '@component-controls/specification';
 import { PropertyEditor } from './types';
 import { TextEditor } from './TextEditor';
 import { NumberEditor } from './NumberEditor';

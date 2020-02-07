@@ -13,6 +13,7 @@
     "storyshots-puppeteer": "yarn run build-storybook && yarn run do-storyshots-puppeteer"
   },
   "devDependencies": {
+    "@component-controls/storybook-addon-controls": "6.0.0-alpha.6",
     "@packtracker/webpack-plugin": "^2.0.1",
     "@storybook/addon-a11y": "6.0.0-alpha.6",
     "@storybook/addon-actions": "6.0.0-alpha.6",
@@ -57,7 +58,6 @@
     "puppeteer": "^2.1.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
-    "storybook-addon-controls": "6.0.0-alpha.6",
     "storybook-chromatic": "^3.5.0",
     "terser-webpack-plugin": "^2.3.4",
     "ts-loader": "^6.0.0",

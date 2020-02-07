@@ -1,6 +1,6 @@
 import React from 'react';
 import { SketchPicker, ColorResult } from 'react-color';
-import { ComponentControlColor } from '@storybook/common';
+import { ComponentControlColor } from '@component-controls/specification';
 
 import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';

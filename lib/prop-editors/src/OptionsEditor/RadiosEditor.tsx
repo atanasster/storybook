@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { ComponentControlOptions } from '@storybook/common';
+import { ComponentControlOptions } from '@component-controls/specification';
 import { normalizeOptions, NormalizedOption } from './utils';
 import { PropertyControlProps, PropertyEditor } from '../types';
 

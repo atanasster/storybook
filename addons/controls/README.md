@@ -28,14 +28,14 @@ Addon controls and the  bundled "smart-controls" can work with all frameworks su
 First of all, you need to install Addon Controls into your project as a dev dependency.
 
 ```sh
-yarn add storybook-addon-controls --dev
+yarn add @component-controls/storybook-addon-controls --dev
 ```
 
 within `.storybook/main.js`:
 
 ```js
 module.exports = {
-  addons: ['storybook-addon-controls']
+  addons: ['@component-controls/storybook-addon-controls']
 }
 ```
 
@@ -66,7 +66,7 @@ controlsStory.story = {
 ### With MDX
 ```md
 import { Story, Preview, Meta } from '@storybook/addon-docs/blocks';
-import { ControlsEditorsTable } from 'storybook-addon-controls/blocks';
+import { ControlsEditorsTable } from '@component-controls/storybook-addon-controls/blocks';
 
 <Meta title="Storybook controls" />
 
@@ -302,7 +302,7 @@ By default, Addon Controls integrates in the addon panels, in the `<Props />` ta
 
 ```js
 import { Title, Subtitle, Description, Story, Props, Stories } from '@storybook/addon-docs/blocks';
-import { ControlsEditorsTable } from 'storybook-addon-controls/blocks';
+import { ControlsEditorsTable } from '@component-controls/storybook-addon-controls/blocks';
 
 
 export default {
@@ -326,7 +326,7 @@ export default {
 
 ```md
 import { Story, Meta } from '@storybook/addon-docs/blocks';
-import { ControlsEditorsTable } from 'storybook-addon-controls/blocks';
+import { ControlsEditorsTable } from '@component-controls/storybook-addon-controls/blocks';
 
 <Meta title="Storybook controls" parameters={{component: Button}} />
 
@@ -350,7 +350,7 @@ within `.storybook/main.js`:
   addons: [
     ...
     {
-      name: 'storybook-addon-controls',
+      name: '@component-controls/storybook-addon-controls',
       options: {
         addonPanel: false,
         docsPreview: false,

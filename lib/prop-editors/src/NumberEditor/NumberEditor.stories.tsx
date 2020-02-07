@@ -1,5 +1,5 @@
 import React from 'react';
-import { ControlTypes } from '@storybook/common';
+import { ControlTypes } from '@component-controls/specification';
 import { NumberEditor } from './NumberEditor';
 
 export default {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { LoadedComponentControls } from '@storybook/common';
+import { LoadedComponentControls } from '@component-controls/specification';
 import { Combo, Consumer, API, StoryInput } from '@storybook/api';
 import { ControlsTable } from '../shared/ControlsTable';
 import { NoControls } from './NoControls';

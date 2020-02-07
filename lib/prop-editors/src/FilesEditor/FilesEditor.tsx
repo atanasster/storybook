@@ -1,7 +1,7 @@
 import { FileReader } from 'global';
 import React, { ChangeEvent } from 'react';
 import { styled } from '@storybook/theming';
-import { ComponentControlFiles } from '@storybook/common';
+import { ComponentControlFiles } from '@component-controls/specification';
 import { Form } from '@storybook/components';
 import { PropertyControlProps, PropertyEditor } from '../types';
 

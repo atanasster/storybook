@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { ComponentControlText } from '@storybook/common';
+import { ComponentControlText } from '@component-controls/specification';
 import { Form } from '@storybook/components';
 import { PropertyControlProps, PropertyEditor } from '../types';
 

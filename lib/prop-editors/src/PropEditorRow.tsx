@@ -4,7 +4,7 @@ import {
   SetControlValueFn,
   ResetControlValueFn,
   ClickControlFn,
-} from '@storybook/common';
+} from '@component-controls/specification';
 import { getPropertyEditor } from './prop-factory';
 import { FlexContainer } from './FlexContainer';
 import { PropertyEditor } from './types';
