@@ -10,6 +10,7 @@ import Events from '@storybook/core-events';
 import {
   ComponentControls,
   ComponentControlButton,
+  loadControls,
   mergeControlValues,
   resetControlValues,
   getControlValues,
@@ -105,15 +106,14 @@ const createStoreControls = (
   ];
 
   // save default value for 'reset'
-  return Object.keys(controls).reduce((v, key) => {
+  Object.keys(controls).forEach(key => {
     if (legacyContextProp && reservedContextKeys.indexOf(key) >= 0) {
       logger.error(
         `Story "${identification.name}" in ${identification.kind} uses a reserved property id "${key}"`
       );
     }
-    const prop = controls[key];
-    return { ...v, [key]: { ...prop, defaultValue: prop.value } };
-  }, {});
+  });
+  return loadControls(controls);
 };
 
 export default class StoryStore extends EventEmitter {

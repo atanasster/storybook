@@ -1,11 +1,18 @@
 import escape from 'escape-html';
 
-import { ComponentControl, ControlTypes } from '.';
+import { ComponentControl, ComponentControls, ControlTypes } from '.';
 
 export type LoadedComponentControl = ComponentControl & { defaultValue: any };
 export interface LoadedComponentControls {
   [name: string]: LoadedComponentControl;
 }
+
+// save default value for 'reset'
+export const loadControls = (controls: ComponentControls): LoadedComponentControls =>
+  Object.keys(controls).reduce((v, key) => {
+    const prop = controls[key];
+    return { ...v, [key]: { ...prop, defaultValue: prop.value } };
+  }, {});
 
 const mergeValue = (control: ComponentControl, value: any): any => {
   if (control && control.type === ControlTypes.OBJECT) {
