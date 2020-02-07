@@ -1,5 +1,8 @@
 import React from 'react';
-import { ControlsEditorsTable, ControlsEditorsTableProps } from '@storybook/prop-editors';
+import {
+  ControlsEditorsTable,
+  ControlsEditorsTableProps,
+} from '@component-controls/controls-editors';
 import { randomizeData } from './randomizeData';
 
 export const ControlsTable: React.FC<ControlsEditorsTableProps> = props => (

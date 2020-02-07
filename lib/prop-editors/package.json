@@ -1,18 +1,18 @@
 {
-  "name": "@storybook/prop-editors",
+  "name": "@component-controls/controls-editors",
   "version": "6.0.0-alpha.6",
-  "description": "Storybook Property Editors",
+  "description": "Componnet controls library of basic editors",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/master/lib/prop-editors",
+  "homepage": "https://github.com/atanasster/component-controls",
   "bugs": {
-    "url": "https://github.com/storybookjs/storybook/issues"
+    "url": "https://github.com/atanasster/component-controls/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/prop-editors"
+    "url": "https://github.com/atanasster/component-controls.git",
+    "directory": "core/controls-editors"
   },
   "license": "MIT",
   "main": "dist/index.js",
@@ -52,5 +52,8 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "authors": [
+    "Atanas Stoyanov"
+  ]
 }
