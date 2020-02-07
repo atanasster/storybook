@@ -1,27 +1,27 @@
 import escape from 'escape-html';
 
-import { StoryControl, ControlTypes } from '.';
+import { ComponentControl, ControlTypes } from '.';
 
-export type ContextStoryControl = StoryControl & { defaultValue: any };
-export interface ContextStoryControls {
-  [name: string]: ContextStoryControl;
+export type LoadedComponentControl = ComponentControl & { defaultValue: any };
+export interface LoadedComponentControls {
+  [name: string]: LoadedComponentControl;
 }
 
-const mergeValue = (control: StoryControl, value: any): any => {
+const mergeValue = (control: ComponentControl, value: any): any => {
   if (control && control.type === ControlTypes.OBJECT) {
     return {
       ...control,
-      value: mergeControlValues(control.value as ContextStoryControls, null, value),
+      value: mergeControlValues(control.value as LoadedComponentControls, null, value),
     };
   }
   return { ...control, value };
 };
 
 export const mergeControlValues = (
-  controls: ContextStoryControls,
+  controls: LoadedComponentControls,
   controlName: string | undefined,
   value: any
-): ContextStoryControls => {
+): LoadedComponentControls => {
   return controlName
     ? {
         ...controls,
@@ -39,7 +39,7 @@ export const mergeControlValues = (
       );
 };
 
-export const resetControlValues = (controls: ContextStoryControls, controlName?: string) => {
+export const resetControlValues = (controls: LoadedComponentControls, controlName?: string) => {
   return controlName
     ? {
         ...controls,
@@ -57,16 +57,16 @@ export const resetControlValues = (controls: ContextStoryControls, controlName?:
       );
 };
 
-export const getControlValues = (controls: ContextStoryControls): { [name: string]: any } =>
+export const getControlValues = (controls: LoadedComponentControls): { [name: string]: any } =>
   Object.keys(controls).reduce((acc, key) => {
-    const control: StoryControl = controls[key];
+    const control: ComponentControl = controls[key];
     let { value } = control;
     if (control.type === ControlTypes.TEXT && control.escapeValue) {
       if (typeof value === 'string') {
         value = escape(value);
       }
     } else if (control.type === ControlTypes.OBJECT && typeof value === 'object') {
-      return { ...acc, [key]: getControlValues(value as ContextStoryControls) };
+      return { ...acc, [key]: getControlValues(value as LoadedComponentControls) };
     }
     return { ...acc, [key]: value };
   }, {});

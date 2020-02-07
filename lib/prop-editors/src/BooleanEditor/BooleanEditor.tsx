@@ -1,11 +1,11 @@
 import React from 'react';
-import { StoryControlBoolean } from '@storybook/common';
+import { ComponentControlBoolean } from '@storybook/common';
 import { Toggle } from './Toggle';
 import { FlexContainer } from '../FlexContainer';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 interface BooleanEditorProps extends PropertyControlProps {
-  prop: StoryControlBoolean;
+  prop: ComponentControlBoolean;
 }
 
 export const BooleanEditor: PropertyEditor<BooleanEditorProps> = ({ prop, name, onChange }) => (

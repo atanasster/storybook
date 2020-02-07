@@ -1,5 +1,5 @@
 import React from 'react';
-import { ControlTypes, ContextStoryControls } from '@storybook/common';
+import { ControlTypes, LoadedComponentControls } from '@storybook/common';
 import { ControlsEditorsTable } from './ControlEditorsTable';
 
 export default {
@@ -8,7 +8,7 @@ export default {
 };
 
 export const pureControlsEditorsTable = () => {
-  const [controls, setControls] = React.useState<ContextStoryControls>({
+  const [controls, setControls] = React.useState<LoadedComponentControls>({
     name: { type: ControlTypes.TEXT, label: 'Name', value: 'Mark', defaultValue: 'Mark' },
     age: { type: ControlTypes.NUMBER, label: 'Age', value: 19, defaultValue: 19 },
     clickMe: {
@@ -22,7 +22,7 @@ export const pureControlsEditorsTable = () => {
     <>
       <h2>{`Hello, my name is ${controls.name.value}, and I am ${controls.age.value} years old.`}</h2>
       <ControlsEditorsTable
-        controls={controls as ContextStoryControls}
+        controls={controls as LoadedComponentControls}
         title="Example controls"
         storyId="1-11"
         setControlValue={(storyId, name, value) =>

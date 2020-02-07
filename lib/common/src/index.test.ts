@@ -1,12 +1,12 @@
 import { ControlTypes } from './story-controls';
-import { mergeControlValues, resetControlValues, ContextStoryControls } from './index';
+import { mergeControlValues, resetControlValues, LoadedComponentControls } from './index';
 
 describe('Controls utils', () => {
-  const controls: ContextStoryControls = {
+  const controls: LoadedComponentControls = {
     name: { type: ControlTypes.TEXT, value: 'hello', defaultValue: 'hello' },
     age: { type: ControlTypes.NUMBER, value: 19, defaultValue: 19 },
   };
-  const modifiedControls: ContextStoryControls = {
+  const modifiedControls: LoadedComponentControls = {
     name: { type: ControlTypes.TEXT, value: 'today', defaultValue: 'hello' },
     age: { type: ControlTypes.NUMBER, value: 19, defaultValue: 19 },
   };

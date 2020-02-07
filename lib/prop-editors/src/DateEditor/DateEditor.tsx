@@ -1,6 +1,6 @@
 import React, { ChangeEvent } from 'react';
 import { styled } from '@storybook/theming';
-import { StoryControlDate } from '@storybook/common';
+import { ComponentControlDate } from '@storybook/common';
 import { Form } from '@storybook/components';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
@@ -33,7 +33,7 @@ const formatTime = (date: Date) => {
 };
 
 interface DateEditorProps extends PropertyControlProps {
-  prop: StoryControlDate;
+  prop: ComponentControlDate;
 }
 
 export const DateEditor: PropertyEditor<DateEditorProps> = ({ prop, name, onChange }) => {

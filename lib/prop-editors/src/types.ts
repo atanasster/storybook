@@ -1,15 +1,15 @@
 import React from 'react';
 import {
-  StoryControl,
-  ContextStoryControls,
+  ComponentControl,
+  LoadedComponentControls,
   SetControlValueFn,
   ResetControlValueFn,
   ClickControlFn,
 } from '@storybook/common';
 
-export type PropertyOnClick = (prop: StoryControl) => any;
+export type PropertyOnClick = (prop: ComponentControl) => any;
 export interface PropertyControlProps {
-  prop: StoryControl;
+  prop: ComponentControl;
   name: string;
   onChange: (name: string, prop: any) => void;
   onClick?: PropertyOnClick;
@@ -27,7 +27,7 @@ export type ExtraControlActions = ExtraControlAction[];
 export interface ControlsEditorsTableProps {
   title?: string;
   storyId?: string;
-  controls?: ContextStoryControls;
+  controls?: LoadedComponentControls;
   setControlValue?: SetControlValueFn;
   resetControlValue?: ResetControlValueFn;
   clickControl?: ClickControlFn;

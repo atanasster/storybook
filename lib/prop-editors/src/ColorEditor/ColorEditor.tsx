@@ -1,6 +1,6 @@
 import React from 'react';
 import { SketchPicker, ColorResult } from 'react-color';
-import { StoryControlColor } from '@storybook/common';
+import { ComponentControlColor } from '@storybook/common';
 
 import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';
@@ -51,7 +51,7 @@ const Cover = styled.div({
 });
 
 interface ColorEditorProps extends PropertyControlProps {
-  prop: StoryControlColor;
+  prop: ComponentControlColor;
 }
 
 export const ColorEditor: PropertyEditor<ColorEditorProps> = ({ prop, name, onChange }) => {

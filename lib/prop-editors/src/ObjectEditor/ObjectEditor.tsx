@@ -3,8 +3,8 @@ import { darken } from 'polished';
 import { styled } from '@storybook/theming';
 import { WithTooltipPure, Button, Icons } from '@storybook/components';
 import {
-  StoryControl,
-  StoryControlObject,
+  ComponentControl,
+  ComponentControlObject,
   mergeControlValues,
   getControlValues,
 } from '@storybook/common';
@@ -13,7 +13,7 @@ import { FlexContainer } from '../FlexContainer';
 import { getPropertyEditor } from '../prop-factory';
 
 interface ObjectEditorProps extends PropertyControlProps {
-  prop: StoryControlObject;
+  prop: ComponentControlObject;
 }
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -41,7 +41,7 @@ export const ObjectEditor: PropertyEditor<ObjectEditorProps> = ({ prop, name, on
   if (typeof prop.value === 'object') {
     children = Object.keys(prop.value)
       .map(key => {
-        const childProp: StoryControl = prop.value[key] as any;
+        const childProp: ComponentControl = prop.value[key] as any;
         if (!childProp) {
           return null;
         }

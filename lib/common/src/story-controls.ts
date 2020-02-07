@@ -111,7 +111,7 @@ export enum ControlTypes {
   FILES = 'files',
 }
 
-export interface StoryControlData {
+export interface ComponentControlData {
   /**
    * 'name' for generating random data from faker.js
    *  usually comprised of two parts, separated by a dot
@@ -133,7 +133,7 @@ export interface StoryControlData {
  * All new property typs should extend this interface and support
  *
  */
-export interface StoryControlBase<T> {
+export interface ComponentControlBase<T> {
   type: ControlTypes;
 
   /**
@@ -176,10 +176,10 @@ export interface StoryControlBase<T> {
    * helper information to generate random data
    * can be used in conjunction with faker.js
    */
-  data?: StoryControlData;
+  data?: ComponentControlData;
 }
 
-export interface StoryControlText extends StoryControlBase<string> {
+export interface ComponentControlText extends ComponentControlBase<string> {
   type: ControlTypes.TEXT;
 
   /**
@@ -208,15 +208,15 @@ export interface StoryControlText extends StoryControlBase<string> {
   escapeValue?: boolean;
 }
 
-export interface StoryControlBoolean extends StoryControlBase<boolean> {
+export interface ComponentControlBoolean extends ComponentControlBase<boolean> {
   type: ControlTypes.BOOLEAN;
 }
 
-export interface StoryControlColor extends StoryControlBase<string> {
+export interface ComponentControlColor extends ComponentControlBase<string> {
   type: ControlTypes.COLOR;
 }
 
-export interface StoryControlDate extends StoryControlBase<Date> {
+export interface ComponentControlDate extends ComponentControlBase<Date> {
   type: ControlTypes.DATE;
   /**
    * whether to display a date picker (calendar).
@@ -232,7 +232,7 @@ export interface StoryControlDate extends StoryControlBase<Date> {
   timePicker?: boolean;
 }
 
-export interface StoryControlFiles extends StoryControlBase<string[]> {
+export interface ComponentControlFiles extends ComponentControlBase<string[]> {
   type: ControlTypes.FILES;
   /**
    * type of files to accept user to open
@@ -241,7 +241,7 @@ export interface StoryControlFiles extends StoryControlBase<string[]> {
   accept?: string;
 }
 
-export interface StoryControlArray extends StoryControlBase<string[]> {
+export interface ComponentControlArray extends ComponentControlBase<string[]> {
   type: ControlTypes.ARRAY;
   /**
    * the array items separator, by default comma
@@ -249,17 +249,18 @@ export interface StoryControlArray extends StoryControlBase<string[]> {
   separator?: string;
 }
 
-export interface StoryControlObject extends StoryControlBase<StoryControls> {
+export interface ComponentControlObject extends ComponentControlBase<ComponentControls> {
   type: ControlTypes.OBJECT;
 }
 
-export interface StoryControlButton<ClickEvent = () => void> extends StoryControlBase<ClickEvent> {
+export interface ComponentControlButton<ClickEvent = () => void>
+  extends ComponentControlBase<ClickEvent> {
   type: ControlTypes.BUTTON;
 
   /**
    * for button type fields, an onClick handler
    */
-  onClick?: (prop: StoryControlButton) => void;
+  onClick?: (prop: ComponentControlButton) => void;
 }
 
 export type OptionsValueType<T = unknown> =
@@ -281,7 +282,8 @@ export type OptionsListType<T = unknown> = { [key: string]: T } | OptionsValueTy
  * 3. array of key-value pair objects
  */
 
-export interface StoryControlOptions<T = unknown> extends StoryControlBase<OptionsValueType<T>> {
+export interface ComponentControlOptions<T = unknown>
+  extends ComponentControlBase<OptionsValueType<T>> {
   type: ControlTypes.OPTIONS;
 
   options: OptionsListType<T>;
@@ -293,7 +295,7 @@ export interface StoryControlOptions<T = unknown> extends StoryControlBase<Optio
   display?: 'select' | 'multi-select' | 'radio' | 'inline-radio' | 'check' | 'inline-check';
 }
 
-export interface StoryControlNumber extends StoryControlBase<number> {
+export interface ComponentControlNumber extends ComponentControlBase<number> {
   type: ControlTypes.NUMBER;
   /**
    * for numeric type fields
@@ -322,30 +324,30 @@ export interface StoryControlNumber extends StoryControlBase<number> {
 }
 
 /**
- * StoryControl is a either an object of property settings
+ * ComponentControl is a either an object of property settings
  * or a shortcut can be used:
  *  properties: {
  *   text: 'Hello',
  * },
  */
 
-export type StoryControl =
-  | StoryControlText
-  | StoryControlBoolean
-  | StoryControlColor
-  | StoryControlDate
-  | StoryControlObject
-  | StoryControlButton
-  | StoryControlOptions
-  | StoryControlNumber
-  | StoryControlArray
-  | StoryControlFiles;
+export type ComponentControl =
+  | ComponentControlText
+  | ComponentControlBoolean
+  | ComponentControlColor
+  | ComponentControlDate
+  | ComponentControlObject
+  | ComponentControlButton
+  | ComponentControlOptions
+  | ComponentControlNumber
+  | ComponentControlArray
+  | ComponentControlFiles;
 
 /**
- * StoryControls are defined in key value pairs
+ * ComponentControls are defined in key value pairs
  * the name of the property is the key
- * and the value is the StoryControl
+ * and the value is the ComponentControl
  */
-export interface StoryControls {
-  [name: string]: StoryControl;
+export interface ComponentControls {
+  [name: string]: ComponentControl;
 }

@@ -1,11 +1,11 @@
 import React, { ChangeEvent } from 'react';
 import { styled } from '@storybook/theming';
-import { StoryControlOptions } from '@storybook/common';
+import { ComponentControlOptions } from '@storybook/common';
 import { normalizeOptions, NormalizedOption } from './utils';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 interface CheckboxEditorProps extends PropertyControlProps {
-  prop: StoryControlOptions;
+  prop: ComponentControlOptions;
 }
 
 const CheckboxesWrapper = styled.div<{ isInline: boolean }>(({ isInline }) =>

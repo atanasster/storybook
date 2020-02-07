@@ -1,5 +1,5 @@
 import React from 'react';
-import { ControlTypes, StoryControls } from '@storybook/common';
+import { ControlTypes, ComponentControls } from '@storybook/common';
 import { ObjectEditor } from './ObjectEditor';
 
 export default {
@@ -8,7 +8,7 @@ export default {
 };
 
 export const sample = () => {
-  const [state, setState] = React.useState<StoryControls>({
+  const [state, setState] = React.useState<ComponentControls>({
     border: { type: ControlTypes.TEXT, value: '2px dashed silver' },
     borderRadius: { type: ControlTypes.NUMBER, value: 10 },
     padding: { type: ControlTypes.NUMBER, value: 10 },

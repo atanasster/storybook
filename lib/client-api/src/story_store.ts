@@ -8,12 +8,12 @@ import stable from 'stable';
 import { Channel } from '@storybook/channels';
 import Events from '@storybook/core-events';
 import {
-  StoryControls,
-  StoryControlButton,
+  ComponentControls,
+  ComponentControlButton,
   mergeControlValues,
   resetControlValues,
   getControlValues,
-  ContextStoryControls,
+  LoadedComponentControls,
 } from '@storybook/common';
 
 import { logger } from '@storybook/client-logger';
@@ -88,10 +88,10 @@ interface IdentificationType {
 }
 
 const createStoreControls = (
-  controls: StoryControls,
+  controls: ComponentControls,
   identification: IdentificationType,
   legacyContextProp: boolean
-): ContextStoryControls => {
+): LoadedComponentControls => {
   const reservedContextKeys = [
     'id',
     'kind',
@@ -326,7 +326,7 @@ export default class StoryStore extends EventEmitter {
     };
 
     const { legacyContextProp, enhanceControls } = parameters.options || {};
-    let controls: StoryControls;
+    let controls: ComponentControls;
     if (typeof enhanceControls === 'function') {
       controls = { ...enhanceControls(id, parameters), ...storyProps };
     } else {
@@ -582,16 +582,16 @@ export default class StoryStore extends EventEmitter {
     if (this._data[id]) {
       if (this._data[id].controls && this._data[id].controls[propName]) {
         const prop = this._data[id].controls[propName];
-        if (typeof (prop as StoryControlButton).onClick === 'function') {
-          (prop as StoryControlButton).onClick(
-            this._data[id].controls[propName] as StoryControlButton
+        if (typeof (prop as ComponentControlButton).onClick === 'function') {
+          (prop as ComponentControlButton).onClick(
+            this._data[id].controls[propName] as ComponentControlButton
           );
         }
       }
     }
   }
 
-  addControls(id: string, controls: StoryControls) {
+  addControls(id: string, controls: ComponentControls) {
     if (this._data[id]) {
       const story = this._data[id];
       this._data[id].controls = {
@@ -605,7 +605,7 @@ export default class StoryStore extends EventEmitter {
     }
   }
 
-  setControls(id: string, controls: StoryControls) {
+  setControls(id: string, controls: ComponentControls) {
     if (this._data[id]) {
       const story = this._data[id];
       story.controls = {

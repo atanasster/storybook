@@ -1,4 +1,8 @@
-import { ContextStoryControl, StoryControls, ContextStoryControls } from '@storybook/common';
+import {
+  LoadedComponentControl,
+  ComponentControls,
+  LoadedComponentControls,
+} from '@storybook/common';
 import { HooksContext } from './hooks';
 import { Addon } from './index';
 
@@ -29,7 +33,7 @@ export interface StoryContext {
   [key: string]: any;
   parameters: Parameters;
   hooks?: HooksContext;
-  controls?: ContextStoryControls;
+  controls?: LoadedComponentControls;
 }
 
 export interface WrapperSettings {
@@ -61,9 +65,9 @@ export interface OptionsParameter extends Object {
   [key: string]: any;
 }
 
-export type StoryGetter = (p?: StoryContext | ContextStoryControls, c?: StoryContext) => any;
+export type StoryGetter = (p?: StoryContext | LoadedComponentControls, c?: StoryContext) => any;
 export type StoryFn<ReturnType = unknown> = (
-  p?: StoryContext | ContextStoryControls,
+  p?: StoryContext | LoadedComponentControls,
   c?: StoryContext
 ) => ReturnType;
 
@@ -98,11 +102,11 @@ export interface StoryApi<StoryFnReturnType = unknown> {
     storyName: string,
     storyFn: StoryFn<StoryFnReturnType>,
     parameters?: Parameters,
-    controls?: StoryControls
+    controls?: ComponentControls
   ) => StoryApi<StoryFnReturnType>;
   addDecorator: (decorator: DecoratorFunction<StoryFnReturnType>) => StoryApi<StoryFnReturnType>;
   addParameters: (parameters: Parameters) => StoryApi<StoryFnReturnType>;
-  addControls: (controls: StoryControls) => StoryApi<StoryFnReturnType>;
+  addControls: (controls: ComponentControls) => StoryApi<StoryFnReturnType>;
   setControlValue: ({
     id,
     propertyName,
@@ -132,7 +136,7 @@ export interface ClientStoryApi<StoryFnReturnType = unknown> {
   storiesOf(kind: string, module: NodeModule): StoryApi<StoryFnReturnType>;
   addDecorator(decorator: DecoratorFunction<StoryFnReturnType>): StoryApi<StoryFnReturnType>;
   addParameters(parameter: Parameters): StoryApi<StoryFnReturnType>;
-  addControls(controls: StoryControls): StoryApi<StoryFnReturnType>;
+  addControls(controls: ComponentControls): StoryApi<StoryFnReturnType>;
 }
 
 type LoadFn = () => any;

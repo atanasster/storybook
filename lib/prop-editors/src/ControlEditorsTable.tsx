@@ -4,7 +4,11 @@ import { styled } from '@storybook/theming';
 import qs from 'qs';
 import copy from 'copy-to-clipboard';
 
-import { ContextStoryControls, ContextStoryControl, getControlValues } from '@storybook/common';
+import {
+  LoadedComponentControls,
+  LoadedComponentControl,
+  getControlValues,
+} from '@storybook/common';
 import {
   Table,
   TabsState,
@@ -85,7 +89,7 @@ const PropGroupTable: React.FC<ControlsEditorsTableProps> = ({
 );
 
 interface GroupedControlsType {
-  [key: string]: ContextStoryControls;
+  [key: string]: LoadedComponentControls;
 }
 
 export const ControlsEditorsTable: React.FC<ControlsEditorsTableProps & {
@@ -113,7 +117,7 @@ export const ControlsEditorsTable: React.FC<ControlsEditorsTableProps & {
     };
     const groupped: GroupedControlsType = Object.keys(controls)
       .filter(k => {
-        const p: ContextStoryControl = controls[k];
+        const p: LoadedComponentControl = controls[k];
         return !p.hidden;
       })
       .reduce((acc: GroupedControlsType, k: string) => {
@@ -130,7 +134,7 @@ export const ControlsEditorsTable: React.FC<ControlsEditorsTableProps & {
             {Object.keys(groupped)
               .sort()
               .map(key => {
-                const group: ContextStoryControls = groupped[key];
+                const group: LoadedComponentControls = groupped[key];
                 const tabId = `prop_editors_div_${props.storyId}_${key}`;
                 return (
                   <div key={tabId} id={tabId} title={key}>

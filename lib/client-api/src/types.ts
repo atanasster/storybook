@@ -6,7 +6,7 @@ import {
   StoryApi,
   DecoratorFunction,
 } from '@storybook/addons';
-import { StoryControls, ContextStoryControls } from '@storybook/common';
+import { ComponentControls, LoadedComponentControls } from '@storybook/common';
 import StoryStore from './story_store';
 import { HooksContext } from './hooks';
 
@@ -25,7 +25,7 @@ export interface StoreItem extends StoryContext {
   storyFn: StoryFn;
   hooks: HooksContext;
   parameters: Parameters;
-  controls?: ContextStoryControls;
+  controls?: LoadedComponentControls;
 }
 
 export interface StoreData {
@@ -56,7 +56,7 @@ export interface AddStoryArgs {
   name: string;
   storyFn: StoryFn;
   parameters: Parameters;
-  controls: StoryControls;
+  controls: ComponentControls;
 }
 
 export interface LegacyData {

@@ -1,4 +1,4 @@
-import { ContextStoryControls, ControlTypes, StoryControlOptions } from '@storybook/common';
+import { LoadedComponentControls, ControlTypes, ComponentControlOptions } from '@storybook/common';
 import faker from 'faker';
 
 const arrayElements = (arr: any[], c?: number) => {
@@ -26,7 +26,7 @@ interface RandomizedData {
   [key: string]: any;
 }
 
-export const randomizeData = (controls: ContextStoryControls): RandomizedData => {
+export const randomizeData = (controls: LoadedComponentControls): RandomizedData => {
   return Object.keys(controls)
     .map(name => {
       const control = controls[name];
@@ -82,13 +82,13 @@ export const randomizeData = (controls: ContextStoryControls): RandomizedData =>
           if (typeof control.value === 'object') {
             return {
               name,
-              value: { ...randomizeData(control.value as ContextStoryControls) },
+              value: { ...randomizeData(control.value as LoadedComponentControls) },
             };
           }
           return null;
         }
         case ControlTypes.OPTIONS: {
-          const optionsControl = control as StoryControlOptions;
+          const optionsControl = control as ComponentControlOptions;
           let value;
           if (Array.isArray(optionsControl.options)) {
             if (

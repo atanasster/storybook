@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  ContextStoryControl,
+  LoadedComponentControl,
   SetControlValueFn,
   ResetControlValueFn,
   ClickControlFn,
@@ -12,7 +12,7 @@ import { PropertyEditor } from './types';
 const InvalidType = () => <span>Invalid Type</span>;
 
 interface PropertyEditorRowProps {
-  prop: ContextStoryControl;
+  prop: LoadedComponentControl;
   name: string;
   storyId?: string;
   setControlValue?: SetControlValueFn;

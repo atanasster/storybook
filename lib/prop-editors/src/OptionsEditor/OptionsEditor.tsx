@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactSelect from 'react-select';
 import { styled } from '@storybook/theming';
-import { StoryControlOptions } from '@storybook/common';
+import { ComponentControlOptions } from '@storybook/common';
 import { normalizeOptions } from './utils';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
@@ -23,7 +23,7 @@ interface OptionsSelectValueItem {
 }
 
 interface OptionsEditorProps extends PropertyControlProps {
-  prop: StoryControlOptions;
+  prop: ComponentControlOptions;
 }
 
 export const OptionsEditor: PropertyEditor<OptionsEditorProps> = props => {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { StoryControlOptions } from '@storybook/common';
+import { ComponentControlOptions } from '@storybook/common';
 import { normalizeOptions, NormalizedOption } from './utils';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
 interface RadiosEditorProps extends PropertyControlProps {
-  prop: StoryControlOptions;
+  prop: ComponentControlOptions;
 }
 
 const RadiosWrapper = styled.div<{ isInline: boolean }>(({ isInline }) =>

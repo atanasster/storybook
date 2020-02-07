@@ -7,7 +7,7 @@ import {
   STORY_CLICK_CONTROL,
 } from '@storybook/core-events';
 import {
-  ContextStoryControls,
+  LoadedComponentControls,
   mergeControlValues,
   resetControlValues,
   SetControlValueFn,
@@ -74,7 +74,7 @@ export interface StoryInput {
     };
     [parameterName: string]: any;
   };
-  controls?: ContextStoryControls;
+  controls?: LoadedComponentControls;
   isLeaf: boolean;
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { toId, storyNameFromExport } from '@storybook/csf';
-import { ContextStoryControls } from '@storybook/common';
+import { LoadedComponentControls } from '@storybook/common';
 import { CURRENT_SELECTION, DocsContext } from '@storybook/addon-docs/blocks';
 import { ControlsTable } from '../../shared/ControlsTable';
 
@@ -13,7 +13,7 @@ interface ControlsEditorsTableProps {
 const getPropertyProps = (
   props: ControlsEditorsTableProps,
   { id: currentId, storyStore, mdxStoryNameToKey, mdxComponentMeta }: any
-): { controls?: ContextStoryControls; id: string | null } | null => {
+): { controls?: LoadedComponentControls; id: string | null } | null => {
   const { id, name } = props;
   const inputId = id === CURRENT_SELECTION ? currentId : id;
   const previewId =

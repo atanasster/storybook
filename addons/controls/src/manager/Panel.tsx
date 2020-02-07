@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { ContextStoryControls } from '@storybook/common';
+import { LoadedComponentControls } from '@storybook/common';
 import { Combo, Consumer, API, StoryInput } from '@storybook/api';
 import { ControlsTable } from '../shared/ControlsTable';
 import { NoControls } from './NoControls';
@@ -23,7 +23,7 @@ interface PropsPanelProps {
 
 interface MapperReturnProps {
   story?: StoryInput;
-  controls?: ContextStoryControls;
+  controls?: LoadedComponentControls;
 }
 const mapper = ({ state }: Combo): MapperReturnProps => {
   const { storyId } = state;

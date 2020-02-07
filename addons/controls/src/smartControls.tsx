@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { StoryControls, StoryControl, ControlTypes } from '@storybook/common';
+import { ComponentControls, ComponentControl, ControlTypes } from '@storybook/common';
 import { Parameters } from '@storybook/addons';
 import { PropDef } from '@storybook/components';
 import { inferPropsExtractor, getInputRows } from '@storybook/addon-docs/blocks';
@@ -25,7 +25,7 @@ const handledTypes = [
 export const createFieldFromProps = (
   propDef: PropDef,
   smartControls: SmartControls
-): StoryControl | null | undefined => {
+): ComponentControl | null | undefined => {
   if (typeof smartControls === 'object') {
     const { include, exclude } = smartControls;
     if (Array.isArray(include) && !include.includes(propDef.name)) {
@@ -148,7 +148,7 @@ export const createFieldFromProps = (
 export const extractSmartControls = (
   storyId: string,
   parameters: Parameters
-): StoryControls | null => {
+): ComponentControls | null => {
   const params = parameters || {};
   const { component, framework = null, controls } = params;
   const { smart: smartControls } = controls || {};
@@ -179,7 +179,7 @@ export const extractSmartControls = (
   const props = extractProps(component);
   const rows = getInputRows(props);
   const smartProps = rows
-    ? rows.reduce((acc: StoryControls, row: PropDef) => {
+    ? rows.reduce((acc: ComponentControls, row: PropDef) => {
         const field = createFieldFromProps(row, smartControls);
         if (field) {
           return { ...acc, [row.name]: field };

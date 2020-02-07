@@ -7,7 +7,7 @@ import { toId } from '@storybook/csf';
 import mergeWith from 'lodash/mergeWith';
 import isEqual from 'lodash/isEqual';
 import get from 'lodash/get';
-import { StoryControls, ContextStoryControl } from '@storybook/common';
+import { ComponentControls } from '@storybook/common';
 import { ClientApiParams, DecoratorFunction, ClientApiAddons, StoryApi } from './types';
 import { applyHooks } from './hooks';
 import StoryStore from './story_store';
@@ -81,9 +81,9 @@ export const addParameters = (parameters: Parameters) => {
   };
 };
 
-let _globalControls: StoryControls = {};
+let _globalControls: ComponentControls = {};
 
-export const addControls = (controls: StoryControls) => {
+export const addControls = (controls: ComponentControls) => {
   _globalControls = {
     ..._globalControls,
     ...controls,
@@ -157,7 +157,7 @@ export default class ClientApi {
     _globalParameters = {};
   };
 
-  addControls = (controls: StoryControls) => {
+  addControls = (controls: ComponentControls) => {
     addControls(controls);
   };
 
@@ -178,7 +178,7 @@ export default class ClientApi {
     this._storyStore.clickControl(storyId, propertyName);
   };
 
-  setControls = (storyId: string, controls: StoryControls) => {
+  setControls = (storyId: string, controls: ComponentControls) => {
     this._storyStore.setControls(storyId, controls);
   };
 
@@ -217,7 +217,7 @@ export default class ClientApi {
 
     const localDecorators: DecoratorFunction<StoryFnReturnType>[] = [];
     let localParameters: Parameters = {};
-    let localControls: StoryControls = {};
+    let localControls: ComponentControls = {};
     let hasAdded = false;
     const api: StoryApi<StoryFnReturnType> = {
       kind: kind.toString(),
@@ -255,7 +255,12 @@ export default class ClientApi {
       return api;
     };
 
-    api.add = (storyName, storyFn, parameters: Parameters = {}, controls: StoryControls = {}) => {
+    api.add = (
+      storyName,
+      storyFn,
+      parameters: Parameters = {},
+      controls: ComponentControls = {}
+    ) => {
       hasAdded = true;
 
       const id = parameters.__id || toId(kind, storyName);
@@ -291,11 +296,11 @@ export default class ClientApi {
         },
         { fileName }
       );
-      const { controls: storyControls } = (storyFn as any).story || {};
+      const { controls: componentControls } = (storyFn as any).story || {};
       const allControls = {
         ..._globalControls,
         ...localControls,
-        ...storyControls,
+        ...componentControls,
         ...controls,
       };
 
@@ -335,7 +340,7 @@ This is probably not what you intended. Read more here: https://github.com/story
       localParameters = { ...localParameters, ...parameters };
       return api;
     };
-    api.addControls = (controls: StoryControls) => {
+    api.addControls = (controls: ComponentControls) => {
       localControls = { ...localControls, ...controls };
       return api;
     };

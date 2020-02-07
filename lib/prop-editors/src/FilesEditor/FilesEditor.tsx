@@ -1,7 +1,7 @@
 import { FileReader } from 'global';
 import React, { ChangeEvent } from 'react';
 import { styled } from '@storybook/theming';
-import { StoryControlFiles } from '@storybook/common';
+import { ComponentControlFiles } from '@storybook/common';
 import { Form } from '@storybook/components';
 import { PropertyControlProps, PropertyEditor } from '../types';
 
@@ -18,7 +18,7 @@ function fileReaderPromise(file: File) {
 }
 
 interface FilesEditorProps extends PropertyControlProps {
-  prop: StoryControlFiles;
+  prop: ComponentControlFiles;
 }
 
 export const FilesEditor: PropertyEditor<FilesEditorProps> = ({ prop, name, onChange }) => (
