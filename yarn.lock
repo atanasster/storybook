@@ -1780,6 +1780,14 @@
     fs-extra "^4.0.1"
     viz.js "^1.8.0"
 
+"@component-controls/specification@0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@component-controls/specification/-/specification-0.1.2.tgz#bbcd51d31adf15c5aebfbb9545635edc2b88556a"
+  integrity sha512-t0lu+wrHXIBfihKeLpCBfImkNaIVwvPwUdXcZCNSlGfkHlmgZ8s3sQdWd65HJL8kB8RlX9EH9vRURbJ17fQI9A==
+  dependencies:
+    escape-html "^1.0.3"
+    typescript "3.5.3"
+
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"

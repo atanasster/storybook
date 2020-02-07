@@ -27,7 +27,7 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@component-controls/specification": "6.0.0-alpha.6",
+    "@component-controls/specification": "0.1.2",
     "@storybook/components": "6.0.0-alpha.6",
     "@storybook/theming": "6.0.0-alpha.6",
     "copy-to-clipboard": "^3.2.1",

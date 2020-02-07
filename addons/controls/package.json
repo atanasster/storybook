@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "@component-controls/controls-editors": "6.0.0-alpha.6",
-    "@component-controls/specification": "6.0.0-alpha.6",
+    "@component-controls/specification": "0.1.2",
     "@storybook/addon-docs": "6.0.0-alpha.6",
     "@storybook/addons": "6.0.0-alpha.6",
     "@storybook/api": "6.0.0-alpha.6",
