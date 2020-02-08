@@ -14,7 +14,6 @@ module.exports = {
     '@storybook/addon-events',
     '@storybook/addon-options',
     '@storybook/addon-knobs',
-    '@component-controls/storybook',
     '@storybook/addon-cssresources',
     '@storybook/addon-backgrounds',
     '@storybook/addon-a11y',
