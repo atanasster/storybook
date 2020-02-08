@@ -7,8 +7,7 @@ export default {
   component: Button,
 };
 
-// have props parameter to enable smart-controls
-export const Text = (props: any) => <Button {...props}>{console.log(props)}Hello Button</Button>;
+export const Text = () => <Button onClick={action('clicked')}>Hello Button</Button>;
 
 export const Emoji = () => (
   <Button onClick={action('clicked')}>

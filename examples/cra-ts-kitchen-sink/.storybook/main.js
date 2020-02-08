@@ -21,7 +21,6 @@ module.exports = {
       },
     },
     '@storybook/addon-docs',
-    '@component-controls/storybook',
     '@storybook/addon-actions',
     '@storybook/addon-links',
     '@storybook/addon-a11y',
