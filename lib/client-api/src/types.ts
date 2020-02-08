@@ -6,7 +6,9 @@ import {
   StoryApi,
   DecoratorFunction,
 } from '@storybook/addons';
-import { ComponentControls, LoadedComponentControls } from '@component-controls/specification';
+import { ComponentControls } from '@component-controls/specification';
+import { LoadedComponentControls } from '@component-controls/core';
+
 import StoryStore from './story_store';
 import { HooksContext } from './hooks';
 

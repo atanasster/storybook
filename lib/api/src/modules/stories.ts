@@ -1,19 +1,10 @@
 import { DOCS_MODE } from 'global';
 import { toId, sanitize, parseKind } from '@storybook/csf';
 import deprecate from 'util-deprecate';
-import {
-  STORY_SET_CONTROL_VALUE,
-  STORY_RESET_CONTROL_VALUE,
-  STORY_CLICK_CONTROL,
-} from '@storybook/core-events';
-import {
-  LoadedComponentControls,
-  mergeControlValues,
-  resetControlValues,
-  SetControlValueFn,
-  ClickControlFn,
-  ResetControlValueFn,
-} from '@component-controls/specification';
+import { STORY_SET_CONTROL_VALUE, STORY_CLICK_CONTROL } from '@storybook/core-events';
+import { SetControlValueFn, ClickControlFn } from '@component-controls/specification';
+
+import { LoadedComponentControls, mergeControlValues } from '@component-controls/core';
 
 import { Module } from '../index';
 import merge from '../lib/merge';
@@ -43,7 +34,6 @@ export interface SubAPI {
   getCurrentParameter<S>(parameterName?: ParameterName): S;
   setControlValue: SetControlValueFn;
   clickControl: ClickControlFn;
-  resetControlValue: ResetControlValueFn;
 }
 
 export interface Group {
@@ -160,24 +150,6 @@ const initStoriesApi = ({
   };
   const clickControl = (storyId: StoryId, propertyName: string) => {
     provider.channel.emit(STORY_CLICK_CONTROL, { id: storyId, propertyName });
-  };
-
-  const resetControlValue = (storyId: StoryId, propertyName?: string) => {
-    const { storiesHash } = store.getState();
-    const story = storiesHash[storyId] as StoryInput;
-    if (story) {
-      const controls = resetControlValues(story.controls, propertyName);
-      store.setState({
-        storiesHash: {
-          ...storiesHash,
-          [storyId]: {
-            ...storiesHash[storyId],
-            controls,
-          },
-        },
-      });
-      provider.channel.emit(STORY_RESET_CONTROL_VALUE, { id: storyId, propertyName });
-    }
   };
 
   const getCurrentParameter = function getCurrentParameter<S>(parameterName: ParameterName) {
@@ -464,7 +436,6 @@ Did you create a path that uses the separator char accidentally, such as 'Vue <d
       getParameters,
       getCurrentParameter,
       setControlValue,
-      resetControlValue,
       clickControl,
     },
     state: {

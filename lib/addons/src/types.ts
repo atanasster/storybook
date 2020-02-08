@@ -1,8 +1,5 @@
-import {
-  LoadedComponentControl,
-  ComponentControls,
-  LoadedComponentControls,
-} from '@component-controls/specification';
+import { ComponentControls } from '@component-controls/specification';
+import { LoadedComponentControls } from '@component-controls/core';
 import { HooksContext } from './hooks';
 import { Addon } from './index';
 

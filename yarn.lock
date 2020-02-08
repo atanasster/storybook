@@ -1780,6 +1780,15 @@
     fs-extra "^4.0.1"
     viz.js "^1.8.0"
 
+"@component-controls/core@latest":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@component-controls/core/-/core-0.1.7.tgz#1a3476c26def9fbc060e63181d09b02721a6d4c1"
+  integrity sha512-n1NISEa0hYSXWJJ0MvzZQtp0t2OYntlxfyM1fOqdErqPZwNF75yCRzS4YtXDrqVOcZwPnUjqX2p/sneFbuLNoA==
+  dependencies:
+    "@component-controls/specification" "^0.1.6"
+    escape-html "^1.0.3"
+    typescript "3.5.3"
+
 "@component-controls/editors@^0.1.4":
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/@component-controls/editors/-/editors-0.1.4.tgz#b9ebadef45aa40159d94600074384e05542cf665"
@@ -1798,12 +1807,11 @@
     react-select "^3.0.8"
     react-textarea-autosize "^7.1.0"
 
-"@component-controls/specification@0.1.2", "@component-controls/specification@^0.1.2", "@component-controls/specification@^0.1.3":
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/@component-controls/specification/-/specification-0.1.2.tgz#bbcd51d31adf15c5aebfbb9545635edc2b88556a"
-  integrity sha512-t0lu+wrHXIBfihKeLpCBfImkNaIVwvPwUdXcZCNSlGfkHlmgZ8s3sQdWd65HJL8kB8RlX9EH9vRURbJ17fQI9A==
+"@component-controls/specification@^0.1.3", "@component-controls/specification@^0.1.6", "@component-controls/specification@latest":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@component-controls/specification/-/specification-0.1.6.tgz#e0e7d017872fe5d32b1a0188c3209ef3daf2ed69"
+  integrity sha512-dcPonpNRrjm/UQyl+NEXtyPpPFCDTHrzUXCWhEFGi5KM1ZwGp47gebwz3LGe3+IeFYCTSqI6xhSj1Fx0aZfcxA==
   dependencies:
-    escape-html "^1.0.3"
     typescript "3.5.3"
 
 "@csstools/convert-colors@^1.4.0":

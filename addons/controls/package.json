@@ -29,8 +29,9 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
+    "@component-controls/core": "latest",
     "@component-controls/editors": "^0.1.4",
-    "@component-controls/specification": "^0.1.2",
+    "@component-controls/specification": "latest",
     "@storybook/addon-docs": "6.0.0-alpha.8",
     "@storybook/addons": "6.0.0-alpha.8",
     "@storybook/api": "6.0.0-alpha.8",

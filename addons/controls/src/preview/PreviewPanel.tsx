@@ -14,7 +14,7 @@ export const createControlsPanel = ({
   const data = storyStore.fromId(storyId);
   const name = 'controls';
   if (data && data.controls && Object.keys(data.controls).length) {
-    const { setControlValue, resetControlValue, clickControl } = api;
+    const { setControlValue, clickControl } = api;
     const { controls } = data;
     return (expanded: PreviewExpandedState): PanelItemType => {
       switch (true) {
@@ -25,7 +25,6 @@ export const createControlsPanel = ({
                 storyId={storyId}
                 controls={controls}
                 setControlValue={setControlValue}
-                resetControlValue={resetControlValue}
                 clickControl={clickControl}
               />
             ),

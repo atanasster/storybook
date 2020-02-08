@@ -26,7 +26,8 @@
     "prepare": "node ./scripts/generateVersion.js && node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@component-controls/specification": "0.1.2",
+    "@component-controls/core": "latest",
+    "@component-controls/specification": "latest",
     "@reach/router": "^1.2.1",
     "@storybook/channels": "6.0.0-alpha.8",
     "@storybook/client-logger": "6.0.0-alpha.8",

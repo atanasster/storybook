@@ -464,40 +464,6 @@ describe('preview.story_store', () => {
       hooks,
     });
   });
-  it('should modify controls on channel and then reset to default values', () => {
-    const store = new StoryStore({ channel });
-    const storyFn = jest.fn();
-    const parameters = {};
-    const controls = {
-      firstName: { type: 'text', value: 'Tom' },
-      lastName: { type: 'text', value: 'Sawyer' },
-    };
-    store.addStory(...make('kind', 'name', storyFn, parameters, controls));
-    const newProps = { firstName: 'Huckleberry', lastName: 'Finn' };
-    channel.emit(Events.STORY_SET_CONTROL_VALUE, {
-      id: toId('kind', 'name'),
-      value: newProps,
-    });
-    channel.emit(Events.STORY_RESET_CONTROL_VALUE, {
-      id: toId('kind', 'name'),
-    });
-
-    const storyWithContext = store.getStoryWithContext('kind', 'name');
-    storyWithContext();
-    const { hooks } = store.fromId(toId('kind', 'name'));
-    expect(storyFn).toHaveBeenCalledWith(
-      { firstName: 'Tom', lastName: 'Sawyer' },
-      {
-        id: 'kind--name',
-        name: 'name',
-        kind: 'kind',
-        story: 'name',
-        controls,
-        parameters,
-        hooks,
-      }
-    );
-  });
   it('should onClick event', () => {
     const store = new StoryStore({ channel });
     const storyFn = jest.fn();

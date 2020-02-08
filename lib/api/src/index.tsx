@@ -12,7 +12,6 @@ import {
   SHARED_STATE_SET,
   NAVIGATE_URL,
   STORY_SET_CONTROL_VALUE,
-  STORY_RESET_CONTROL_VALUE,
 } from '@storybook/core-events';
 import { RenderData as RouterData } from '@storybook/router';
 import { Listener } from '@storybook/channels';
@@ -204,9 +203,6 @@ class ManagerProvider extends Component<Props, State> {
     });
     api.on(STORY_SET_CONTROL_VALUE, ({ id, propertyName, value }) => {
       api.setControlValue(id, propertyName, value);
-    });
-    api.on(STORY_RESET_CONTROL_VALUE, ({ id, propertyName }) => {
-      api.resetControlValue(id, propertyName);
     });
     this.state = state;
     this.api = api;

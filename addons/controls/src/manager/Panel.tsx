@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { LoadedComponentControls } from '@component-controls/specification';
+import { LoadedComponentControls } from '@component-controls/core';
 import { Combo, Consumer, API, StoryInput } from '@storybook/api';
 import { ControlsTable } from '../shared/ControlsTable';
 import { NoControls } from './NoControls';
@@ -52,7 +52,6 @@ export const PropsPanel: React.FC<PropsPanelProps> = ({
                 controls={controls}
                 storyId={story.id}
                 setControlValue={api.setControlValue}
-                resetControlValue={api.resetControlValue}
                 clickControl={api.clickControl}
               />
             </Container>

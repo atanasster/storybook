@@ -170,10 +170,6 @@ export default class ClientApi {
     this._storyStore.setControlValue(storyId, propertyName, value);
   };
 
-  resetControlValue = (storyId: string, propertyName?: string) => {
-    this._storyStore.resetControlValue(storyId, propertyName);
-  };
-
   clickControl = (storyId: string, propertyName: string) => {
     this._storyStore.clickControl(storyId, propertyName);
   };

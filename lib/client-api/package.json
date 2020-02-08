@@ -27,7 +27,8 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@component-controls/specification": "0.1.2",
+    "@component-controls/core": "latest",
+    "@component-controls/specification": "latest",
     "@storybook/addons": "6.0.0-alpha.8",
     "@storybook/channel-postmessage": "6.0.0-alpha.8",
     "@storybook/channels": "6.0.0-alpha.8",

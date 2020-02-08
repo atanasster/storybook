@@ -7,15 +7,13 @@ import stable from 'stable';
 
 import { Channel } from '@storybook/channels';
 import Events from '@storybook/core-events';
+import { ComponentControls, ComponentControlButton } from '@component-controls/specification';
 import {
-  ComponentControls,
-  ComponentControlButton,
   loadControls,
   mergeControlValues,
-  resetControlValues,
   getControlValues,
   LoadedComponentControls,
-} from '@component-controls/specification';
+} from '@component-controls/core';
 
 import { logger } from '@storybook/client-logger';
 import { Comparator, Parameters, StoryFn, StoryContext } from '@storybook/addons';
@@ -166,18 +164,6 @@ export default class StoryStore extends EventEmitter {
       }
     };
 
-    const onResetControlValue = ({ id, propertyName }: { id: string; propertyName?: string }) => {
-      const story = this._data[id];
-      if (story) {
-        const controls = resetControlValues(story.controls, propertyName);
-        this._data[id] = {
-          ...story,
-          controls,
-        };
-        channel.emit(Events.FORCE_RE_RENDER);
-      }
-    };
-
     const onClickControl = ({ id, propertyName }: { id: string; propertyName: string }) => {
       const story = this._data[id];
       if (story) {
@@ -187,13 +173,11 @@ export default class StoryStore extends EventEmitter {
     };
     if (this._channel) {
       this._channel.off(Events.STORY_SET_CONTROL_VALUE, onSetControlValue);
-      this._channel.off(Events.STORY_RESET_CONTROL_VALUE, onResetControlValue);
       this._channel.off(Events.STORY_CLICK_CONTROL, onClickControl);
     }
     this._channel = channel;
     if (this._channel) {
       this._channel.on(Events.STORY_SET_CONTROL_VALUE, onSetControlValue);
-      this._channel.on(Events.STORY_RESET_CONTROL_VALUE, onResetControlValue);
       this._channel.on(Events.STORY_CLICK_CONTROL, onClickControl);
     }
   };
@@ -567,14 +551,6 @@ export default class StoryStore extends EventEmitter {
       story.controls = mergeControlValues(story.controls, propertyName, value);
       this._channel.emit(Events.STORY_SET_CONTROL_VALUE, { id, propertyName, value });
       this._channel.emit(Events.FORCE_RE_RENDER);
-    }
-  }
-
-  resetControlValue(id: string, propertyName?: string) {
-    if (this._data[id]) {
-      const story = this._data[id];
-      this._channel.emit(Events.STORY_RESET_CONTROL_VALUE, { id, propertyName });
-      story.controls = resetControlValues(story.controls, propertyName);
     }
   }
 
