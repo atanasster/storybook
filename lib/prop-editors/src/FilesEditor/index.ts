@@ -1,1 +1,0 @@
-export { FilesEditor } from './FilesEditor';

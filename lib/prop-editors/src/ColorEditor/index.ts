@@ -1,1 +1,0 @@
-export { ColorEditor } from './ColorEditor';

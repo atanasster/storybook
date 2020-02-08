@@ -1,11 +1,7 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { PropDef, PropsTableExtraColumn, PropsTableExtraRows, Icons } from '@storybook/components';
-import {
-  FlexContainer,
-  PropertyEditor,
-  getPropertyEditor,
-} from '@component-controls/controls-editors';
+import { FlexContainer, PropertyEditor, getPropertyEditor } from '@component-controls/editors';
 
 const TitleIcon = styled(Icons)({
   height: 18,
