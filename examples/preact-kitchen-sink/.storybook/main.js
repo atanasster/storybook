@@ -6,7 +6,7 @@ module.exports = {
     '@storybook/addon-storysource',
     '@storybook/addon-actions',
     '@storybook/addon-links',
-    '@component-controls/storybook-addon-controls',
+    '@component-controls/storybook',
     '@storybook/addon-knobs',
     '@storybook/addon-viewport',
     '@storybook/addon-options',

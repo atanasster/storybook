@@ -13,7 +13,7 @@
     "storyshots-puppeteer": "yarn run build-storybook && yarn run do-storyshots-puppeteer"
   },
   "devDependencies": {
-    "@component-controls/storybook-addon-controls": "6.0.0-alpha.6",
+    "@component-controls/storybook": "0.1.14",
     "@packtracker/webpack-plugin": "^2.0.1",
     "@storybook/addon-a11y": "6.0.0-alpha.8",
     "@storybook/addon-actions": "6.0.0-alpha.8",

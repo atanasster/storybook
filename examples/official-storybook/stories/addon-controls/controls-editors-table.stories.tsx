@@ -1,7 +1,7 @@
 import React from 'react';
 import { ControlTypes } from '@component-controls/specification';
 import { Title, Subtitle, Description, Story, Props, Stories } from '@storybook/addon-docs/blocks';
-import { ControlsEditorsTable } from '@component-controls/storybook-addon-controls/blocks';
+import { ControlsEditorsTable } from '@component-controls/storybook/blocks';
 
 export default {
   title: 'Docs/PropEditors/ControlsEditorsTable',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ControlTypes } from '@component-controls/specification';
-import { ControlsEditorsTable } from '@component-controls/storybook-addon-controls/blocks';
+import { ControlsEditorsTable } from '@component-controls/storybook/blocks';
 
 export default {
   title: 'Addons/Controls/kind',
