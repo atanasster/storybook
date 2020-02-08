@@ -6,7 +6,9 @@ export default {
   parameters: { docs: { iframeHeight: 120 } },
 };
 
-export const Basic = props => ({
+export const Basic = () => ({
   component: ButtonComponent,
-  props,
+  props: {
+    label: 'Docs Test',
+  },
 });
