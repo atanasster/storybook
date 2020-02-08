@@ -1,1 +1,0 @@
-export { extractSmartControls } from './smartControls';
