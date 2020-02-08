@@ -3658,6 +3658,39 @@
   dependencies:
     core-js "^3.0.1"
 
+"@storybook/client-logger@6.0.0-alpha.6":
+  version "6.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@storybook/client-logger/-/client-logger-6.0.0-alpha.6.tgz#90db9195d1a83cc990f711cc1cc6b7829eab9d67"
+  integrity sha512-dMU9xZOVb1CHEnyMJVjLkgE7AiXelf4QAfdeGYFL56MYUFa/dwa4LxtmWjoCSkF4wVl4h8S4jtXQ5mzp+uCEdQ==
+  dependencies:
+    core-js "^3.0.1"
+
+"@storybook/components@6.0.0-alpha.6":
+  version "6.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@storybook/components/-/components-6.0.0-alpha.6.tgz#ed43a97e6d484482e21b985e55e4b4e559fb1f06"
+  integrity sha512-FHeLceg0Az7uvhz08Cwu2o/Oxn1nLlQFne2+YDELhAApauLUj0X72xyTdv/LuW7DGyFx8iZX/RMsqs0JNzO7Ig==
+  dependencies:
+    "@storybook/client-logger" "6.0.0-alpha.6"
+    "@storybook/theming" "6.0.0-alpha.6"
+    "@types/react-textarea-autosize" "^4.3.3"
+    core-js "^3.0.1"
+    global "^4.3.2"
+    lodash "^4.17.15"
+    markdown-to-jsx "^6.9.1"
+    memoizerific "^1.11.3"
+    polished "^3.4.4"
+    popper.js "^1.14.7"
+    prop-types "^15.7.2"
+    react "^16.8.3"
+    react-dom "^16.8.3"
+    react-focus-lock "^2.1.0"
+    react-helmet-async "^1.0.2"
+    react-popper-tooltip "^2.8.3"
+    react-syntax-highlighter "^11.0.2"
+    react-textarea-autosize "^7.1.0"
+    simplebar-react "^1.0.0-alpha.6"
+    ts-dedent "^1.1.1"
+
 "@storybook/core-events@6.0.0-alpha.0":
   version "6.0.0-alpha.0"
   resolved "https://registry.yarnpkg.com/@storybook/core-events/-/core-events-6.0.0-alpha.0.tgz#a35d2f96f6d38aba080d7f5f1ec67799325728de"
@@ -3793,6 +3826,25 @@
     prop-types "^15.7.2"
     resolve-from "^5.0.0"
     ts-dedent "^1.1.0"
+
+"@storybook/theming@6.0.0-alpha.6":
+  version "6.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@storybook/theming/-/theming-6.0.0-alpha.6.tgz#f94b205c967097effa164ac9d564c3c72ac65701"
+  integrity sha512-zhbOGwr2BYtCY4XD3CqNlEUaOs9hmvN4JV1ZKnOW1nDR3skDHTvtpuEeaboS9KOaRVY5JGpR6NKiE6SYB/I8WA==
+  dependencies:
+    "@emotion/core" "^10.0.20"
+    "@emotion/is-prop-valid" "^0.8.6"
+    "@emotion/styled" "^10.0.17"
+    "@storybook/client-logger" "6.0.0-alpha.6"
+    core-js "^3.0.1"
+    deep-object-diff "^1.1.0"
+    emotion-theming "^10.0.19"
+    global "^4.3.2"
+    memoizerific "^1.11.3"
+    polished "^3.4.4"
+    prop-types "^15.7.2"
+    resolve-from "^5.0.0"
+    ts-dedent "^1.1.1"
 
 "@stroncium/procfs@^1.0.0":
   version "1.0.0"

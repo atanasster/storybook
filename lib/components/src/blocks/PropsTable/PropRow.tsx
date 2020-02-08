@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import Markdown from 'markdown-to-jsx';
-import { isNil } from 'lodash';
 import { transparentize } from 'polished';
 import { styled } from '@storybook/theming';
 import { PropDef } from './PropDef';
@@ -63,7 +62,8 @@ export const PropRow: FC<PropRowProps> = ({
   row: { name, type, required, description, defaultValue, jsDocTags },
   extra,
 }) => {
-  const hasDescription = !isNil(description) && description !== '';
+  const hasDescription = description != null && description !== '';
+
   return (
     <tr>
       <td>
@@ -76,7 +76,7 @@ export const PropRow: FC<PropRowProps> = ({
             <Markdown>{description}</Markdown>
           </Description>
         )}
-        {!isNil(jsDocTags) ? (
+        {jsDocTags != null ? (
           <>
             <TypeWithJsDoc hasDescription={hasDescription}>
               <PropValue value={type} />
