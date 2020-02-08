@@ -12,7 +12,6 @@
     "storybook": "start-storybook -p 9006"
   },
   "devDependencies": {
-    "@component-controls/storybook": "0.1.14",
     "@storybook/addon-a11y": "6.0.0-alpha.8",
     "@storybook/addon-actions": "6.0.0-alpha.8",
     "@storybook/addon-backgrounds": "6.0.0-alpha.8",

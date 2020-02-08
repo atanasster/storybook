@@ -4,7 +4,6 @@ module.exports = {
     '@storybook/addon-a11y',
     '@storybook/addon-actions',
     '@storybook/addon-backgrounds',
-    '@component-controls/storybook',
     '@storybook/addon-knobs',
     '@storybook/addon-links',
     '@storybook/addon-options',
