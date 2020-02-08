@@ -37,7 +37,6 @@
     "@angular/cli": "^8.3.6",
     "@angular/compiler-cli": "^8.2.8",
     "@compodoc/compodoc": "^1.1.11",
-    "@component-controls/storybook": "0.1.14",
     "@storybook/addon-a11y": "6.0.0-alpha.8",
     "@storybook/addon-actions": "6.0.0-alpha.8",
     "@storybook/addon-backgrounds": "6.0.0-alpha.8",
